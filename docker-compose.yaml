@@ -19,10 +19,6 @@ services:
     build:
       context: .
       dockerfile: worker-node/Dockerfile.multistage
-    container_name: worker-node
-    hostname: worker-node
-    ports:
-      - 50051:50051
     networks:
       - mynet
     deploy:

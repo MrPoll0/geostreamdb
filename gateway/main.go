@@ -24,7 +24,11 @@ type gpsPing struct {
 }
 
 func new_grpc_client() (*grpc.ClientConn, pb.WorkerClient) {
-	conn, err := grpc.NewClient("worker-node:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(
+		"dns:///worker-node:50051",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
+	)
 	if err != nil {
 		log.Fatalf("failed to dial: %v", err)
 	}
