@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "hello_go/proto";
+
+package hello_go;
+
+
+service Worker {
+    rpc SendPing(PingRequest) returns (PingResponse) {}
+    rpc GetPings(GetPingsRequest) returns (GetPingsResponse) {}
+}
+
+message PingRequest {
+    string geohash = 1;
+}
+
+message PingResponse {
+    bool success = 1;
+}
+
+message GetPingsRequest {}
+
+message GetPingsResponse {
+    repeated Ping pings = 1;
+}
+
+message Ping {
+    string geohash = 1;
+    int64 timestamp = 2;
+}

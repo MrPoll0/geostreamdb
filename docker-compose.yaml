@@ -1,0 +1,34 @@
+services:
+  gateway:
+    depends_on:
+      - worker-node
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile.multistage
+    container_name: gateway
+    hostname: gateway
+    ports:
+      - 8080:8080
+    networks:
+      - mynet
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  worker-node:
+    build:
+      context: .
+      dockerfile: worker-node/Dockerfile.multistage
+    container_name: worker-node
+    hostname: worker-node
+    ports:
+      - 50051:50051
+    networks:
+      - mynet
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+networks:
+  mynet:
+    driver: bridge

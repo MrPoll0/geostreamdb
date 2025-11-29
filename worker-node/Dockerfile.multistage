@@ -1,0 +1,43 @@
+# multi-stage build for small image size
+FROM golang:1.25.4 AS build-stage
+
+WORKDIR /app
+
+# protobuf dependencies
+COPY proto/go.mod proto/go.sum ./proto/
+COPY proto/*.go ./proto/
+
+# go dependencies
+COPY worker-node/go.mod worker-node/go.sum ./worker-node/
+
+# download dependencies
+WORKDIR /app/worker-node
+RUN go mod download
+
+# copy source files
+COPY worker-node/*.go ./
+
+# build binary
+RUN CGO_ENABLED=0 GOOS=linux go build -o /worker-node
+
+
+
+FROM build-stage AS run-test-stage
+# run tests
+RUN go test -v ./...
+
+
+
+# final stage: distroless base image
+FROM gcr.io/distroless/base-debian13 AS build-release-stage
+
+WORKDIR /
+
+# copy binary
+COPY --from=build-stage /worker-node /worker-node
+
+EXPOSE 50051/tcp
+
+USER nonroot:nonroot
+
+ENTRYPOINT ["/worker-node"]
