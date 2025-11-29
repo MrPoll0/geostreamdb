@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"sync"
 	"time"
 
 	pb "hello_go/proto"
@@ -12,7 +13,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-var pings = []*pb.Ping{}
+var (
+	pings     = []*pb.Ping{}
+	pingMutex sync.RWMutex
+)
 
 type server struct {
 	pb.UnimplementedWorkerServer
@@ -20,13 +24,24 @@ type server struct {
 
 func (s *server) SendPing(ctx context.Context, req *pb.PingRequest) (*pb.PingResponse, error) {
 	log.Printf("Received ping request for geohash: %s", req.Geohash)
+
+	pingMutex.Lock()
 	pings = append(pings, &pb.Ping{Geohash: req.Geohash, Timestamp: time.Now().Unix()})
 	log.Printf("Added ping to list: %v", pings)
+	pingMutex.Unlock()
+
 	return &pb.PingResponse{Success: true}, nil
 }
 
 func (s *server) GetPings(ctx context.Context, req *pb.GetPingsRequest) (*pb.GetPingsResponse, error) {
-	return &pb.GetPingsResponse{Pings: pings}, nil
+	log.Printf("Received get pings request")
+
+	pingMutex.RLock()
+	res := make([]*pb.Ping, len(pings))
+	copy(res, pings)
+	pingMutex.RUnlock()
+
+	return &pb.GetPingsResponse{Pings: res}, nil
 }
 
 func main() {
