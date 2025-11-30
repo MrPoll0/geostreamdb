@@ -11,7 +11,8 @@ func main() {
 	// (grpc server) heartbeat communication
 	go setup_heartbeat_listener()
 	// cleanup dead nodes loop
-	go state.cleanupDeadNodes(10 * time.Second)
+	cleanup_ttl := 10 * time.Second
+	go state.cleanupDeadNodes(cleanup_ttl, cleanup_ttl/2)
 
 	// (http server) ping reception -> (grpc client) forwarding to worker nodes
 	router := setup_router()

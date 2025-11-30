@@ -69,7 +69,7 @@ func (g *GatewayState) removeNode(hash uint32) {
 	g.removeNodeLocked(hash)
 }
 
-func (g *GatewayState) removeNodeLocked(hash uint32) {
+func (g *GatewayState) removeNodeLocked(hash uint32) string {
 	// no remapping of keys (geohashes) needed because of their short TTL
 
 	// binary search
@@ -77,16 +77,18 @@ func (g *GatewayState) removeNodeLocked(hash uint32) {
 		return g.ring[i].Hash >= hash
 	})
 	if index >= len(g.ring) || g.ring[index].Hash != hash {
-		return // not found
+		return "" // not found
 	}
 
+	server := g.ring[index].Server
 	g.ring = append(g.ring[:index], g.ring[index+1:]...)
 	delete(g.lastSeen, hash)
-	log.Printf("Removed worker from ring")
+	log.Printf("Removed worker %s from ring", server)
+	return server
 }
 
-func (g *GatewayState) cleanupDeadNodes(ttl time.Duration) {
-	ticker := time.NewTicker(ttl)
+func (g *GatewayState) cleanupDeadNodes(ttl time.Duration, tick_time time.Duration) {
+	ticker := time.NewTicker(tick_time)
 	defer ticker.Stop()
 
 	for range ticker.C {
@@ -95,7 +97,18 @@ func (g *GatewayState) cleanupDeadNodes(ttl time.Duration) {
 		now := time.Now().Unix()
 		for hash, lastSeen := range g.lastSeen {
 			if now-lastSeen > int64(ttl.Seconds()) {
-				g.removeNodeLocked(hash)
+				// remove node from ring
+				server := g.removeNodeLocked(hash)
+				// close and delete connection to worker node from pool
+				if server != "" {
+					g.clientMutex.Lock()
+					conn := g.clients[server]
+					if conn != nil {
+						conn.Close()
+						delete(g.clients, server)
+					}
+					g.clientMutex.Unlock()
+				}
 			}
 		}
 
