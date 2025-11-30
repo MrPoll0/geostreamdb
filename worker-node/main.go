@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	// heartbeats to gateway for service discovery
+	// (grpc client) heartbeats to gateway for service discovery
 	gatewayAddress := os.Getenv("GATEWAY_ADDRESS")
 	if gatewayAddress == "" {
 		gatewayAddress = "gateway:50051"
@@ -20,7 +20,7 @@ func main() {
 	defer conn.Close()
 	go send_heartbeat(client)
 
-	// grpc server for ping communication
+	// (grpc server) ping communication
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "50051"

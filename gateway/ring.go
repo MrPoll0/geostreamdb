@@ -5,15 +5,16 @@ import (
 	"log"
 	"sort"
 	"sync"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 var state = &GatewayState{
-	ring:    make(HashRing, 0),
-	clients: make(map[string]*grpc.ClientConn),
-	nodes:   make(map[uint32]bool),
+	ring:     make(HashRing, 0),
+	clients:  make(map[string]*grpc.ClientConn),
+	lastSeen: make(map[uint32]int64),
 }
 
 type RingNode struct {
@@ -37,9 +38,69 @@ func (h HashRing) Swap(i, j int) {
 type GatewayState struct {
 	ringMutex   sync.RWMutex
 	ring        HashRing
-	nodes       map[uint32]bool
-	clients     map[string]*grpc.ClientConn
+	lastSeen    map[uint32]int64            // hash -> last seen timestamp
+	clients     map[string]*grpc.ClientConn // address -> grpc client connection
 	clientMutex sync.RWMutex
+}
+
+func (g *GatewayState) addNode(workerId string, address string) {
+	hash := crc32.ChecksumIEEE([]byte(workerId))
+	node := RingNode{Hash: hash, Server: address}
+
+	g.ringMutex.Lock()
+	defer g.ringMutex.Unlock()
+
+	now := time.Now().Unix()
+	if _, exists := g.lastSeen[hash]; exists {
+		g.lastSeen[hash] = now // update last seen timestamp
+		return
+	}
+
+	g.ring = append(g.ring, node)
+	g.lastSeen[hash] = now
+	sort.Sort(g.ring)
+	log.Printf("Added worker %s at %s to the ring", workerId, address)
+}
+
+func (g *GatewayState) removeNode(hash uint32) {
+	g.ringMutex.Lock()
+	defer g.ringMutex.Unlock()
+
+	g.removeNodeLocked(hash)
+}
+
+func (g *GatewayState) removeNodeLocked(hash uint32) {
+	// no remapping of keys (geohashes) needed because of their short TTL
+
+	// binary search
+	index := sort.Search(len(g.ring), func(i int) bool {
+		return g.ring[i].Hash >= hash
+	})
+	if index >= len(g.ring) || g.ring[index].Hash != hash {
+		return // not found
+	}
+
+	g.ring = append(g.ring[:index], g.ring[index+1:]...)
+	delete(g.lastSeen, hash)
+	log.Printf("Removed worker from ring")
+}
+
+func (g *GatewayState) cleanupDeadNodes(ttl time.Duration) {
+	ticker := time.NewTicker(ttl)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		g.ringMutex.Lock()
+
+		now := time.Now().Unix()
+		for hash, lastSeen := range g.lastSeen {
+			if now-lastSeen > int64(ttl.Seconds()) {
+				g.removeNodeLocked(hash)
+			}
+		}
+
+		g.ringMutex.Unlock()
+	}
 }
 
 func (g *GatewayState) GetConn(address string) (*grpc.ClientConn, error) {
@@ -89,20 +150,4 @@ func (g *GatewayState) GetNodeAddress(geohash string) string {
 	}
 
 	return g.ring[index].Server
-}
-
-func (g *GatewayState) addNode(workerId string, address string) {
-	hash := crc32.ChecksumIEEE([]byte(workerId))
-	node := RingNode{Hash: hash, Server: address}
-
-	g.ringMutex.Lock()
-	defer g.ringMutex.Unlock()
-
-	if _, exists := g.nodes[hash]; exists {
-		return
-	}
-	g.ring = append(g.ring, node)
-	g.nodes[hash] = true
-	sort.Sort(g.ring)
-	log.Printf("Added worker %s at %s to the ring", workerId, address)
 }
