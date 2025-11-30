@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.33.1
-// source: proto/contract.proto
+// source: proto/ping_comm.proto
 
 package proto
 
@@ -30,7 +30,7 @@ type PingRequest struct {
 
 func (x *PingRequest) Reset() {
 	*x = PingRequest{}
-	mi := &file_proto_contract_proto_msgTypes[0]
+	mi := &file_proto_ping_comm_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *PingRequest) String() string {
 func (*PingRequest) ProtoMessage() {}
 
 func (x *PingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_contract_proto_msgTypes[0]
+	mi := &file_proto_ping_comm_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *PingRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
 func (*PingRequest) Descriptor() ([]byte, []int) {
-	return file_proto_contract_proto_rawDescGZIP(), []int{0}
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *PingRequest) GetGeohash() string {
@@ -74,7 +74,7 @@ type PingResponse struct {
 
 func (x *PingResponse) Reset() {
 	*x = PingResponse{}
-	mi := &file_proto_contract_proto_msgTypes[1]
+	mi := &file_proto_ping_comm_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *PingResponse) String() string {
 func (*PingResponse) ProtoMessage() {}
 
 func (x *PingResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_contract_proto_msgTypes[1]
+	mi := &file_proto_ping_comm_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *PingResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
 func (*PingResponse) Descriptor() ([]byte, []int) {
-	return file_proto_contract_proto_rawDescGZIP(), []int{1}
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *PingResponse) GetSuccess() bool {
@@ -117,7 +117,7 @@ type GetPingsRequest struct {
 
 func (x *GetPingsRequest) Reset() {
 	*x = GetPingsRequest{}
-	mi := &file_proto_contract_proto_msgTypes[2]
+	mi := &file_proto_ping_comm_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -129,7 +129,7 @@ func (x *GetPingsRequest) String() string {
 func (*GetPingsRequest) ProtoMessage() {}
 
 func (x *GetPingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_contract_proto_msgTypes[2]
+	mi := &file_proto_ping_comm_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -142,7 +142,7 @@ func (x *GetPingsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPingsRequest.ProtoReflect.Descriptor instead.
 func (*GetPingsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_contract_proto_rawDescGZIP(), []int{2}
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{2}
 }
 
 type GetPingsResponse struct {
@@ -154,7 +154,7 @@ type GetPingsResponse struct {
 
 func (x *GetPingsResponse) Reset() {
 	*x = GetPingsResponse{}
-	mi := &file_proto_contract_proto_msgTypes[3]
+	mi := &file_proto_ping_comm_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -166,7 +166,7 @@ func (x *GetPingsResponse) String() string {
 func (*GetPingsResponse) ProtoMessage() {}
 
 func (x *GetPingsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_contract_proto_msgTypes[3]
+	mi := &file_proto_ping_comm_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,7 +179,7 @@ func (x *GetPingsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPingsResponse.ProtoReflect.Descriptor instead.
 func (*GetPingsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_contract_proto_rawDescGZIP(), []int{3}
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetPingsResponse) GetPings() []*Ping {
@@ -199,7 +199,7 @@ type Ping struct {
 
 func (x *Ping) Reset() {
 	*x = Ping{}
-	mi := &file_proto_contract_proto_msgTypes[4]
+	mi := &file_proto_ping_comm_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -211,7 +211,7 @@ func (x *Ping) String() string {
 func (*Ping) ProtoMessage() {}
 
 func (x *Ping) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_contract_proto_msgTypes[4]
+	mi := &file_proto_ping_comm_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -224,7 +224,7 @@ func (x *Ping) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Ping.ProtoReflect.Descriptor instead.
 func (*Ping) Descriptor() ([]byte, []int) {
-	return file_proto_contract_proto_rawDescGZIP(), []int{4}
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Ping) GetGeohash() string {
@@ -241,11 +241,11 @@ func (x *Ping) GetTimestamp() int64 {
 	return 0
 }
 
-var File_proto_contract_proto protoreflect.FileDescriptor
+var File_proto_ping_comm_proto protoreflect.FileDescriptor
 
-const file_proto_contract_proto_rawDesc = "" +
+const file_proto_ping_comm_proto_rawDesc = "" +
 	"\n" +
-	"\x14proto/contract.proto\x12\bhello_go\"'\n" +
+	"\x15proto/ping_comm.proto\x12\bhello_go\"'\n" +
 	"\vPingRequest\x12\x18\n" +
 	"\ageohash\x18\x01 \x01(\tR\ageohash\"(\n" +
 	"\fPingResponse\x12\x18\n" +
@@ -261,26 +261,26 @@ const file_proto_contract_proto_rawDesc = "" +
 	"\bGetPings\x12\x19.hello_go.GetPingsRequest\x1a\x1a.hello_go.GetPingsResponse\"\x00B\x10Z\x0ehello_go/protob\x06proto3"
 
 var (
-	file_proto_contract_proto_rawDescOnce sync.Once
-	file_proto_contract_proto_rawDescData []byte
+	file_proto_ping_comm_proto_rawDescOnce sync.Once
+	file_proto_ping_comm_proto_rawDescData []byte
 )
 
-func file_proto_contract_proto_rawDescGZIP() []byte {
-	file_proto_contract_proto_rawDescOnce.Do(func() {
-		file_proto_contract_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_contract_proto_rawDesc), len(file_proto_contract_proto_rawDesc)))
+func file_proto_ping_comm_proto_rawDescGZIP() []byte {
+	file_proto_ping_comm_proto_rawDescOnce.Do(func() {
+		file_proto_ping_comm_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_ping_comm_proto_rawDesc), len(file_proto_ping_comm_proto_rawDesc)))
 	})
-	return file_proto_contract_proto_rawDescData
+	return file_proto_ping_comm_proto_rawDescData
 }
 
-var file_proto_contract_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_proto_contract_proto_goTypes = []any{
+var file_proto_ping_comm_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_proto_ping_comm_proto_goTypes = []any{
 	(*PingRequest)(nil),      // 0: hello_go.PingRequest
 	(*PingResponse)(nil),     // 1: hello_go.PingResponse
 	(*GetPingsRequest)(nil),  // 2: hello_go.GetPingsRequest
 	(*GetPingsResponse)(nil), // 3: hello_go.GetPingsResponse
 	(*Ping)(nil),             // 4: hello_go.Ping
 }
-var file_proto_contract_proto_depIdxs = []int32{
+var file_proto_ping_comm_proto_depIdxs = []int32{
 	4, // 0: hello_go.GetPingsResponse.pings:type_name -> hello_go.Ping
 	0, // 1: hello_go.Worker.SendPing:input_type -> hello_go.PingRequest
 	2, // 2: hello_go.Worker.GetPings:input_type -> hello_go.GetPingsRequest
@@ -293,26 +293,26 @@ var file_proto_contract_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_proto_contract_proto_init() }
-func file_proto_contract_proto_init() {
-	if File_proto_contract_proto != nil {
+func init() { file_proto_ping_comm_proto_init() }
+func file_proto_ping_comm_proto_init() {
+	if File_proto_ping_comm_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_contract_proto_rawDesc), len(file_proto_contract_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_ping_comm_proto_rawDesc), len(file_proto_ping_comm_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_contract_proto_goTypes,
-		DependencyIndexes: file_proto_contract_proto_depIdxs,
-		MessageInfos:      file_proto_contract_proto_msgTypes,
+		GoTypes:           file_proto_ping_comm_proto_goTypes,
+		DependencyIndexes: file_proto_ping_comm_proto_depIdxs,
+		MessageInfos:      file_proto_ping_comm_proto_msgTypes,
 	}.Build()
-	File_proto_contract_proto = out.File
-	file_proto_contract_proto_goTypes = nil
-	file_proto_contract_proto_depIdxs = nil
+	File_proto_ping_comm_proto = out.File
+	file_proto_ping_comm_proto_goTypes = nil
+	file_proto_ping_comm_proto_depIdxs = nil
 }

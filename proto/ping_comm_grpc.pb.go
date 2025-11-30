@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v6.33.1
-// source: proto/contract.proto
+// source: proto/ping_comm.proto
 
 package proto
 
@@ -155,5 +155,5 @@ var Worker_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/contract.proto",
+	Metadata: "proto/ping_comm.proto",
 }

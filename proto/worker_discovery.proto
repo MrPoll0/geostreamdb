@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "hello_go/proto";
+
+package hello_go;
+
+
+service Gateway {
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse) {}
+}
+
+message HeartbeatRequest {
+    string worker_id = 1;
+    string address = 2;
+}
+
+message HeartbeatResponse {
+    bool acknowledged = 1;
+}
