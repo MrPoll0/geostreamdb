@@ -18,13 +18,11 @@ message PingResponse {
     bool success = 1;
 }
 
-message GetPingsRequest {}
-
-message GetPingsResponse {
-    repeated Ping pings = 1;
+message GetPingsRequest {
+    string geohash = 1;
 }
 
-message Ping {
-    string geohash = 1;
+message GetPingsResponse {
+    int64 count = 1;
     int64 timestamp = 2;
 }

@@ -23,7 +23,7 @@ func new_grpc_client(gatewayAddress string) (*grpc.ClientConn, pb.GatewayClient)
 func send_heartbeat(client pb.GatewayClient) {
 	workerId := uuid.New().String()
 	hostname, _ := os.Hostname() // hostname used as address with docker compose
-	port := os.Getenv("HEARTBEAT_PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "50051"
 	}
@@ -38,7 +38,7 @@ func send_heartbeat(client pb.GatewayClient) {
 		if err != nil {
 			log.Printf("failed to send heartbeat: %v", err)
 		}
-		log.Printf("heartbeat sent")
+		// log.Printf("heartbeat sent")
 
 		cancel()
 	}

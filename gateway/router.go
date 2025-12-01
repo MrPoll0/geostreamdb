@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -18,11 +19,20 @@ type gpsPing struct {
 	Longitude float64 `json:"lng"`
 }
 
+func getGeohash(lat float64, lng float64) string {
+	gh := geohash.Encode(lat, lng)
+	// truncate geohash for better locality
+	if len(gh) > 7 {
+		gh = gh[:7]
+	}
+	return gh
+}
+
 func setup_router() *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
-	// router.Get("/ping", getPings)
+	router.Get("/ping/{lat}/{lng}", getPings)
 	router.Post("/ping", postPing)
 
 	return router
@@ -37,11 +47,7 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gh := geohash.Encode(newGpsPing.Latitude, newGpsPing.Longitude)
-	// truncate geohash for better locality
-	if len(gh) > 7 {
-		gh = gh[:7]
-	}
+	gh := getGeohash(newGpsPing.Latitude, newGpsPing.Longitude)
 
 	// get the address of the worker node responsible for this geohash
 	targetAddr := state.GetNodeAddress(gh)
@@ -74,16 +80,50 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Ping sent, geohash: " + gh))
 }
 
-/*func getPings(w http.ResponseWriter, _ *http.Request) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	v, err := client.GetPings(ctx, &pb.GetPingsRequest{})
+func getPings(w http.ResponseWriter, r *http.Request) {
+	// parse latitude and longitude
+	lat, err := strconv.ParseFloat(chi.URLParam(r, "lat"), 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid latitude"))
+		return
+	}
+	lng, err := strconv.ParseFloat(chi.URLParam(r, "lng"), 64)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid longitude"))
+		return
+	}
+
+	gh := getGeohash(lat, lng)
+
+	// get the address of the worker node responsible for this geohash
+	targetAddr := state.GetNodeAddress(gh)
+	if targetAddr == "" {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		w.Write([]byte("No workers available"))
+		return
+	}
+
+	// get a connection to the worker node (pool of connections, do not close)
+	conn, err := state.GetConn(targetAddr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Failed to get pings"))
+		w.Write([]byte("Failed to connect to worker"))
+		return
+	}
+
+	client := pb.NewWorkerClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	v, err := client.GetPings(ctx, &pb.GetPingsRequest{Geohash: gh})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Failed to get pings from worker"))
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(v.Pings)
-}*/
+	json.NewEncoder(w).Encode(map[string]int64{"count": v.Count, "timestamp": v.Timestamp})
+}
