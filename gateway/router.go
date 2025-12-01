@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/mmcloughlin/geohash"
 
-	pb "hello_go/proto"
+	pb "geostreamdb/proto"
 )
 
 type gpsPing struct {

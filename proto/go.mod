@@ -1,4 +1,4 @@
-module hello_go/proto
+module geostreamdb/proto
 
 go 1.25.4
 

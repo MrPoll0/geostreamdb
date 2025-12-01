@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Gateway_Heartbeat_FullMethodName = "/hello_go.Gateway/Heartbeat"
+	Gateway_Heartbeat_FullMethodName = "/geostreamdb.Gateway/Heartbeat"
 )
 
 // GatewayClient is the client API for Gateway service.
@@ -108,7 +108,7 @@ func _Gateway_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(i
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Gateway_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "hello_go.Gateway",
+	ServiceName: "geostreamdb.Gateway",
 	HandlerType: (*GatewayServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

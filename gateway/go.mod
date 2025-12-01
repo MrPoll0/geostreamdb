@@ -7,7 +7,7 @@ require github.com/go-chi/chi/v5 v5.2.3
 require (
 	github.com/mmcloughlin/geohash v0.10.0
 	google.golang.org/grpc v1.77.0
-	hello_go/proto v0.0.0
+	geostreamdb/proto v0.0.0
 )
 
 require (
@@ -18,4 +18,4 @@ require (
 	google.golang.org/protobuf v1.36.10 // indirect
 )
 
-replace hello_go/proto => ../proto
+replace geostreamdb/proto => ../proto

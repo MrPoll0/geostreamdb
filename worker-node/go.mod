@@ -5,7 +5,7 @@ go 1.25.4
 require (
 	github.com/google/uuid v1.6.0
 	google.golang.org/grpc v1.72.1
-	hello_go/proto v0.0.0
+	geostreamdb/proto v0.0.0
 )
 
 require (
@@ -16,4 +16,4 @@ require (
 	google.golang.org/protobuf v1.36.10 // indirect
 )
 
-replace hello_go/proto => ../proto
+replace geostreamdb/proto => ../proto

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	pb "hello_go/proto"
+	pb "geostreamdb/proto"
 	"log"
 	"sync"
 )

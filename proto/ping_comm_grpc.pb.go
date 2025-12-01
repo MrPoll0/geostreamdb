@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Worker_SendPing_FullMethodName = "/hello_go.Worker/SendPing"
-	Worker_GetPings_FullMethodName = "/hello_go.Worker/GetPings"
+	Worker_SendPing_FullMethodName = "/geostreamdb.Worker/SendPing"
+	Worker_GetPings_FullMethodName = "/geostreamdb.Worker/GetPings"
 )
 
 // WorkerClient is the client API for Worker service.
@@ -142,7 +142,7 @@ func _Worker_GetPings_Handler(srv interface{}, ctx context.Context, dec func(int
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Worker_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "hello_go.Worker",
+	ServiceName: "geostreamdb.Worker",
 	HandlerType: (*WorkerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

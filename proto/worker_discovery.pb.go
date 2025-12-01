@@ -121,14 +121,14 @@ var File_proto_worker_discovery_proto protoreflect.FileDescriptor
 
 const file_proto_worker_discovery_proto_rawDesc = "" +
 	"\n" +
-	"\x1cproto/worker_discovery.proto\x12\bhello_go\"I\n" +
+	"\x1cproto/worker_discovery.proto\x12\vgeostreamdb\"I\n" +
 	"\x10HeartbeatRequest\x12\x1b\n" +
 	"\tworker_id\x18\x01 \x01(\tR\bworkerId\x12\x18\n" +
 	"\aaddress\x18\x02 \x01(\tR\aaddress\"7\n" +
 	"\x11HeartbeatResponse\x12\"\n" +
-	"\facknowledged\x18\x01 \x01(\bR\facknowledged2Q\n" +
-	"\aGateway\x12F\n" +
-	"\tHeartbeat\x12\x1a.hello_go.HeartbeatRequest\x1a\x1b.hello_go.HeartbeatResponse\"\x00B\x10Z\x0ehello_go/protob\x06proto3"
+	"\facknowledged\x18\x01 \x01(\bR\facknowledged2W\n" +
+	"\aGateway\x12L\n" +
+	"\tHeartbeat\x12\x1d.geostreamdb.HeartbeatRequest\x1a\x1e.geostreamdb.HeartbeatResponse\"\x00B\x13Z\x11geostreamdb/protob\x06proto3"
 
 var (
 	file_proto_worker_discovery_proto_rawDescOnce sync.Once
@@ -144,12 +144,12 @@ func file_proto_worker_discovery_proto_rawDescGZIP() []byte {
 
 var file_proto_worker_discovery_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_worker_discovery_proto_goTypes = []any{
-	(*HeartbeatRequest)(nil),  // 0: hello_go.HeartbeatRequest
-	(*HeartbeatResponse)(nil), // 1: hello_go.HeartbeatResponse
+	(*HeartbeatRequest)(nil),  // 0: geostreamdb.HeartbeatRequest
+	(*HeartbeatResponse)(nil), // 1: geostreamdb.HeartbeatResponse
 }
 var file_proto_worker_discovery_proto_depIdxs = []int32{
-	0, // 0: hello_go.Gateway.Heartbeat:input_type -> hello_go.HeartbeatRequest
-	1, // 1: hello_go.Gateway.Heartbeat:output_type -> hello_go.HeartbeatResponse
+	0, // 0: geostreamdb.Gateway.Heartbeat:input_type -> geostreamdb.HeartbeatRequest
+	1, // 1: geostreamdb.Gateway.Heartbeat:output_type -> geostreamdb.HeartbeatResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

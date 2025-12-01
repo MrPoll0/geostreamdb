@@ -111,6 +111,7 @@ func (x *PingResponse) GetSuccess() bool {
 
 type GetPingsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Geohash       string                 `protobuf:"bytes,1,opt,name=geohash,proto3" json:"geohash,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -145,9 +146,17 @@ func (*GetPingsRequest) Descriptor() ([]byte, []int) {
 	return file_proto_ping_comm_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetPingsRequest) GetGeohash() string {
+	if x != nil {
+		return x.Geohash
+	}
+	return ""
+}
+
 type GetPingsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pings         []*Ping                `protobuf:"bytes,1,rep,name=pings,proto3" json:"pings,omitempty"`
+	Count         int64                  `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
+	Timestamp     int64                  `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -182,59 +191,14 @@ func (*GetPingsResponse) Descriptor() ([]byte, []int) {
 	return file_proto_ping_comm_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetPingsResponse) GetPings() []*Ping {
+func (x *GetPingsResponse) GetCount() int64 {
 	if x != nil {
-		return x.Pings
+		return x.Count
 	}
-	return nil
+	return 0
 }
 
-type Ping struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Geohash       string                 `protobuf:"bytes,1,opt,name=geohash,proto3" json:"geohash,omitempty"`
-	Timestamp     int64                  `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Ping) Reset() {
-	*x = Ping{}
-	mi := &file_proto_ping_comm_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Ping) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Ping) ProtoMessage() {}
-
-func (x *Ping) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_ping_comm_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Ping.ProtoReflect.Descriptor instead.
-func (*Ping) Descriptor() ([]byte, []int) {
-	return file_proto_ping_comm_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *Ping) GetGeohash() string {
-	if x != nil {
-		return x.Geohash
-	}
-	return ""
-}
-
-func (x *Ping) GetTimestamp() int64 {
+func (x *GetPingsResponse) GetTimestamp() int64 {
 	if x != nil {
 		return x.Timestamp
 	}
@@ -245,20 +209,19 @@ var File_proto_ping_comm_proto protoreflect.FileDescriptor
 
 const file_proto_ping_comm_proto_rawDesc = "" +
 	"\n" +
-	"\x15proto/ping_comm.proto\x12\bhello_go\"'\n" +
+	"\x15proto/ping_comm.proto\x12\vgeostreamdb\"'\n" +
 	"\vPingRequest\x12\x18\n" +
 	"\ageohash\x18\x01 \x01(\tR\ageohash\"(\n" +
 	"\fPingResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x11\n" +
-	"\x0fGetPingsRequest\"8\n" +
-	"\x10GetPingsResponse\x12$\n" +
-	"\x05pings\x18\x01 \x03(\v2\x0e.hello_go.PingR\x05pings\">\n" +
-	"\x04Ping\x12\x18\n" +
-	"\ageohash\x18\x01 \x01(\tR\ageohash\x12\x1c\n" +
-	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp2\x8a\x01\n" +
-	"\x06Worker\x12;\n" +
-	"\bSendPing\x12\x15.hello_go.PingRequest\x1a\x16.hello_go.PingResponse\"\x00\x12C\n" +
-	"\bGetPings\x12\x19.hello_go.GetPingsRequest\x1a\x1a.hello_go.GetPingsResponse\"\x00B\x10Z\x0ehello_go/protob\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"+\n" +
+	"\x0fGetPingsRequest\x12\x18\n" +
+	"\ageohash\x18\x01 \x01(\tR\ageohash\"F\n" +
+	"\x10GetPingsResponse\x12\x14\n" +
+	"\x05count\x18\x01 \x01(\x03R\x05count\x12\x1c\n" +
+	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp2\x96\x01\n" +
+	"\x06Worker\x12A\n" +
+	"\bSendPing\x12\x18.geostreamdb.PingRequest\x1a\x19.geostreamdb.PingResponse\"\x00\x12I\n" +
+	"\bGetPings\x12\x1c.geostreamdb.GetPingsRequest\x1a\x1d.geostreamdb.GetPingsResponse\"\x00B\x13Z\x11geostreamdb/protob\x06proto3"
 
 var (
 	file_proto_ping_comm_proto_rawDescOnce sync.Once
@@ -272,25 +235,23 @@ func file_proto_ping_comm_proto_rawDescGZIP() []byte {
 	return file_proto_ping_comm_proto_rawDescData
 }
 
-var file_proto_ping_comm_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_proto_ping_comm_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_ping_comm_proto_goTypes = []any{
-	(*PingRequest)(nil),      // 0: hello_go.PingRequest
-	(*PingResponse)(nil),     // 1: hello_go.PingResponse
-	(*GetPingsRequest)(nil),  // 2: hello_go.GetPingsRequest
-	(*GetPingsResponse)(nil), // 3: hello_go.GetPingsResponse
-	(*Ping)(nil),             // 4: hello_go.Ping
+	(*PingRequest)(nil),      // 0: geostreamdb.PingRequest
+	(*PingResponse)(nil),     // 1: geostreamdb.PingResponse
+	(*GetPingsRequest)(nil),  // 2: geostreamdb.GetPingsRequest
+	(*GetPingsResponse)(nil), // 3: geostreamdb.GetPingsResponse
 }
 var file_proto_ping_comm_proto_depIdxs = []int32{
-	4, // 0: hello_go.GetPingsResponse.pings:type_name -> hello_go.Ping
-	0, // 1: hello_go.Worker.SendPing:input_type -> hello_go.PingRequest
-	2, // 2: hello_go.Worker.GetPings:input_type -> hello_go.GetPingsRequest
-	1, // 3: hello_go.Worker.SendPing:output_type -> hello_go.PingResponse
-	3, // 4: hello_go.Worker.GetPings:output_type -> hello_go.GetPingsResponse
-	3, // [3:5] is the sub-list for method output_type
-	1, // [1:3] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: geostreamdb.Worker.SendPing:input_type -> geostreamdb.PingRequest
+	2, // 1: geostreamdb.Worker.GetPings:input_type -> geostreamdb.GetPingsRequest
+	1, // 2: geostreamdb.Worker.SendPing:output_type -> geostreamdb.PingResponse
+	3, // 3: geostreamdb.Worker.GetPings:output_type -> geostreamdb.GetPingsResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_proto_ping_comm_proto_init() }
@@ -304,7 +265,7 @@ func file_proto_ping_comm_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_ping_comm_proto_rawDesc), len(file_proto_ping_comm_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

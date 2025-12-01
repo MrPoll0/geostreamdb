@@ -5,7 +5,7 @@ import (
 	"net"
 	"os"
 
-	pb "hello_go/proto"
+	pb "geostreamdb/proto"
 
 	"google.golang.org/grpc"
 )

@@ -8,7 +8,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "hello_go/proto"
+	pb "geostreamdb/proto"
 )
 
 type grpcServer struct {
