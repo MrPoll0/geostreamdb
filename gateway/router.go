@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -20,17 +21,21 @@ type gpsPing struct {
 }
 
 func getGeohash(lat float64, lng float64) string {
+	// returns a geohash of precision 8
+
 	gh := geohash.Encode(lat, lng)
 	// truncate geohash for better locality
-	if len(gh) > 7 {
-		gh = gh[:7]
+	if len(gh) >= 8 {
+		gh = gh[:8]
 	}
 	return gh
 }
 
 func setup_router() *chi.Mux {
 	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+	if os.Getenv("DEBUG") == "true" {
+		router.Use(middleware.Logger)
+	}
 
 	router.Get("/ping/{lat}/{lng}", getPings)
 	router.Post("/ping", postPing)
@@ -47,10 +52,11 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gh := getGeohash(newGpsPing.Latitude, newGpsPing.Longitude)
+	gh := getGeohash(newGpsPing.Latitude, newGpsPing.Longitude) // precision 8
+	truncatedGh := gh[:6]                                       // truncate to precision 6
 
 	// get the address of the worker node responsible for this geohash
-	targetAddr := state.GetNodeAddress(gh)
+	targetAddr := state.GetNodeAddress(truncatedGh)
 	if targetAddr == "" {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		w.Write([]byte("No workers available"))
@@ -95,10 +101,11 @@ func getPings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gh := getGeohash(lat, lng)
+	gh := getGeohash(lat, lng) // precision 8
+	truncatedGh := gh[:6]      // truncate to precision 6
 
 	// get the address of the worker node responsible for this geohash
-	targetAddr := state.GetNodeAddress(gh)
+	targetAddr := state.GetNodeAddress(truncatedGh)
 	if targetAddr == "" {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		w.Write([]byte("No workers available"))

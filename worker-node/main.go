@@ -21,7 +21,7 @@ func main() {
 	go send_heartbeat(client)
 
 	// (grpc server) ping communication
-	go cleanupTimePingBucket()
+	go cleanupTimeBuffer()
 
 	port := os.Getenv("PORT")
 	if port == "" {
