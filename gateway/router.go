@@ -21,9 +21,24 @@ type gpsPing struct {
 
 var MAX_GH_PRECISION = 8
 var MAX_PINGAREA_GEOHASHES = int64(5000)
+var SHARDING_PRECISION = 6
+
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
 
 func setup_router() *chi.Mux {
 	router := chi.NewRouter()
+	router.Use(corsMiddleware)
 	if os.Getenv("DEBUG") == "true" {
 		router.Use(middleware.Logger)
 	}
