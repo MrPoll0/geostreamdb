@@ -205,6 +205,194 @@ func (x *GetPingsResponse) GetTimestamp() int64 {
 	return 0
 }
 
+type GetPingAreaRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Precision     int32                  `protobuf:"varint,1,opt,name=precision,proto3" json:"precision,omitempty"`
+	AggPrecision  int32                  `protobuf:"varint,2,opt,name=aggPrecision,proto3" json:"aggPrecision,omitempty"`
+	MinLat        float64                `protobuf:"fixed64,3,opt,name=minLat,proto3" json:"minLat,omitempty"`
+	MaxLat        float64                `protobuf:"fixed64,4,opt,name=maxLat,proto3" json:"maxLat,omitempty"`
+	MinLng        float64                `protobuf:"fixed64,5,opt,name=minLng,proto3" json:"minLng,omitempty"`
+	MaxLng        float64                `protobuf:"fixed64,6,opt,name=maxLng,proto3" json:"maxLng,omitempty"`
+	Geohashes     []string               `protobuf:"bytes,7,rep,name=geohashes,proto3" json:"geohashes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPingAreaRequest) Reset() {
+	*x = GetPingAreaRequest{}
+	mi := &file_proto_ping_comm_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPingAreaRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPingAreaRequest) ProtoMessage() {}
+
+func (x *GetPingAreaRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_ping_comm_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPingAreaRequest.ProtoReflect.Descriptor instead.
+func (*GetPingAreaRequest) Descriptor() ([]byte, []int) {
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetPingAreaRequest) GetPrecision() int32 {
+	if x != nil {
+		return x.Precision
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetAggPrecision() int32 {
+	if x != nil {
+		return x.AggPrecision
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetMinLat() float64 {
+	if x != nil {
+		return x.MinLat
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetMaxLat() float64 {
+	if x != nil {
+		return x.MaxLat
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetMinLng() float64 {
+	if x != nil {
+		return x.MinLng
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetMaxLng() float64 {
+	if x != nil {
+		return x.MaxLng
+	}
+	return 0
+}
+
+func (x *GetPingAreaRequest) GetGeohashes() []string {
+	if x != nil {
+		return x.Geohashes
+	}
+	return nil
+}
+
+type GetPingAreaResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Counts        []*PingAreaCount       `protobuf:"bytes,1,rep,name=counts,proto3" json:"counts,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPingAreaResponse) Reset() {
+	*x = GetPingAreaResponse{}
+	mi := &file_proto_ping_comm_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPingAreaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPingAreaResponse) ProtoMessage() {}
+
+func (x *GetPingAreaResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_ping_comm_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPingAreaResponse.ProtoReflect.Descriptor instead.
+func (*GetPingAreaResponse) Descriptor() ([]byte, []int) {
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetPingAreaResponse) GetCounts() []*PingAreaCount {
+	if x != nil {
+		return x.Counts
+	}
+	return nil
+}
+
+type PingAreaCount struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Geohash       string                 `protobuf:"bytes,1,opt,name=geohash,proto3" json:"geohash,omitempty"`
+	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PingAreaCount) Reset() {
+	*x = PingAreaCount{}
+	mi := &file_proto_ping_comm_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PingAreaCount) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PingAreaCount) ProtoMessage() {}
+
+func (x *PingAreaCount) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_ping_comm_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PingAreaCount.ProtoReflect.Descriptor instead.
+func (*PingAreaCount) Descriptor() ([]byte, []int) {
+	return file_proto_ping_comm_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PingAreaCount) GetGeohash() string {
+	if x != nil {
+		return x.Geohash
+	}
+	return ""
+}
+
+func (x *PingAreaCount) GetCount() int64 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
 var File_proto_ping_comm_proto protoreflect.FileDescriptor
 
 const file_proto_ping_comm_proto_rawDesc = "" +
@@ -218,10 +406,24 @@ const file_proto_ping_comm_proto_rawDesc = "" +
 	"\ageohash\x18\x01 \x01(\tR\ageohash\"F\n" +
 	"\x10GetPingsResponse\x12\x14\n" +
 	"\x05count\x18\x01 \x01(\x03R\x05count\x12\x1c\n" +
-	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp2\x96\x01\n" +
+	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp\"\xd4\x01\n" +
+	"\x12GetPingAreaRequest\x12\x1c\n" +
+	"\tprecision\x18\x01 \x01(\x05R\tprecision\x12\"\n" +
+	"\faggPrecision\x18\x02 \x01(\x05R\faggPrecision\x12\x16\n" +
+	"\x06minLat\x18\x03 \x01(\x01R\x06minLat\x12\x16\n" +
+	"\x06maxLat\x18\x04 \x01(\x01R\x06maxLat\x12\x16\n" +
+	"\x06minLng\x18\x05 \x01(\x01R\x06minLng\x12\x16\n" +
+	"\x06maxLng\x18\x06 \x01(\x01R\x06maxLng\x12\x1c\n" +
+	"\tgeohashes\x18\a \x03(\tR\tgeohashes\"I\n" +
+	"\x13GetPingAreaResponse\x122\n" +
+	"\x06counts\x18\x01 \x03(\v2\x1a.geostreamdb.PingAreaCountR\x06counts\"?\n" +
+	"\rPingAreaCount\x12\x18\n" +
+	"\ageohash\x18\x01 \x01(\tR\ageohash\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\x03R\x05count2\xea\x01\n" +
 	"\x06Worker\x12A\n" +
 	"\bSendPing\x12\x18.geostreamdb.PingRequest\x1a\x19.geostreamdb.PingResponse\"\x00\x12I\n" +
-	"\bGetPings\x12\x1c.geostreamdb.GetPingsRequest\x1a\x1d.geostreamdb.GetPingsResponse\"\x00B\x13Z\x11geostreamdb/protob\x06proto3"
+	"\bGetPings\x12\x1c.geostreamdb.GetPingsRequest\x1a\x1d.geostreamdb.GetPingsResponse\"\x00\x12R\n" +
+	"\vGetPingArea\x12\x1f.geostreamdb.GetPingAreaRequest\x1a .geostreamdb.GetPingAreaResponse\"\x00B\x13Z\x11geostreamdb/protob\x06proto3"
 
 var (
 	file_proto_ping_comm_proto_rawDescOnce sync.Once
@@ -235,23 +437,29 @@ func file_proto_ping_comm_proto_rawDescGZIP() []byte {
 	return file_proto_ping_comm_proto_rawDescData
 }
 
-var file_proto_ping_comm_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_proto_ping_comm_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_proto_ping_comm_proto_goTypes = []any{
-	(*PingRequest)(nil),      // 0: geostreamdb.PingRequest
-	(*PingResponse)(nil),     // 1: geostreamdb.PingResponse
-	(*GetPingsRequest)(nil),  // 2: geostreamdb.GetPingsRequest
-	(*GetPingsResponse)(nil), // 3: geostreamdb.GetPingsResponse
+	(*PingRequest)(nil),         // 0: geostreamdb.PingRequest
+	(*PingResponse)(nil),        // 1: geostreamdb.PingResponse
+	(*GetPingsRequest)(nil),     // 2: geostreamdb.GetPingsRequest
+	(*GetPingsResponse)(nil),    // 3: geostreamdb.GetPingsResponse
+	(*GetPingAreaRequest)(nil),  // 4: geostreamdb.GetPingAreaRequest
+	(*GetPingAreaResponse)(nil), // 5: geostreamdb.GetPingAreaResponse
+	(*PingAreaCount)(nil),       // 6: geostreamdb.PingAreaCount
 }
 var file_proto_ping_comm_proto_depIdxs = []int32{
-	0, // 0: geostreamdb.Worker.SendPing:input_type -> geostreamdb.PingRequest
-	2, // 1: geostreamdb.Worker.GetPings:input_type -> geostreamdb.GetPingsRequest
-	1, // 2: geostreamdb.Worker.SendPing:output_type -> geostreamdb.PingResponse
-	3, // 3: geostreamdb.Worker.GetPings:output_type -> geostreamdb.GetPingsResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	6, // 0: geostreamdb.GetPingAreaResponse.counts:type_name -> geostreamdb.PingAreaCount
+	0, // 1: geostreamdb.Worker.SendPing:input_type -> geostreamdb.PingRequest
+	2, // 2: geostreamdb.Worker.GetPings:input_type -> geostreamdb.GetPingsRequest
+	4, // 3: geostreamdb.Worker.GetPingArea:input_type -> geostreamdb.GetPingAreaRequest
+	1, // 4: geostreamdb.Worker.SendPing:output_type -> geostreamdb.PingResponse
+	3, // 5: geostreamdb.Worker.GetPings:output_type -> geostreamdb.GetPingsResponse
+	5, // 6: geostreamdb.Worker.GetPingArea:output_type -> geostreamdb.GetPingAreaResponse
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_ping_comm_proto_init() }
@@ -265,7 +473,7 @@ func file_proto_ping_comm_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_ping_comm_proto_rawDesc), len(file_proto_ping_comm_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

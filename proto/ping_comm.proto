@@ -8,6 +8,7 @@ package geostreamdb;
 service Worker {
     rpc SendPing(PingRequest) returns (PingResponse) {}
     rpc GetPings(GetPingsRequest) returns (GetPingsResponse) {}
+    rpc GetPingArea(GetPingAreaRequest) returns (GetPingAreaResponse) {}
 }
 
 message PingRequest {
@@ -25,4 +26,23 @@ message GetPingsRequest {
 message GetPingsResponse {
     int64 count = 1;
     int64 timestamp = 2;
+}
+
+message GetPingAreaRequest {
+    int32 precision = 1;
+    int32 aggPrecision = 2;
+    double minLat = 3;
+    double maxLat = 4;
+    double minLng = 5;
+    double maxLng = 6;
+    repeated string geohashes = 7;
+}
+
+message GetPingAreaResponse {
+    repeated PingAreaCount counts = 1;
+}
+
+message PingAreaCount {
+    string geohash = 1;
+    int64 count = 2;
 }

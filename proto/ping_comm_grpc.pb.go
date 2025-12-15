@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Worker_SendPing_FullMethodName = "/geostreamdb.Worker/SendPing"
-	Worker_GetPings_FullMethodName = "/geostreamdb.Worker/GetPings"
+	Worker_SendPing_FullMethodName    = "/geostreamdb.Worker/SendPing"
+	Worker_GetPings_FullMethodName    = "/geostreamdb.Worker/GetPings"
+	Worker_GetPingArea_FullMethodName = "/geostreamdb.Worker/GetPingArea"
 )
 
 // WorkerClient is the client API for Worker service.
@@ -29,6 +30,7 @@ const (
 type WorkerClient interface {
 	SendPing(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	GetPings(ctx context.Context, in *GetPingsRequest, opts ...grpc.CallOption) (*GetPingsResponse, error)
+	GetPingArea(ctx context.Context, in *GetPingAreaRequest, opts ...grpc.CallOption) (*GetPingAreaResponse, error)
 }
 
 type workerClient struct {
@@ -59,12 +61,23 @@ func (c *workerClient) GetPings(ctx context.Context, in *GetPingsRequest, opts .
 	return out, nil
 }
 
+func (c *workerClient) GetPingArea(ctx context.Context, in *GetPingAreaRequest, opts ...grpc.CallOption) (*GetPingAreaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetPingAreaResponse)
+	err := c.cc.Invoke(ctx, Worker_GetPingArea_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkerServer is the server API for Worker service.
 // All implementations must embed UnimplementedWorkerServer
 // for forward compatibility.
 type WorkerServer interface {
 	SendPing(context.Context, *PingRequest) (*PingResponse, error)
 	GetPings(context.Context, *GetPingsRequest) (*GetPingsResponse, error)
+	GetPingArea(context.Context, *GetPingAreaRequest) (*GetPingAreaResponse, error)
 	mustEmbedUnimplementedWorkerServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedWorkerServer) SendPing(context.Context, *PingRequest) (*PingR
 }
 func (UnimplementedWorkerServer) GetPings(context.Context, *GetPingsRequest) (*GetPingsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetPings not implemented")
+}
+func (UnimplementedWorkerServer) GetPingArea(context.Context, *GetPingAreaRequest) (*GetPingAreaResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetPingArea not implemented")
 }
 func (UnimplementedWorkerServer) mustEmbedUnimplementedWorkerServer() {}
 func (UnimplementedWorkerServer) testEmbeddedByValue()                {}
@@ -138,6 +154,24 @@ func _Worker_GetPings_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Worker_GetPingArea_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPingAreaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkerServer).GetPingArea(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Worker_GetPingArea_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkerServer).GetPingArea(ctx, req.(*GetPingAreaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Worker_ServiceDesc is the grpc.ServiceDesc for Worker service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var Worker_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPings",
 			Handler:    _Worker_GetPings_Handler,
+		},
+		{
+			MethodName: "GetPingArea",
+			Handler:    _Worker_GetPingArea_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

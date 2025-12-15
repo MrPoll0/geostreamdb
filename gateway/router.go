@@ -61,7 +61,7 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	gh := geohashEncodeWithPrecision(newGpsPing.Latitude, newGpsPing.Longitude, MAX_GH_PRECISION)
-	truncatedGh := gh[:6] // truncate to precision 6 for sharding
+	truncatedGh := gh[:SHARDING_PRECISION] // truncate to sharding precision
 
 	// get the address of the worker node responsible for this geohash
 	targetAddr := state.GetNodeAddress(truncatedGh)
@@ -121,7 +121,7 @@ func getPing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	gh := geohashEncodeWithPrecision(lat, lng, MAX_GH_PRECISION)
-	truncatedGh := gh[:6] // truncate to precision 6 for sharding
+	truncatedGh := gh[:SHARDING_PRECISION] // truncate to sharding precision
 
 	// get the address of the worker node responsible for this geohash
 	targetAddr := state.GetNodeAddress(truncatedGh)
@@ -214,8 +214,7 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bboxW, bboxH := bboxDimsMeters(minLat, maxLat, minLng, maxLng)
-	precUsed, cellW, cellH, ok := chooseAggregatedPrecision(precision, minLat, maxLat, minLng, maxLng)
+	precUsed, _, _, ok := chooseAggregatedPrecision(precision, minLat, maxLat, minLng, maxLng)
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Bounding box too small for available precisions"))
@@ -224,20 +223,92 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 
 	cover := geohashCoverSet(minLat, maxLat, minLng, maxLng, precUsed)
 
+	// TEST: to color geohash by server
+	type ExtendedGetPingAreaResponse struct {
+		*pb.GetPingAreaResponse
+		Server string
+	}
+
+	results := make([]*ExtendedGetPingAreaResponse, 0)
+	if precUsed >= SHARDING_PRECISION {
+		// we can find shards responsible for these geohashes. find and group them
+
+		// group geohashes by shard
+		grouped := make(map[string][]string)
+		for _, geohash := range cover {
+			tarGh := geohash[:SHARDING_PRECISION]
+			targetAddr := state.GetNodeAddress(tarGh)
+			if targetAddr == "" {
+				continue
+			}
+			grouped[targetAddr] = append(grouped[targetAddr], geohash)
+		}
+
+		// for every key (node address), get the ping area for its assigned geohashes
+		for targetAddr, geohashes := range grouped {
+			conn, err := state.GetConn(targetAddr)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte("Failed to connect to worker"))
+				return
+			}
+
+			client := pb.NewWorkerClient(conn)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: geohashes})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte("Failed to get ping area from worker"))
+				return
+			}
+			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: targetAddr})
+		}
+	} else {
+		// geohashes will be spread across multiple shards. broadcast query to all nodes
+
+		seenServers := make(map[string]struct{})
+		for _, node := range state.ring {
+			if _, seen := seenServers[node.Server]; seen { // avoid repetition because of virtual nodes
+				continue
+			}
+			seenServers[node.Server] = struct{}{}
+
+			conn, err := state.GetConn(node.Server)
+			if err != nil {
+				continue
+			}
+			client := pb.NewWorkerClient(conn)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: cover})
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte("Failed to get ping area from worker"))
+				return
+			}
+			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: node.Server})
+		}
+	}
+
+	type ExtendedPingAreaCount struct {
+		Count  int64
+		Server string
+	}
+
+	// combine all results into a single map of geohash -> count
+	combined := make(map[string]*ExtendedPingAreaCount)
+	for _, result := range results {
+		for _, count := range result.Counts {
+			if _, exists := combined[count.Geohash]; !exists {
+				combined[count.Geohash] = &ExtendedPingAreaCount{Count: 0, Server: result.Server}
+			}
+			combined[count.Geohash].Count += count.Count
+		}
+	}
+
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]any{
-		"requestedPrecision": precision,
-		"precisionUsed":      precUsed,
-		"geohashes":          cover,
-		"bboxMeters": map[string]float64{
-			"width":  bboxW,
-			"height": bboxH,
-			"area":   bboxW * bboxH,
-		},
-		"cellMeters": map[string]float64{
-			"width":  cellW,
-			"height": cellH,
-			"area":   cellW * cellH,
-		},
-	})
+	json.NewEncoder(w).Encode(combined)
 }
