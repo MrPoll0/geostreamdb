@@ -126,8 +126,20 @@ func latForMinWidthMeters(minLat, maxLat float64) float64 {
 func bboxDimsMeters(minLat, maxLat, minLng, maxLng float64) (widthMeters, heightMeters float64) {
 	// returns the width and height of a bounding box in meters
 	latForWidth := latForMaxWidthMeters(minLat, maxLat)
-	widthMeters = haversineMeters(latForWidth, minLng, latForWidth, maxLng) // choose latitude closest to the equator to maximize width
-	midLng := (minLng + maxLng) / 2                                         // distance north/south doesn't depend on longitude, so midpoint is stable and simple
+
+	// haversine gives the shortest path, but for bboxes spanning > 180° longitude we want the long way
+	lngSpan := maxLng - minLng
+	if lngSpan < 0 {
+		lngSpan += 360
+	}
+	if lngSpan > 180 {
+		// measure the long way: compute arc length directly from degree span
+		widthMeters = deg2rad(lngSpan) * EARTH_RADIUS_METERS * math.Cos(deg2rad(latForWidth))
+	} else {
+		widthMeters = haversineMeters(latForWidth, minLng, latForWidth, maxLng)
+	}
+
+	midLng := (minLng + maxLng) / 2 // distance north/south doesn't depend on longitude, so midpoint is stable and simple
 	heightMeters = haversineMeters(minLat, midLng, maxLat, midLng)
 	return widthMeters, heightMeters
 }
