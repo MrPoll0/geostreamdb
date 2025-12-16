@@ -8,6 +8,15 @@ import (
 )
 
 func main() {
+	// (grpc client) heartbeats to registry for service discovery
+	registryAddress := os.Getenv("REGISTRY_ADDRESS")
+	if registryAddress == "" {
+		registryAddress = "registry:50051"
+	}
+	conn, client := new_grpc_client(registryAddress)
+	defer conn.Close()
+	go send_heartbeat(client)
+
 	// (grpc server) heartbeat communication
 	go setup_heartbeat_listener()
 	// cleanup dead nodes loop

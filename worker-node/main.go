@@ -11,12 +11,12 @@ import (
 )
 
 func main() {
-	// (grpc client) heartbeats to gateway for service discovery
-	gatewayAddress := os.Getenv("GATEWAY_ADDRESS")
-	if gatewayAddress == "" {
-		gatewayAddress = "gateway:50051"
+	// (grpc client) heartbeats to gateway (registry -> gateway) for service discovery
+	registryAddress := os.Getenv("REGISTRY_ADDRESS")
+	if registryAddress == "" {
+		registryAddress = "registry:50051"
 	}
-	conn, client := new_grpc_client(gatewayAddress)
+	conn, client := new_grpc_client(registryAddress)
 	defer conn.Close()
 	go send_heartbeat(client)
 

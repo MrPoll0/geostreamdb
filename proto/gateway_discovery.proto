@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "geostreamdb/proto";
+
+package geostreamdb;
+
+
+service Registry {
+    rpc Heartbeat(RegistryHeartbeatRequest) returns (RegistryHeartbeatResponse) {}
+}
+
+message RegistryHeartbeatRequest {
+    string gateway_id = 1;
+    string address = 2;
+}
+
+message RegistryHeartbeatResponse {
+    bool acknowledged = 1;
+}

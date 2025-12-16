@@ -1,17 +1,13 @@
 services:
   gateway:
-    depends_on:
-      - worker-node
     build:
       context: .
       dockerfile: gateway/Dockerfile.multistage
-    container_name: gateway
-    hostname: gateway
-    ports:
-      - 8080:8080
     networks:
       - mynet
     deploy:
+      mode: replicated
+      replicas: 3
       restart_policy:
         condition: on-failure
 
@@ -22,8 +18,33 @@ services:
     networks:
       - mynet
     deploy:
+      mode: replicated
+      replicas: 3
       restart_policy:
         condition: on-failure
+
+  registry:
+    build:
+      context: .
+      dockerfile: registry/Dockerfile.multistage
+    container_name: registry
+    hostname: registry
+    networks:
+      - mynet
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  loadbalancer:
+    image: nginx:alpine
+    container_name: loadbalancer
+    hostname: loadbalancer
+    volumes:
+      - ./loadbalancer/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    networks:
+      - mynet
 
 networks:
   mynet:
