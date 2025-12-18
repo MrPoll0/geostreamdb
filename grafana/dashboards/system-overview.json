@@ -1,0 +1,148 @@
+{
+    "title": "System Overview",
+    "uid": "system-overview",
+    "version": 1,
+    "time": {
+        "from": "now-1h",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
+    },
+    "panels": [
+      {
+        "title": "System CPU Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "(1 - avg by(instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m]))) * 100",
+            "legendFormat": "CPU Usage"
+          }
+        ],
+        "lines": true,
+        "linewidth": 2,
+        "fill": 1,
+        "fillGradient": 0,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "title": "System Memory Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 8},
+        "targets": [
+          {
+            "expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100",
+            "legendFormat": "Memory Usage"
+          }
+        ],
+        "lines": true,
+        "linewidth": 2,
+        "fill": 1,
+        "fillGradient": 0,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "title": "System Disk Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 8},
+        "targets": [
+          {
+            "expr": "topk(1, (node_filesystem_size_bytes{fstype=~\"ext4|xfs|btrfs\",mountpoint!=\"/boot\"} - node_filesystem_free_bytes{fstype=~\"ext4|xfs|btrfs\",mountpoint!=\"/boot\"}) / node_filesystem_size_bytes{fstype=~\"ext4|xfs|btrfs\",mountpoint!=\"/boot\"} * 100)",
+            "legendFormat": "Disk Usage"
+          }
+        ],
+        "lines": true,
+        "linewidth": 2,
+        "fill": 1,
+        "fillGradient": 0,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "title": "Container CPU Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "docker_container_cpu_usage_percentage{name!=\"\"}",
+            "legendFormat": "{{name}}"
+          }
+        ],
+        "lines": true,
+        "linewidth": 2,
+        "fill": 1,
+        "fillGradient": 0,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "unit": "percent",
+            "decimals": 2
+          }
+        }
+      },
+      {
+        "title": "Container Memory Usage",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "docker_container_memory_usage_bytes{name!=\"\"}",
+            "legendFormat": "{{name}}"
+          }
+        ],
+        "lines": true,
+        "linewidth": 2,
+        "fill": 1,
+        "fillGradient": 0,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "unit": "bytes",
+            "decimals": 0
+          }
+        }
+      }
+    ]
+  }
