@@ -34,7 +34,9 @@ func send_heartbeat(client pb.GatewayClient) {
 
 	for ; ; <-ticker.C {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		start := time.Now()
 		_, err := client.Heartbeat(ctx, &pb.HeartbeatRequest{WorkerId: workerId, Address: fullAddress})
+		observeGRPC("Gateway.Heartbeat", err, start)
 		if err != nil {
 			log.Printf("failed to send heartbeat: %v", err)
 		}

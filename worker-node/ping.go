@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+const SHARDING_PRECISION = 6 // TODO: make configurable and shared with gateway
+
 type ghBbox struct {
 	minLat float64
 	maxLat float64
@@ -263,12 +265,27 @@ func cleanupTimeBuffer() {
 	}
 }
 
+func observeGRPC(method string, err error, start time.Time) {
+	result := "success"
+	if err != nil {
+		result = "failure"
+	}
+	Metrics.gRPCRequestsTotal.WithLabelValues(method, result).Inc()
+	Metrics.gRPCLatency.WithLabelValues(method).Observe(time.Since(start).Seconds())
+}
+
 type grpcServer struct {
 	pb.UnimplementedWorkerServer
 }
 
 func (s *grpcServer) SendPing(ctx context.Context, req *pb.PingRequest) (*pb.PingResponse, error) {
 	//log.Printf("Received ping request for geohash: %s", req.Geohash)
+
+	start := time.Now()
+	var err error // for error handling, not implemented yet
+	defer func() {
+		observeGRPC("SendPing", err, start)
+	}()
 
 	now := time.Now().Unix()
 	idx := int(now % PING_TTL)
@@ -287,11 +304,25 @@ func (s *grpcServer) SendPing(ctx context.Context, req *pb.PingRequest) (*pb.Pin
 
 	slot.Data.TrieRoot.Increment(req.Geohash)
 
+	// track pings stored per geohash prefix (at sharding precision)
+	// TTL must be taken into account externally
+	ghPrefix := req.Geohash
+	if len(ghPrefix) > SHARDING_PRECISION {
+		ghPrefix = ghPrefix[:SHARDING_PRECISION]
+	}
+	Metrics.pingsStoredTotal.WithLabelValues(ghPrefix).Inc()
+
 	return &pb.PingResponse{Success: true}, nil
 }
 
 func (s *grpcServer) GetPings(ctx context.Context, req *pb.GetPingsRequest) (*pb.GetPingsResponse, error) {
 	//log.Printf("Received get pings request")
+
+	start := time.Now()
+	var err error // for error handling, not implemented yet
+	defer func() {
+		observeGRPC("GetPings", err, start)
+	}()
 
 	now := time.Now().Unix()
 	cutoff := now - PING_TTL
@@ -314,6 +345,12 @@ func (s *grpcServer) GetPings(ctx context.Context, req *pb.GetPingsRequest) (*pb
 }
 
 func (s *grpcServer) GetPingArea(ctx context.Context, req *pb.GetPingAreaRequest) (*pb.GetPingAreaResponse, error) {
+	start := time.Now()
+	var err error // for error handling, not implemented yet
+	defer func() {
+		observeGRPC("GetPingArea", err, start)
+	}()
+
 	now := time.Now().Unix()
 	cutoff := now - PING_TTL
 	combined := make(map[string]int64)
