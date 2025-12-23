@@ -11,9 +11,148 @@
   },
   "panels": [
     {
+      "title": "Worker Nodes (Current)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "max(gateway_worker_nodes_total)",
+          "legendFormat": "Total Workers"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "red" },
+              { "value": 1, "color": "green" }
+            ]
+          }
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "title": "Gateways (Current)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "expr": "count(gateway_worker_nodes_total)",
+          "legendFormat": "Gateways"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "red" },
+              { "value": 1, "color": "green" }
+            ]
+          }
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "title": "HTTP Request Rate",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_http_requests_total[1m]))",
+          "legendFormat": "req/s"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/s",
+          "decimals": 2,
+          "min": 0
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "title": "gRPC Success Rate",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_grpc_requests_total{result=\"success\"}[5m])) / sum(rate(gateway_grpc_requests_total[5m])) * 100",
+          "legendFormat": "success %"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "value": null, "color": "red" },
+              { "value": 95, "color": "yellow" },
+              { "value": 99, "color": "green" }
+            ]
+          }
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
       "title": "HTTP Requests per Endpoint",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
       "targets": [
         {
           "expr": "sum by (endpoint) (rate(gateway_http_requests_total[1m]))",
@@ -39,7 +178,7 @@
     {
       "title": "HTTP Error Rate (4xx/5xx)",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
       "targets": [
         {
           "expr": "sum by (status) (rate(gateway_http_requests_total{status=~\"4..|5..\"}[1m]))",
@@ -65,7 +204,7 @@
     {
       "title": "HTTP Latency (p50 / p95 / p99)",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
       "targets": [
         {
           "expr": "histogram_quantile(0.5, sum by (le) (rate(gateway_http_request_duration_seconds_bucket[5m])))",
@@ -97,93 +236,9 @@
       }
     },
     {
-      "title": "Worker Nodes (Current)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 },
-      "targets": [
-        {
-          "expr": "max(gateway_worker_nodes_total)",
-          "legendFormat": "Total Workers"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "decimals": 0,
-          "min": 0
-        }
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto"
-      }
-    },
-    {
-      "title": "Gateways (Current)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 8 },
-      "targets": [
-        {
-          "expr": "count(gateway_worker_nodes_total)",
-          "legendFormat": "Gateways"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "decimals": 0,
-          "min": 0
-        }
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto"
-      }
-    },
-    {
-      "title": "gRPC Requests to Workers (by Method & Result)",
-      "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
-      "targets": [
-        {
-          "expr": "sum by (method, result) (rate(gateway_grpc_requests_total[1m]))",
-          "legendFormat": "{{method}} {{result}}"
-        }
-      ],
-      "lines": true,
-      "linewidth": 2,
-      "fill": 1,
-      "fillGradient": 0,
-      "points": false,
-      "pointradius": 2,
-      "bars": false,
-      "stack": false,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "req/s",
-          "decimals": 3,
-          "min": 0
-        }
-      }
-    },
-    {
       "title": "gRPC Latency to Workers (p50 / p95 / p99)",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
       "targets": [
         {
           "expr": "histogram_quantile(0.5, sum by (le) (rate(gateway_grpc_request_duration_seconds_bucket[5m])))",
@@ -215,43 +270,13 @@
       }
     },
     {
-        "title": "Geohash Requests per Worker (Routed)",
-        "type": "graph",
-        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 48 },
-        "targets": [
-          {
-            "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
-            "legendFormat": "{{worker_node}}"
-          },
-          {
-            "expr": "sum(rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
-            "legendFormat": "Total"
-          }
-        ],
-        "lines": true,
-        "linewidth": 2,
-        "fill": 1,
-        "fillGradient": 0,
-        "points": false,
-        "pointradius": 2,
-        "bars": false,
-        "stack": false,
-        "fieldConfig": {
-          "defaults": {
-            "unit": "req/s",
-            "decimals": 2,
-            "min": 0
-          }
-        }
-      },
-    {
-      "title": "Geohash Broadcasts (Total)",
+      "title": "gRPC Requests to Workers (by Method & Result)",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
       "targets": [
         {
-          "expr": "max(rate(gateway_geohash_requests_total{gh_prefix=\"\"}[1m]))",
-          "legendFormat": "Broadcast Rate"
+          "expr": "sum by (method, result) (rate(gateway_grpc_requests_total[1m]))",
+          "legendFormat": "{{method}} {{result}}"
         }
       ],
       "lines": true,
@@ -271,35 +296,9 @@
       }
     },
     {
-      "title": "HTTP Requests per Gateway Instance",
-      "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
-      "targets": [
-        {
-          "expr": "sum by (instance, endpoint) (rate(gateway_http_requests_total[1m]))",
-          "legendFormat": "{{instance}} - {{endpoint}}"
-        }
-      ],
-      "lines": true,
-      "linewidth": 2,
-      "fill": 1,
-      "fillGradient": 0,
-      "points": false,
-      "pointradius": 2,
-      "bars": false,
-      "stack": false,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "req/s",
-          "decimals": 2,
-          "min": 0
-        }
-      }
-    },
-    {
       "title": "Worker Nodes per Gateway Instance",
       "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
       "targets": [
         {
           "expr": "gateway_worker_nodes_total",
@@ -323,9 +322,91 @@
       }
     },
     {
+      "title": "HTTP Requests per Gateway Instance",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "targets": [
+        {
+          "expr": "sum by (instance, endpoint) (rate(gateway_http_requests_total[1m]))",
+          "legendFormat": "{{instance}} - {{endpoint}}"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "points": false,
+      "pointradius": 2,
+      "bars": false,
+      "stack": false,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/s",
+          "decimals": 2,
+          "min": 0
+        }
+      }
+    },
+    {
+      "title": "Geohash Broadcasts (Total)",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "targets": [
+        {
+          "expr": "sum(rate(gateway_geohash_requests_total{gh_prefix=\"\"}[1m]))",
+          "legendFormat": "Broadcast Rate"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "points": false,
+      "pointradius": 2,
+      "bars": false,
+      "stack": false,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/s",
+          "decimals": 3,
+          "min": 0
+        }
+      }
+    },
+    {
+      "title": "Geohash Requests per Worker (Routed)",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 36 },
+      "targets": [
+        {
+          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
+          "legendFormat": "{{worker_node}}"
+        },
+        {
+          "expr": "sum(rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
+          "legendFormat": "Total"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "points": false,
+      "pointradius": 2,
+      "bars": false,
+      "stack": false,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/s",
+          "decimals": 2,
+          "min": 0
+        }
+      }
+    },
+    {
       "title": "Requests per Worker Node (Bar Chart)",
       "type": "bargauge",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 36 },
       "targets": [
         {
           "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
@@ -349,12 +430,12 @@
     {
       "title": "Worker Node Request Distribution (Table)",
       "type": "table",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 48 },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 44 },
       "targets": [
         {
           "expr": "topk(50, sum by (worker_node, gh_prefix) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m])))",
           "format": "table",
-          "instant": false,
+          "instant": true,
           "refId": "A"
         }
       ],
@@ -368,96 +449,40 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 1000,
-                "color": "yellow"
-              },
-              {
-                "value": 5000,
-                "color": "red"
-              }
+              { "value": null, "color": "green" },
+              { "value": 1000, "color": "yellow" },
+              { "value": 5000, "color": "red" }
             ]
           }
         },
         "overrides": [
           {
-            "matcher": {
-              "id": "byName",
-              "options": "worker_node"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 200
-              }
-            ]
+            "matcher": { "id": "byName", "options": "worker_node" },
+            "properties": [{ "id": "custom.width", "value": 200 }]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "gh_prefix"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 150
-              }
-            ]
+            "matcher": { "id": "byName", "options": "gh_prefix" },
+            "properties": [{ "id": "custom.width", "value": 150 }]
           },
           {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
+            "matcher": { "id": "byName", "options": "Value" },
             "properties": [
-              {
-                "id": "unit",
-                "value": "req/s"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              },
-              {
-                "id": "custom.displayMode",
-                "value": "color-background"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "auto"
-                }
-              },
-              {
-                "id": "reduceOptions",
-                "value": {
-                  "values": false,
-                  "calcs": ["lastNotNull"],
-                  "fields": ""
-                }
-              }
+              { "id": "unit", "value": "req/s" },
+              { "id": "decimals", "value": 2 },
+              { "id": "custom.displayMode", "value": "color-background" }
             ]
           }
         ]
       },
       "options": {
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "Value"
-          }
-        ]
+        "sortBy": [{ "desc": true, "displayName": "Value" }]
       }
     },
     {
       "title": "Geohash Traffic Distribution (Stacked)",
       "type": "timeseries",
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 56 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 52 },
       "targets": [
         {
           "expr": "topk(15, sum by (gh_prefix) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m])))",
@@ -484,13 +509,9 @@
             },
             "axisPlacement": "auto",
             "axisLabel": "",
-            "scaleDistribution": {
-              "type": "linear"
-            }
+            "scaleDistribution": { "type": "linear" }
           },
-          "color": {
-            "mode": "palette-classic"
-          }
+          "color": { "mode": "palette-classic" }
         }
       },
       "options": {
@@ -508,4 +529,3 @@
     }
   ]
 }
-
