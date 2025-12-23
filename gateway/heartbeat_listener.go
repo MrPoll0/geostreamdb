@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -16,6 +17,13 @@ type grpcServer struct {
 }
 
 func (s *grpcServer) Heartbeat(ctx context.Context, req *pb.HeartbeatRequest) (*pb.HeartbeatResponse, error) {
+	start := time.Now()
+	var err error
+
+	defer func() {
+		observeGRPC("Gateway.Heartbeat", req.Address, err, start)
+	}()
+
 	state.addNode(req.WorkerId, req.Address)
 	return &pb.HeartbeatResponse{Acknowledged: true}, nil
 }

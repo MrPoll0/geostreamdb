@@ -12,6 +12,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	pb "geostreamdb/proto"
+
+	"github.com/felixge/httpsnoop"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type gpsPing struct {
@@ -23,6 +26,7 @@ var MAX_GH_PRECISION = 8
 var MAX_PINGAREA_GEOHASHES = int64(5000)
 var SHARDING_PRECISION = 6
 
+// <middleware>
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -36,9 +40,24 @@ func corsMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func metricsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		m := httpsnoop.CaptureMetrics(next, w, r) // executes the next handler and captures metrics
+
+		endpoint := chi.RouteContext(r.Context()).RoutePattern()
+		status := strconv.Itoa(m.Code)
+
+		Metrics.httpRequestsTotal.WithLabelValues(endpoint, status).Inc()
+		Metrics.httpLatency.WithLabelValues(endpoint).Observe(m.Duration.Seconds())
+	})
+}
+
+// </middleware>
+
 func setup_router() *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(corsMiddleware)
+	router.Use(metricsMiddleware)
 	if os.Getenv("DEBUG") == "true" {
 		router.Use(middleware.Logger)
 	}
@@ -48,7 +67,19 @@ func setup_router() *chi.Mux {
 
 	router.Get("/pingArea", getPingArea)
 
+	// Prometheus metrics endpoint
+	router.Handle("/metrics", promhttp.Handler())
+
 	return router
+}
+
+func observeGRPC(method string, worker string, err error, start time.Time) {
+	result := "success"
+	if err != nil {
+		result = "failure"
+	}
+	Metrics.gRPCRequestsTotal.WithLabelValues(method, result, worker).Inc()
+	Metrics.gRPCLatency.WithLabelValues(method, worker).Observe(time.Since(start).Seconds())
 }
 
 func postPing(w http.ResponseWriter, r *http.Request) {
@@ -71,6 +102,9 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Track geohash request routing
+	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, truncatedGh).Inc()
+
 	// get a connection to the worker node (pool of connections, do not close)
 	conn, err := state.GetConn(targetAddr)
 	if err != nil {
@@ -83,7 +117,9 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	start := time.Now()
 	_, err = client.SendPing(ctx, &pb.PingRequest{Geohash: gh})
+	observeGRPC("SendPing", targetAddr, err, start)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Failed to contact worker"))
@@ -131,6 +167,9 @@ func getPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Track geohash request routing
+	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, truncatedGh).Inc()
+
 	// get a connection to the worker node (pool of connections, do not close)
 	conn, err := state.GetConn(targetAddr)
 	if err != nil {
@@ -143,7 +182,9 @@ func getPing(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
+	start := time.Now()
 	v, err := client.GetPings(ctx, &pb.GetPingsRequest{Geohash: gh})
+	observeGRPC("GetPings", targetAddr, err, start)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Failed to get pings from worker"))
@@ -242,6 +283,8 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 			grouped[targetAddr] = append(grouped[targetAddr], geohash)
+
+			Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, tarGh).Inc()
 		}
 
 		// for every key (node address), get the ping area for its assigned geohashes
@@ -257,7 +300,9 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
+			start := time.Now()
 			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: geohashes})
+			observeGRPC("GetPingArea", targetAddr, err, start)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte("Failed to get ping area from worker"))
@@ -275,6 +320,8 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			}
 			seenServers[node.Server] = struct{}{}
 
+			Metrics.geohashRequestsTotal.WithLabelValues(node.Server, "").Inc()
+
 			conn, err := state.GetConn(node.Server)
 			if err != nil {
 				continue
@@ -283,7 +330,9 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
+			start := time.Now()
 			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: cover})
+			observeGRPC("GetPingArea", node.Server, err, start)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte("Failed to get ping area from worker"))

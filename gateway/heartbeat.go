@@ -20,7 +20,7 @@ func new_grpc_client(registryAddress string) (*grpc.ClientConn, pb.RegistryClien
 	return conn, pb.NewRegistryClient(conn)
 }
 
-func send_heartbeat(client pb.RegistryClient) {
+func send_heartbeat(client pb.RegistryClient, registryAddress string) {
 	gatewayId := uuid.New().String()
 	hostname, _ := os.Hostname() // hostname used as address with docker compose
 	port := os.Getenv("PORT")
@@ -34,8 +34,11 @@ func send_heartbeat(client pb.RegistryClient) {
 
 	for ; ; <-ticker.C {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		start := time.Now()
 		_, err := client.Heartbeat(ctx, &pb.RegistryHeartbeatRequest{GatewayId: gatewayId, Address: fullAddress})
 		cancel()
+		observeGRPC("Registry.Heartbeat", registryAddress, err, start)
+
 		if err != nil {
 			log.Printf("failed to send heartbeat to registry: %v", err)
 		}

@@ -15,7 +15,7 @@ func main() {
 	}
 	conn, client := new_grpc_client(registryAddress)
 	defer conn.Close()
-	go send_heartbeat(client)
+	go send_heartbeat(client, registryAddress)
 
 	// (grpc server) heartbeat communication
 	go setup_heartbeat_listener()

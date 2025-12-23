@@ -60,6 +60,9 @@ func (g *GatewayState) addNode(workerId string, address string) {
 		return
 	}
 
+	// New node added - increment metric
+	Metrics.workerNodesTotal.Inc()
+
 	for i := 0; i < NUM_VIRTUAL_NODES; i++ {
 		id := workerId + "#" + strconv.Itoa(i)
 		hash := xxh3.HashString(id)
@@ -104,6 +107,11 @@ func (g *GatewayState) removeNodeLocked(workerId string) string {
 	}
 
 	delete(g.lastSeen, workerId)
+
+	if server != "" {
+		Metrics.workerNodesTotal.Dec()
+	}
+
 	return server
 }
 
