@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+func observeGRPC(method string, err error, start time.Time) {
+	result := "success"
+	if err != nil {
+		result = "failure"
+	}
+	Metrics.gRPCRequestsTotal.WithLabelValues(method, result).Inc()
+	Metrics.gRPCLatency.WithLabelValues(method).Observe(time.Since(start).Seconds())
+}
+
 type gatewayHeartbeatServer struct {
 	pb.UnimplementedGatewayServer
 }
@@ -21,8 +30,10 @@ func (s *gatewayHeartbeatServer) Heartbeat(ctx context.Context, req *pb.Heartbea
 		client := pb.NewGatewayClient(conn)
 		timeoutCtx, cancel := context.WithTimeout(context.Background(), time.Second)
 
+		start := time.Now()
 		_, err := client.Heartbeat(timeoutCtx, req)
 		cancel()
+		observeGRPC("Gateway.Heartbeat", err, start)
 		if err != nil {
 			log.Printf("failed to forward heartbeat to gateway: %v", err)
 		}

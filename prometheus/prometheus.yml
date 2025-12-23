@@ -99,6 +99,12 @@ scrape_configs:
         type: A
         port: 2112
 
+  - job_name: registry
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - registry:2112
+
   #- job_name: prometheus
 
   #  honor_labels: true

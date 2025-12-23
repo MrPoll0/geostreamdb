@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"time"
 
 	pb "geostreamdb/proto"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
 )
 
@@ -15,6 +17,16 @@ var GATEWAY_CLEANUP_TTL = 10 * time.Second
 var GATEWAY_CLEANUP_TICK_TIME = 5 * time.Second
 
 func main() {
+	// (http server) prometheus metrics endpoint
+	metricsPort := os.Getenv("METRICS_PORT")
+	if metricsPort == "" {
+		metricsPort = "2112"
+	}
+	go func() {
+		http.Handle("/metrics", promhttp.Handler())
+		log.Fatal(http.ListenAndServe(":"+metricsPort, nil))
+	}()
+
 	// (grpc server) worker heartbeat and gateway registration receiver
 	go registryState.cleanupDeadGateways(GATEWAY_CLEANUP_TTL, GATEWAY_CLEANUP_TICK_TIME)
 	port := os.Getenv("PORT")

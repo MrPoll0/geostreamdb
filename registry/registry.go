@@ -27,6 +27,12 @@ var registryState = &RegistryState{Gateways: make(map[string]string), Clients: m
 func (s *registryServer) Heartbeat(ctx context.Context, req *pb.RegistryHeartbeatRequest) (*pb.RegistryHeartbeatResponse, error) {
 	// gateway heartbeats
 
+	start := time.Now()
+	var err error // for error handling, not implemented yet
+	defer func() {
+		observeGRPC("Registry.Heartbeat", err, start)
+	}()
+
 	// log.Printf("received gateway heartbeat from: %s (gateway id: %s)", req.Address, req.GatewayId)
 
 	registryState.Mutex.RLock()
@@ -68,7 +74,12 @@ func (s *registryServer) Heartbeat(ctx context.Context, req *pb.RegistryHeartbea
 	registryState.lastSeen[req.GatewayId] = time.Now().Unix()
 	registryState.Mutex.Unlock()
 
-	return &pb.RegistryHeartbeatResponse{Acknowledged: true}, nil
+	// track registered gateways (only additions, not updates)
+	if !gExists {
+		Metrics.registeredGatewaysTotal.Inc()
+	}
+
+	return &pb.RegistryHeartbeatResponse{Acknowledged: true}, err
 }
 
 func (g *RegistryState) cleanupDeadGateways(ttl time.Duration, tick_time time.Duration) {
@@ -97,6 +108,7 @@ func (g *RegistryState) cleanupDeadGateways(ttl time.Duration, tick_time time.Du
 					g.ClientMutex.Unlock()
 				}
 
+				Metrics.registeredGatewaysTotal.Dec()
 			}
 		}
 
