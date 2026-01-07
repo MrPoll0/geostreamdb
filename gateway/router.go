@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"math"
 	"net/http"
 	"os"
 	"strconv"
@@ -18,8 +19,8 @@ import (
 )
 
 type gpsPing struct {
-	Latitude  float64 `json:"lat"`
-	Longitude float64 `json:"lng"`
+	Latitude  *float64 `json:"lat"`
+	Longitude *float64 `json:"lng"`
 }
 
 var MAX_GH_PRECISION = 8
@@ -91,7 +92,28 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	gh := geohashEncodeWithPrecision(newGpsPing.Latitude, newGpsPing.Longitude, MAX_GH_PRECISION)
+	if newGpsPing.Latitude == nil || newGpsPing.Longitude == nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Missing lat or lng"))
+		return
+	}
+
+	lat := *newGpsPing.Latitude
+	lng := *newGpsPing.Longitude
+
+	if math.IsNaN(lat) || math.IsNaN(lng) || math.IsInf(lat, 0) || math.IsInf(lng, 0) {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid lat or lng value"))
+		return
+	}
+
+	if lat < -90 || lat > 90 || lng < -180 || lng > 180 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Latitude or longitude out of bounds"))
+		return
+	}
+
+	gh := geohashEncodeWithPrecision(lat, lng, MAX_GH_PRECISION)
 	truncatedGh := gh[:SHARDING_PRECISION] // truncate to sharding precision
 
 	// get the address of the worker node responsible for this geohash
