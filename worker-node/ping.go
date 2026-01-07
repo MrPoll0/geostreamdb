@@ -18,7 +18,8 @@ type ghBbox struct {
 }
 
 func (a ghBbox) intersects(b ghBbox) bool {
-	return !(a.maxLat < b.minLat || a.minLat > b.maxLat || a.maxLng < b.minLng || a.minLng > b.maxLng)
+	// strict overlap (max bounds are exclusive) to avoid counting boxes that only touch at an edge.
+	return a.minLat < b.maxLat && a.maxLat > b.minLat && a.minLng < b.maxLng && a.maxLng > b.minLng
 }
 
 var geohashBase32 = "0123456789bcdefghjkmnpqrstuvwxyz"
@@ -187,14 +188,18 @@ func (t *TrieNode) GetAreaCount(precision int32, aggPrecision int32, minLat floa
 		// filter out nodes that are not within the bounding box
 
 		// if the requested precision is coarser than (or equal to) the aggregated precision,
-		// just count at that coarser prefix
+		// aggregate counts from the covered aggPrecision cells into the coarser prefix
 		if precision <= aggPrecision {
 			prefix := geohash[:precision]
-			cell, ok := geohashDecodeBbox(prefix)
+			// only count traffic from the covered (aggPrecision) cells, otherwise we'd
+			// (a) include pings outside the bbox but within the same coarse prefix, and
+			// (b) double count by adding the same coarse prefix total once per covered cell (looping through all covered cells)
+			aggCellGh := geohash[:aggPrecision]
+			cell, ok := geohashDecodeBbox(aggCellGh)
 			if !ok || !cell.intersects(queryBbox) {
 				continue
 			}
-			counts[prefix] += t.GetCount(prefix)
+			counts[prefix] += t.GetCount(aggCellGh)
 			continue
 		}
 

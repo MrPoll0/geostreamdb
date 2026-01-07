@@ -17,7 +17,8 @@ type ghBbox struct {
 }
 
 func (a ghBbox) intersects(b ghBbox) bool {
-	return !(a.maxLat < b.minLat || a.minLat > b.maxLat || a.maxLng < b.minLng || a.minLng > b.maxLng)
+	// strict overlap (max bounds are exclusive) to avoid counting boxes that only touch at an edge
+	return a.minLat < b.maxLat && a.maxLat > b.minLat && a.minLng < b.maxLng && a.maxLng > b.minLng
 }
 
 var geohashBase32 = "0123456789bcdefghjkmnpqrstuvwxyz"
@@ -127,17 +128,13 @@ func bboxDimsMeters(minLat, maxLat, minLng, maxLng float64) (widthMeters, height
 	// returns the width and height of a bounding box in meters
 	latForWidth := latForMaxWidthMeters(minLat, maxLat)
 
-	// haversine gives the shortest path, but for bboxes spanning > 180° longitude we want the long way
+	// width is computed as arc length along the latitude circle (matches geohashCellDimsMeters)
+	// harversine (previous method) gives great-circle distance (shorter except at equator), which can make exact geohash cell bboxes look too small (therefore chooseAggregatedPrecision failing)
 	lngSpan := maxLng - minLng
 	if lngSpan < 0 {
 		lngSpan += 360
 	}
-	if lngSpan > 180 {
-		// measure the long way: compute arc length directly from degree span
-		widthMeters = deg2rad(lngSpan) * EARTH_RADIUS_METERS * math.Cos(deg2rad(latForWidth))
-	} else {
-		widthMeters = haversineMeters(latForWidth, minLng, latForWidth, maxLng)
-	}
+	widthMeters = deg2rad(lngSpan) * EARTH_RADIUS_METERS * math.Cos(deg2rad(latForWidth))
 
 	midLng := (minLng + maxLng) / 2 // distance north/south doesn't depend on longitude, so midpoint is stable and simple
 	heightMeters = haversineMeters(minLat, midLng, maxLat, midLng)
@@ -149,16 +146,24 @@ func estimateGeohashCoverCount(minLat, maxLat, minLng, maxLng float64, precision
 	if precision <= 0 {
 		return 0, 0, 0
 	}
-	bboxW, bboxH := bboxDimsMeters(minLat, maxLat, minLng, maxLng)
-	// for a conservative (high) count estimate, use the smallest cell width within the bbox
-	latWidth := latForMinWidthMeters(minLat, maxLat) // furthest from the equator -> smallest cell width
-	cellW, cellH := geohashCellDimsMeters(precision, latWidth)
-	if cellW <= 0 || cellH <= 0 {
+	// estimate in degrees (geohash grid space) instead of meters
+	// (meter-based estimates can explode near the poles (cos(lat) -> 0) and incorrectly reject valid queries)
+	lonStepDeg, latStepDeg := geohashCellDimsDegrees(precision)
+	if lonStepDeg <= 0 || latStepDeg <= 0 {
 		return 0, 0, 0
 	}
 
-	w := int64(math.Ceil(bboxW / cellW))
-	h := int64(math.Ceil(bboxH / cellH))
+	lngSpan := maxLng - minLng
+	if lngSpan < 0 {
+		lngSpan += 360
+	}
+	latSpan := maxLat - minLat
+	if latSpan < 0 {
+		latSpan = -latSpan
+	}
+
+	w := int64(math.Ceil(lngSpan / lonStepDeg))
+	h := int64(math.Ceil(latSpan / latStepDeg))
 	if w < 1 {
 		w = 1
 	}
