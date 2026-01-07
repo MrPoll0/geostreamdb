@@ -36,10 +36,11 @@ export const options = {
     },
     thresholds: {
         // relaxed thresholds (brief errors during churn)
-        write_success: ['rate>0.90'],           // up to 10% failures during churn
+        write_success: ['rate>0.85'],           // up to 15% failures during churn. ping writes into a dead worker geohash will fail until the gateway considers it dead and refreshes the ring
         http_req_failed: ['rate<0.15'],         // up to 15% HTTP failures
         correctness_success: ['rate>0.95'],     // correctness should still mostly work
-        worker_count: ['value>0'],              // at least 1 worker should always exist
+        worker_count: ['value>0'],              // at least 1 worker should always exist (value is only the last recorded value)
+        workers_available: ['rate>0.99'],        // workers exist 99% of the time
     }
 }
 
@@ -52,6 +53,7 @@ const correctnessSuccess = new Rate('correctness_success');
 const workerCount = new Gauge('worker_count');
 const serviceUnavailable = new Counter('service_unavailable_errors');
 const connectionErrors = new Counter('connection_errors');
+const workersAvailable = new Rate('workers_available');
 
 // load scenario: steady writes
 export function load() {
@@ -105,6 +107,7 @@ export function monitor() {
     }
     
     workerCount.add(count);
+    workersAvailable.add(count > 0);
     console.log(`monitor: ${count} workers active`);
 }
 

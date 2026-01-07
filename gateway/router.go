@@ -325,10 +325,13 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
 			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: geohashes})
 			observeGRPC("GetPingArea", targetAddr, err, start)
-			if err != nil {
+			/*if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte("Failed to get ping area from worker"))
 				return
+			}*/
+			if err != nil {
+				continue // skip failed worker, return partial response
 			}
 			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: targetAddr})
 		}
@@ -355,10 +358,17 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
 			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: cover})
 			observeGRPC("GetPingArea", node.Server, err, start)
-			if err != nil {
+			/*if err != nil {
+
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Write([]byte("Failed to get ping area from worker"))
 				return
+
+			}*/
+			// if a worker fails, simply skip it and work with the data from the other workers
+			// this avoids returning error for a single worker failure in a broadcast query and results in a partial response
+			if err != nil {
+				continue
 			}
 			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: node.Server})
 		}
