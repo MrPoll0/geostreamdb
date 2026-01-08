@@ -160,11 +160,12 @@ if ($uniqueCounts.Count -gt 1) {
 # start k6 test
 Write-Host ""
 Write-Host "[TEST] Starting k6 split-brain detection test..."
+$k6Dir = Join-Path $PSScriptRoot "k6"
 $k6Job = Start-Job -ScriptBlock {
-    param($duration, $gatewayCount)
-    Set-Location $using:PWD
-    k6 run --env DURATION="${duration}m" --env GATEWAY_COUNT=$gatewayCount test/k6/split_brain.js 2>&1
-} -ArgumentList $TestDurationMinutes, $gateways.Count
+    param($duration, $gatewayCount, $dir)
+    Set-Location $dir
+    k6 run --env DURATION="${duration}m" --env GATEWAY_COUNT=$gatewayCount split_brain.js 2>&1
+} -ArgumentList $TestDurationMinutes, $gateways.Count, $k6Dir
 
 # monitor during test
 $endTime = (Get-Date).AddMinutes($TestDurationMinutes)

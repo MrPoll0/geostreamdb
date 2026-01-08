@@ -207,7 +207,7 @@ export default function() {
 export function handleSummary(data) {
     return {
         'stdout': JSON.stringify(data.metrics, null, 2),
-        'constraints_summary.json': JSON.stringify(data, null, 2),
+        'outputs/constraints_summary.json': JSON.stringify(data, null, 2),
     }
 }
 

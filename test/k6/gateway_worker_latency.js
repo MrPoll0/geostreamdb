@@ -170,7 +170,7 @@ export function correctness() {
 export function handleSummary(data) {
     return {
         'stdout': JSON.stringify(data.metrics, null, 2),
-        'gateway_worker_latency_summary.json': JSON.stringify(data, null, 2),
+        'outputs/gateway_worker_latency_summary.json': JSON.stringify(data, null, 2),
     }
 }
 

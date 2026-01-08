@@ -221,7 +221,7 @@ export function handleSummary(data) {
     
     return {
         'stdout': JSON.stringify(summary, null, 2),
-        'spike_summary.json': JSON.stringify(data, null, 2),
+        'outputs/spike_summary.json': JSON.stringify(data, null, 2),
     };
 }
 

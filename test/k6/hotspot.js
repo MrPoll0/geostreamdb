@@ -201,7 +201,7 @@ export function aggregation() {
 export function handleSummary(data) {
     return {
         'stdout': JSON.stringify(data.metrics, null, 2),
-        'hotspot_summary.json': JSON.stringify(data, null, 2),
+        'outputs/hotspot_summary.json': JSON.stringify(data, null, 2),
     }
 }
 

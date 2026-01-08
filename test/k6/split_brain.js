@@ -171,7 +171,7 @@ export function handleSummary(data) {
     
     return {
         'stdout': JSON.stringify(summary, null, 2),
-        'split_brain_summary.json': JSON.stringify(data, null, 2),
+        'outputs/split_brain_summary.json': JSON.stringify(data, null, 2),
     }
 }
 

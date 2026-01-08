@@ -51,11 +51,12 @@ Write-Host "[INIT] Registry is running: $RegistryContainer"
 
 # start k6 in background
 Write-Host "[TEST] Starting k6 load test..."
+$k6Dir = Join-Path $PSScriptRoot "k6"
 $k6Job = Start-Job -ScriptBlock {
-    param($duration)
-    Set-Location $using:PWD
-    k6 run --env DURATION="${duration}m" test/k6/registry_disruption.js 2>&1
-} -ArgumentList $TestDurationMinutes
+    param($duration, $dir)
+    Set-Location $dir
+    k6 run --env DURATION="${duration}m" registry_disruption.js 2>&1
+} -ArgumentList $TestDurationMinutes, $k6Dir
 
 # wait for k6 to start
 Start-Sleep -Seconds 5
