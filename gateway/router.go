@@ -25,7 +25,7 @@ type gpsPing struct {
 
 var MAX_GH_PRECISION = 8
 var MAX_PINGAREA_GEOHASHES = int64(5000)
-var SHARDING_PRECISION = 6
+var SHARDING_PRECISION = 7
 
 // <middleware>
 func corsMiddleware(next http.Handler) http.Handler {
