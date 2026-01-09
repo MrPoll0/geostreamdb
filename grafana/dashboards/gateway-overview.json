@@ -348,42 +348,16 @@
       }
     },
     {
-      "title": "Geohash Broadcasts (Total)",
+      "title": "Geohash Requests per Worker (Routed)",
       "type": "graph",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
       "targets": [
         {
-          "expr": "sum(rate(gateway_geohash_requests_total{gh_prefix=\"\"}[1m]))",
-          "legendFormat": "Broadcast Rate"
-        }
-      ],
-      "lines": true,
-      "linewidth": 2,
-      "fill": 1,
-      "fillGradient": 0,
-      "points": false,
-      "pointradius": 2,
-      "bars": false,
-      "stack": false,
-      "fieldConfig": {
-        "defaults": {
-          "unit": "req/s",
-          "decimals": 3,
-          "min": 0
-        }
-      }
-    },
-    {
-      "title": "Geohash Requests per Worker (Routed)",
-      "type": "graph",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 36 },
-      "targets": [
-        {
-          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
+          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{type=\"routed\"}[1m]))",
           "legendFormat": "{{worker_node}}"
         },
         {
-          "expr": "sum(rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
+          "expr": "sum(rate(gateway_geohash_requests_total{type=\"routed\"}[1m]))",
           "legendFormat": "Total"
         }
       ],
@@ -404,12 +378,38 @@
       }
     },
     {
+      "title": "Geohash Broadcasts",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 36 },
+      "targets": [
+        {
+          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{type=\"broadcast\"}[1m]))",
+          "legendFormat": "{{worker_node}}"
+        }
+      ],
+      "lines": true,
+      "linewidth": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "points": false,
+      "pointradius": 2,
+      "bars": false,
+      "stack": false,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/s",
+          "decimals": 3,
+          "min": 0
+        }
+      }
+    },
+    {
       "title": "Requests per Worker Node (Bar Chart)",
       "type": "bargauge",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 36 },
       "targets": [
         {
-          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m]))",
+          "expr": "sum by (worker_node) (rate(gateway_geohash_requests_total[1m]))",
           "legendFormat": "{{worker_node}}"
         }
       ],
@@ -425,106 +425,6 @@
         "displayMode": "gradient",
         "showUnfilled": true,
         "valueMode": "color"
-      }
-    },
-    {
-      "title": "Worker Node Request Distribution (Table)",
-      "type": "table",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 44 },
-      "targets": [
-        {
-          "expr": "topk(50, sum by (worker_node, gh_prefix) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m])))",
-          "format": "table",
-          "instant": true,
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": "auto",
-            "displayMode": "auto"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "value": null, "color": "green" },
-              { "value": 1000, "color": "yellow" },
-              { "value": 5000, "color": "red" }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "worker_node" },
-            "properties": [{ "id": "custom.width", "value": 200 }]
-          },
-          {
-            "matcher": { "id": "byName", "options": "gh_prefix" },
-            "properties": [{ "id": "custom.width", "value": 150 }]
-          },
-          {
-            "matcher": { "id": "byName", "options": "Value" },
-            "properties": [
-              { "id": "unit", "value": "req/s" },
-              { "id": "decimals", "value": 2 },
-              { "id": "custom.displayMode", "value": "color-background" }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Value" }]
-      }
-    },
-    {
-      "title": "Geohash Traffic Distribution (Stacked)",
-      "type": "timeseries",
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 52 },
-      "targets": [
-        {
-          "expr": "topk(15, sum by (gh_prefix) (rate(gateway_geohash_requests_total{gh_prefix!=\"\"}[1m])))",
-          "legendFormat": "{{gh_prefix}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "req/s",
-          "decimals": 2,
-          "min": 0,
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "fillOpacity": 70,
-            "gradientMode": "opacity",
-            "spanNulls": false,
-            "showPoints": "never",
-            "stacking": {
-              "mode": "normal",
-              "group": "A"
-            },
-            "axisPlacement": "auto",
-            "axisLabel": "",
-            "scaleDistribution": { "type": "linear" }
-          },
-          "color": { "mode": "palette-classic" }
-        }
-      },
-      "options": {
-        "legend": {
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "calcs": ["mean", "max"]
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
       }
     }
   ]

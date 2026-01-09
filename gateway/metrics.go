@@ -11,7 +11,7 @@ type metrics struct {
 	workerNodesTotal     prometheus.Gauge
 	gRPCRequestsTotal    *prometheus.CounterVec   // per worker node and result (success/failure)
 	gRPCLatency          *prometheus.HistogramVec // per worker node and method
-	geohashRequestsTotal *prometheus.CounterVec   // per worker node and geohash prefix
+	geohashRequestsTotal *prometheus.CounterVec   // per worker node
 }
 
 var Metrics = metrics{
@@ -39,6 +39,6 @@ var Metrics = metrics{
 	}, []string{"method", "worker_node"}),
 	geohashRequestsTotal: promauto.NewCounterVec(prometheus.CounterOpts{
 		Name: "gateway_geohash_requests_total",
-		Help: "Requests routed per worker node and geohash prefix",
-	}, []string{"worker_node", "gh_prefix"}),
+		Help: "Requests routed per worker node and type (routed/broadcast)",
+	}, []string{"worker_node", "type"}),
 }

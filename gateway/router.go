@@ -125,7 +125,7 @@ func postPing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Track geohash request routing
-	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, truncatedGh).Inc()
+	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, "routed").Inc()
 
 	// get a connection to the worker node (pool of connections, do not close)
 	conn, err := state.GetConn(targetAddr)
@@ -190,7 +190,7 @@ func getPing(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Track geohash request routing
-	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, truncatedGh).Inc()
+	Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, "routed").Inc()
 
 	// get a connection to the worker node (pool of connections, do not close)
 	conn, err := state.GetConn(targetAddr)
@@ -306,7 +306,7 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			}
 			grouped[targetAddr] = append(grouped[targetAddr], geohash)
 
-			Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, tarGh).Inc()
+			Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, "routed").Inc()
 		}
 
 		// for every key (node address), get the ping area for its assigned geohashes
@@ -345,7 +345,7 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			}
 			seenServers[node.Server] = struct{}{}
 
-			Metrics.geohashRequestsTotal.WithLabelValues(node.Server, "").Inc()
+			Metrics.geohashRequestsTotal.WithLabelValues(node.Server, "broadcast").Inc()
 
 			conn, err := state.GetConn(node.Server)
 			if err != nil {
