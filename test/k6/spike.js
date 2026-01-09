@@ -194,8 +194,6 @@ export function monitor() {
     
     // track VU count for analysis
     concurrentVUs.add(__VU);
-    
-    console.log(`monitor: ${count} workers, load phase active`);
 }
 
 export function handleSummary(data) {

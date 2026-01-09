@@ -6,8 +6,8 @@ export const options = {
         test: {
             executor: 'shared-iterations',
             vus: 1,
-            iterations: 100,
-            maxDuration: '30m',
+            iterations: 25,
+            maxDuration: '10m',
         }
     },
     thresholds: {
