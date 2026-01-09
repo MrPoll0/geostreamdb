@@ -1,331 +1,72 @@
 {
-  "root_group": {
-    "name": "",
-    "path": "",
-    "id": "d41d8cd98f00b204e9800998ecf8427e",
-    "groups": [],
-    "checks": [
-        {
-          "passes": 621,
-          "fails": 0,
-          "name": "Ping 0: status is 201",
-          "path": "::Ping 0: status is 201",
-          "id": "9c9667c5e5547862f22e35515ec1939b"
-        },
-        {
-          "path": "::Ping 1: status is 201",
-          "id": "103b810bbaba72a39ef50638a10a6e0c",
-          "passes": 569,
-          "fails": 0,
-          "name": "Ping 1: status is 201"
-        },
-        {
-          "id": "58ed3d64a1552c87d5247d25d72e9fac",
-          "passes": 519,
-          "fails": 0,
-          "name": "Ping 2: status is 201",
-          "path": "::Ping 2: status is 201"
-        },
-        {
-          "name": "Ping 3: status is 201",
-          "path": "::Ping 3: status is 201",
-          "id": "29e845489eebed53a7eff12ac6b1ea47",
-          "passes": 458,
-          "fails": 0
-        },
-        {
-          "name": "Ping 4: status is 201",
-          "path": "::Ping 4: status is 201",
-          "id": "f82d70aa93db7a3b781d03d6618a6edd",
-          "passes": 395,
-          "fails": 0
-        },
-        {
-          "name": "Ping 5: status is 201",
-          "path": "::Ping 5: status is 201",
-          "id": "c9f66fbc87d44e90052f48363f07d86b",
-          "passes": 334,
-          "fails": 0
-        },
-        {
-          "name": "Precision 8: status is 200",
-          "path": "::Precision 8: status is 200",
-          "id": "82604afb0f44ac010613dc302d2f8d3d",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "name": "Precision 8: count is N",
-          "path": "::Precision 8: count is N",
-          "id": "96e63efecd48c772c1af1b2d81dc9d5d",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "name": "Precision 7: status is 200",
-          "path": "::Precision 7: status is 200",
-          "id": "b86f57577902e10d0eb39fa02ad2f849",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "name": "Precision 7: count is N",
-          "path": "::Precision 7: count is N",
-          "id": "1c2fa40395011f83f18ead88cdc4c997",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "id": "cba1de4c3d302c557caf062752ff4d41",
-          "passes": 621,
-          "fails": 0,
-          "name": "Precision 6: status is 200",
-          "path": "::Precision 6: status is 200"
-        },
-        {
-          "name": "Precision 6: count is N",
-          "path": "::Precision 6: count is N",
-          "id": "634f20c5bb18bbd57727557820339138",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "passes": 621,
-          "fails": 0,
-          "name": "Precision 5: status is 200",
-          "path": "::Precision 5: status is 200",
-          "id": "638d19a3cb8070b06d9e07b6972c83e1"
-        },
-        {
-          "passes": 621,
-          "fails": 0,
-          "name": "Precision 5: count is N",
-          "path": "::Precision 5: count is N",
-          "id": "8cbc69626f0300d470c04a50fb0c98b0"
-        },
-        {
-          "id": "b57377e4c6e5bd1e241c2b81ee0ca4d1",
-          "passes": 621,
-          "fails": 0,
-          "name": "Precision 4: status is 200",
-          "path": "::Precision 4: status is 200"
-        },
-        {
-          "name": "Precision 4: count is N",
-          "path": "::Precision 4: count is N",
-          "id": "f17d50457ce42661d3aa765e351f0a0c",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "fails": 0,
-          "name": "Precision 3: status is 200",
-          "path": "::Precision 3: status is 200",
-          "id": "cd6ef6f622705ddcb1561c6931dd3b4c",
-          "passes": 621
-        },
-        {
-          "name": "Precision 3: count is N",
-          "path": "::Precision 3: count is N",
-          "id": "cbee6471ebe15eb6691b25a11e2abc9d",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "name": "Precision 2: status is 200",
-          "path": "::Precision 2: status is 200",
-          "id": "148616be03d587526d72c70f75d321f1",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "name": "Precision 2: count is N",
-          "path": "::Precision 2: count is N",
-          "id": "e2a7c2ddb33bfd98d69fe0d0bbe8185f",
-          "passes": 621,
-          "fails": 0
-        },
-        {
-          "fails": 0,
-          "name": "Precision 1: status is 200",
-          "path": "::Precision 1: status is 200",
-          "id": "e915ae41943f52c8aaae5a1a98d7d3c4",
-          "passes": 621
-        },
-        {
-          "passes": 621,
-          "fails": 0,
-          "name": "Precision 1: count is N",
-          "path": "::Precision 1: count is N",
-          "id": "310df22b25885bed974b6b8849edf9a4"
-        },
-        {
-          "name": "Ping 6: status is 201",
-          "path": "::Ping 6: status is 201",
-          "id": "daf8414850b719fc58ad7c1d2a0cd0d7",
-          "passes": 260,
-          "fails": 0
-        },
-        {
-          "name": "Ping 7: status is 201",
-          "path": "::Ping 7: status is 201",
-          "id": "36517a3b9bb89e2ba58efa3790349a4b",
-          "passes": 203,
-          "fails": 0
-        },
-        {
-          "passes": 136,
-          "fails": 0,
-          "name": "Ping 8: status is 201",
-          "path": "::Ping 8: status is 201",
-          "id": "c72a8a4956ec55552dc2d6dcf86bc53d"
-        },
-        {
-          "name": "Ping 9: status is 201",
-          "path": "::Ping 9: status is 201",
-          "id": "5c2361c37a341fdde66b38dd53e6e560",
-          "passes": 76,
-          "fails": 0
-        }
-      ]
-  },
-  "options": {
-    "summaryTimeUnit": "",
-    "noColor": false,
-    "summaryTrendStats": [
-      "avg",
-      "min",
-      "med",
-      "max",
-      "p(90)",
-      "p(95)"
-    ]
-  },
-  "state": {
-    "isStdErrTTY": true,
-    "testRunDurationMs": 60180.2505,
-    "isStdOutTTY": true
-  },
   "metrics": {
-    "http_req_blocked": {
-      "type": "trend",
-      "contains": "time",
+    "http_req_waiting": {
       "values": {
-        "avg": 0.005459667408361635,
-        "min": 0,
-        "med": 0,
-        "max": 6.5221,
-        "p(90)": 0,
-        "p(95)": 0
-      }
-    },
-    "http_req_failed": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "fails": 8539,
-        "rate": 0,
-        "passes": 0
-      }
-    },
-    "iteration_duration": {
-      "contains": "time",
-      "values": {
-        "avg": 290.5065634460546,
-        "min": 273.2604,
-        "med": 290.5017,
-        "max": 322.0695,
-        "p(90)": 300.9426,
-        "p(95)": 303.382
+        "avg": 3.1326869922630602,
+        "min": 0.516,
+        "med": 3.2089499999999997,
+        "max": 24.4927,
+        "p(90)": 4.34175,
+        "p(95)": 4.73344
       },
-      "type": "trend"
+      "type": "trend",
+      "contains": "time"
     },
     "data_received": {
       "type": "counter",
       "contains": "data",
       "values": {
-        "rate": 49353.882300639474,
-        "count": 2970129
-      }
-    },
-    "http_req_connecting": {
-      "values": {
-        "avg": 0.0005570441503688956,
-        "min": 0,
-        "med": 0,
-        "max": 0.9998,
-        "p(90)": 0,
-        "p(95)": 0
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_sending": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(95)": 0.011209999999999946,
-        "avg": 0.012106113128000928,
-        "min": 0,
-        "med": 0,
-        "max": 1.0543,
-        "p(90)": 0
-      }
-    },
-    "http_req_waiting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 2.7097966272397187,
-        "min": 0.5151,
-        "med": 2.6765,
-        "max": 19.0104,
-        "p(90)": 3.7464999999999997,
-        "p(95)": 3.9991
+        "count": 2878442,
+        "rate": 47740.11639060949
       }
     },
     "http_reqs": {
+      "type": "counter",
       "contains": "default",
       "values": {
-        "count": 8539,
-        "rate": 141.89040306503875
-      },
-      "type": "counter"
+        "count": 8272,
+        "rate": 137.19444157051686
+      }
     },
-    "http_req_duration": {
+    "checks": {
+      "contains": "default",
+      "values": {
+        "rate": 1,
+        "passes": 13152,
+        "fails": 0
+      },
+      "thresholds": {
+        "rate==1.0": {
+          "ok": true
+        }
+      },
+      "type": "rate"
+    },
+    "http_req_tls_handshaking": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 2.780381004801494,
-        "min": 0.5156,
-        "med": 2.7006,
-        "max": 19.0104,
-        "p(90)": 3.7923,
-        "p(95)": 4.1431
+        "avg": 0,
+        "min": 0,
+        "med": 0,
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0
       }
     },
-    "http_req_duration{expected_response:true}": {
+    "iteration_duration": {
+      "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 2.780381004801494,
-        "min": 0.5156,
-        "med": 2.7006,
-        "max": 19.0104,
-        "p(90)": 3.7923,
-        "p(95)": 4.1431
-      },
-      "type": "trend"
-    },
-    "vus": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "max": 3,
-        "value": 3,
-        "min": 3
+        "max": 366.8459,
+        "p(90)": 307.95016999999996,
+        "p(95)": 312.823955,
+        "avg": 296.2846781967213,
+        "min": 279.0529,
+        "med": 295.79449999999997
       }
     },
-    "vus_max": {
+    "vus": {
       "type": "gauge",
       "contains": "default",
       "values": {
@@ -338,55 +79,314 @@
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 0.05847826443377442,
-        "min": 0,
         "med": 0,
-        "max": 2.2204,
-        "p(90)": 0.27024,
-        "p(95)": 0.5263
+        "max": 16.4105,
+        "p(90)": 0.5102,
+        "p(95)": 0.535845,
+        "avg": 0.07741536508704049,
+        "min": 0
       }
     },
-    "http_req_tls_handshaking": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "min": 0,
-        "med": 0,
-        "max": 0,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0
-      }
-    },
-    "checks": {
+    "http_req_failed": {
       "type": "rate",
       "contains": "default",
       "values": {
-        "rate": 1,
-        "passes": 13507,
-        "fails": 0
-      },
-      "thresholds": {
-        "rate==1.0": {
-          "ok": true
-        }
+        "rate": 0,
+        "passes": 0,
+        "fails": 8272
       }
     },
-    "data_sent": {
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
       "values": {
-        "count": 1480289,
-        "rate": 24597.587874779616
+        "p(90)": 4.40104,
+        "p(95)": 4.8679749999999995,
+        "avg": 3.2244423235009685,
+        "min": 0.516,
+        "med": 3.2318499999999997,
+        "max": 24.4927
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.0002627538684719536,
+        "min": 0,
+        "med": 0,
+        "max": 0.5579,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "contains": "time",
+      "values": {
+        "avg": 3.2244423235009685,
+        "min": 0.516,
+        "med": 3.2318499999999997,
+        "max": 24.4927,
+        "p(90)": 4.40104,
+        "p(95)": 4.8679749999999995
       },
-      "type": "counter",
-      "contains": "data"
+      "type": "trend"
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.005559018375241774,
+        "min": 0,
+        "med": 0,
+        "max": 6.1685
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 0,
+        "max": 2.5657,
+        "p(90)": 0,
+        "p(95)": 0.014544999999999982,
+        "avg": 0.014339966150870386,
+        "min": 0
+      }
     },
     "iterations": {
       "type": "counter",
       "contains": "default",
       "values": {
-        "count": 621,
-        "rate": 10.318999918420081
+        "count": 610,
+        "rate": 10.117094941732988
       }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 1437734,
+        "rate": 23845.395703209077
+      }
+    },
+    "vus_max": {
+      "contains": "default",
+      "values": {
+        "value": 3,
+        "min": 3,
+        "max": 3
+      },
+      "type": "gauge"
     }
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+        {
+          "fails": 0,
+          "name": "Ping 0: status is 201",
+          "path": "::Ping 0: status is 201",
+          "id": "9c9667c5e5547862f22e35515ec1939b",
+          "passes": 610
+        },
+        {
+          "name": "Ping 1: status is 201",
+          "path": "::Ping 1: status is 201",
+          "id": "103b810bbaba72a39ef50638a10a6e0c",
+          "passes": 540,
+          "fails": 0
+        },
+        {
+          "name": "Ping 2: status is 201",
+          "path": "::Ping 2: status is 201",
+          "id": "58ed3d64a1552c87d5247d25d72e9fac",
+          "passes": 490,
+          "fails": 0
+        },
+        {
+          "id": "29e845489eebed53a7eff12ac6b1ea47",
+          "passes": 429,
+          "fails": 0,
+          "name": "Ping 3: status is 201",
+          "path": "::Ping 3: status is 201"
+        },
+        {
+          "name": "Ping 4: status is 201",
+          "path": "::Ping 4: status is 201",
+          "id": "f82d70aa93db7a3b781d03d6618a6edd",
+          "passes": 370,
+          "fails": 0
+        },
+        {
+          "name": "Ping 5: status is 201",
+          "path": "::Ping 5: status is 201",
+          "id": "c9f66fbc87d44e90052f48363f07d86b",
+          "passes": 314,
+          "fails": 0
+        },
+        {
+          "path": "::Ping 6: status is 201",
+          "id": "daf8414850b719fc58ad7c1d2a0cd0d7",
+          "passes": 261,
+          "fails": 0,
+          "name": "Ping 6: status is 201"
+        },
+        {
+          "path": "::Precision 8: status is 200",
+          "id": "82604afb0f44ac010613dc302d2f8d3d",
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 8: status is 200"
+        },
+        {
+          "name": "Precision 8: count is N",
+          "path": "::Precision 8: count is N",
+          "id": "96e63efecd48c772c1af1b2d81dc9d5d",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "path": "::Precision 7: status is 200",
+          "id": "b86f57577902e10d0eb39fa02ad2f849",
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 7: status is 200"
+        },
+        {
+          "id": "1c2fa40395011f83f18ead88cdc4c997",
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 7: count is N",
+          "path": "::Precision 7: count is N"
+        },
+        {
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 6: status is 200",
+          "path": "::Precision 6: status is 200",
+          "id": "cba1de4c3d302c557caf062752ff4d41"
+        },
+        {
+          "fails": 0,
+          "name": "Precision 6: count is N",
+          "path": "::Precision 6: count is N",
+          "id": "634f20c5bb18bbd57727557820339138",
+          "passes": 610
+        },
+        {
+          "name": "Precision 5: status is 200",
+          "path": "::Precision 5: status is 200",
+          "id": "638d19a3cb8070b06d9e07b6972c83e1",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "Precision 5: count is N",
+          "path": "::Precision 5: count is N",
+          "id": "8cbc69626f0300d470c04a50fb0c98b0",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "Precision 4: status is 200",
+          "path": "::Precision 4: status is 200",
+          "id": "b57377e4c6e5bd1e241c2b81ee0ca4d1",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "Precision 4: count is N",
+          "path": "::Precision 4: count is N",
+          "id": "f17d50457ce42661d3aa765e351f0a0c",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "Precision 3: status is 200",
+          "path": "::Precision 3: status is 200",
+          "id": "cd6ef6f622705ddcb1561c6931dd3b4c",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "Precision 3: count is N",
+          "path": "::Precision 3: count is N",
+          "id": "cbee6471ebe15eb6691b25a11e2abc9d",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 2: status is 200",
+          "path": "::Precision 2: status is 200",
+          "id": "148616be03d587526d72c70f75d321f1"
+        },
+        {
+          "name": "Precision 2: count is N",
+          "path": "::Precision 2: count is N",
+          "id": "e2a7c2ddb33bfd98d69fe0d0bbe8185f",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "passes": 610,
+          "fails": 0,
+          "name": "Precision 1: status is 200",
+          "path": "::Precision 1: status is 200",
+          "id": "e915ae41943f52c8aaae5a1a98d7d3c4"
+        },
+        {
+          "name": "Precision 1: count is N",
+          "path": "::Precision 1: count is N",
+          "id": "310df22b25885bed974b6b8849edf9a4",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "passes": 189,
+          "fails": 0,
+          "name": "Ping 7: status is 201",
+          "path": "::Ping 7: status is 201",
+          "id": "36517a3b9bb89e2ba58efa3790349a4b"
+        },
+        {
+          "path": "::Ping 8: status is 201",
+          "id": "c72a8a4956ec55552dc2d6dcf86bc53d",
+          "passes": 123,
+          "fails": 0,
+          "name": "Ping 8: status is 201"
+        },
+        {
+          "name": "Ping 9: status is 201",
+          "path": "::Ping 9: status is 201",
+          "id": "5c2361c37a341fdde66b38dd53e6e560",
+          "passes": 66,
+          "fails": 0
+        }
+      ]
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": true,
+    "isStdErrTTY": true,
+    "testRunDurationMs": 60293.9879
   }
 }

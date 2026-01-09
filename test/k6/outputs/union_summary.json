@@ -1,198 +1,20 @@
 {
-  "root_group": {
-    "checks": [
-      {
-        "fails": 0,
-        "name": "Ping 0: status is 201",
-        "path": "::Ping 0: status is 201",
-        "id": "9c9667c5e5547862f22e35515ec1939b",
-        "passes": 1262
-      },
-      {
-        "name": "Ping 1: status is 201",
-        "path": "::Ping 1: status is 201",
-        "id": "103b810bbaba72a39ef50638a10a6e0c",
-        "passes": 1137,
-        "fails": 0
-      },
-      {
-        "id": "58ed3d64a1552c87d5247d25d72e9fac",
-        "passes": 1009,
-        "fails": 0,
-        "name": "Ping 2: status is 201",
-        "path": "::Ping 2: status is 201"
-      },
-      {
-        "name": "Ping 3: status is 201",
-        "path": "::Ping 3: status is 201",
-        "id": "29e845489eebed53a7eff12ac6b1ea47",
-        "passes": 881,
-        "fails": 0
-      },
-      {
-        "passes": 749,
-        "fails": 0,
-        "name": "Ping 4: status is 201",
-        "path": "::Ping 4: status is 201",
-        "id": "f82d70aa93db7a3b781d03d6618a6edd"
-      },
-      {
-        "passes": 619,
-        "fails": 0,
-        "name": "Ping 5: status is 201",
-        "path": "::Ping 5: status is 201",
-        "id": "c9f66fbc87d44e90052f48363f07d86b"
-      },
-      {
-        "name": "Ping 6: status is 201",
-        "path": "::Ping 6: status is 201",
-        "id": "daf8414850b719fc58ad7c1d2a0cd0d7",
-        "passes": 484,
-        "fails": 0
-      },
-      {
-        "name": "Ping 7: status is 201",
-        "path": "::Ping 7: status is 201",
-        "id": "36517a3b9bb89e2ba58efa3790349a4b",
-        "passes": 358,
-        "fails": 0
-      },
-      {
-        "name": "Ping 8: status is 201",
-        "path": "::Ping 8: status is 201",
-        "id": "c72a8a4956ec55552dc2d6dcf86bc53d",
-        "passes": 226,
-        "fails": 0
-      },
-      {
-        "name": "A: status is 200",
-        "path": "::A: status is 200",
-        "id": "010fe43afffae84c9755e25f285ff1f1",
-        "passes": 631,
-        "fails": 0
-      },
-      {
-        "fails": 0,
-        "name": "A: count is N",
-        "path": "::A: count is N",
-        "id": "46f81f44dc2bb2e7b83750edd8cd59a5",
-        "passes": 631
-      },
-      {
-        "name": "B: status is 200",
-        "path": "::B: status is 200",
-        "id": "48c65311b0e53d5ad7abdfc2c3cbe3a0",
-        "passes": 631,
-        "fails": 0
-      },
-      {
-        "fails": 0,
-        "name": "B: count is N2",
-        "path": "::B: count is N2",
-        "id": "c4ec84e13406f0a3214c5a2d1980c9fa",
-        "passes": 631
-      },
-      {
-        "id": "da77180970a5b66413c169bd2891e7e5",
-        "passes": 631,
-        "fails": 0,
-        "name": "U: status is 200",
-        "path": "::U: status is 200"
-      },
-      {
-        "name": "U: count is N + N2",
-        "path": "::U: count is N + N2",
-        "id": "afd490766a634853384c0bf7bedd09e6",
-        "passes": 631,
-        "fails": 0
-      },
-      {
-        "name": "Ping 9: status is 201",
-        "path": "::Ping 9: status is 201",
-        "id": "5c2361c37a341fdde66b38dd53e6e560",
-        "passes": 130,
-        "fails": 0
-      }
-    ],
-    "name": "",
-    "path": "",
-    "id": "d41d8cd98f00b204e9800998ecf8427e",
-    "groups": []
-  },
-  "options": {
-    "noColor": false,
-    "summaryTrendStats": [
-      "avg",
-      "min",
-      "med",
-      "max",
-      "p(90)",
-      "p(95)"
-    ],
-    "summaryTimeUnit": ""
-  },
   "state": {
     "isStdOutTTY": true,
     "isStdErrTTY": true,
-    "testRunDurationMs": 60044.3777
+    "testRunDurationMs": 60287.5759
   },
   "metrics": {
-    "http_req_duration": {
-      "values": {
-        "avg": 2.3978672382258748,
-        "min": 0.9955,
-        "med": 2.17525,
-        "max": 17.0685,
-        "p(90)": 3.20182,
-        "p(95)": 3.4030149999999995
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "checks": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "rate": 1,
-        "passes": 10641,
-        "fails": 0
-      },
-      "thresholds": {
-        "rate==1.0": {
-          "ok": true
-        }
-      }
-    },
-    "iterations": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 631,
-        "rate": 10.508893990918986
-      }
-    },
-    "http_req_connecting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "med": 0,
-        "max": 0.7392,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.00038126428898033833,
-        "min": 0
-      }
-    },
     "http_req_blocked": {
       "type": "trend",
       "contains": "time",
       "values": {
+        "avg": 0.00607783233532934,
         "min": 0,
         "med": 0,
-        "max": 5.9269,
+        "max": 6.9,
         "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.005408241883859168
+        "p(95)": 0
       }
     },
     "http_req_failed": {
@@ -201,114 +23,10 @@
       "values": {
         "rate": 0,
         "passes": 0,
-        "fails": 8748
-      }
-    },
-    "http_reqs": {
-      "contains": "default",
-      "values": {
-        "count": 8748,
-        "rate": 145.69224188995133
-      },
-      "type": "counter"
-    },
-    "iteration_duration": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 285.4020015847863,
-        "min": 260.7104,
-        "med": 284.2013,
-        "max": 333.1699,
-        "p(90)": 299.0766,
-        "p(95)": 304.40070000000003
-      }
-    },
-    "http_req_waiting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 2.322812185642428,
-        "min": 0.9953,
-        "med": 2.1553500000000003,
-        "max": 17.0685,
-        "p(90)": 3.05397,
-        "p(95)": 3.34713
-      }
-    },
-    "http_req_sending": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.013793072702331967,
-        "min": 0,
-        "med": 0,
-        "max": 1.0023
-      }
-    },
-    "data_sent": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "count": 1365258,
-        "rate": 22737.48271355638
-      }
-    },
-    "data_received": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "count": 3024026,
-        "rate": 50363.18329601074
-      }
-    },
-    "http_req_receiving": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 0.38736000000000004,
-        "p(95)": 0.5298,
-        "avg": 0.06126197988111566,
-        "min": 0,
-        "med": 0,
-        "max": 1.0551
-      }
-    },
-    "vus": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 3,
-        "min": 3,
-        "max": 3
-      }
-    },
-    "http_req_duration{expected_response:true}": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(95)": 3.4030149999999995,
-        "avg": 2.3978672382258748,
-        "min": 0.9955,
-        "med": 2.17525,
-        "max": 17.0685,
-        "p(90)": 3.20182
-      }
-    },
-    "vus_max": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 3,
-        "min": 3,
-        "max": 3
+        "fails": 8350
       }
     },
     "http_req_tls_handshaking": {
-      "type": "trend",
-      "contains": "time",
       "values": {
         "avg": 0,
         "min": 0,
@@ -316,7 +34,289 @@
         "max": 0,
         "p(90)": 0,
         "p(95)": 0
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 0.0188,
+        "avg": 0.017282359281437124,
+        "min": 0,
+        "med": 0,
+        "max": 1.7436,
+        "p(90)": 0
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.0005183113772455091,
+        "min": 0,
+        "med": 0,
+        "max": 0.5753
+      }
+    },
+    "http_reqs": {
+      "contains": "default",
+      "values": {
+        "rate": 138.50283205697775,
+        "count": 8350
+      },
+      "type": "counter"
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 2.5531,
+        "max": 435.1795,
+        "p(90)": 3.867500000000001,
+        "p(95)": 4.434574999999998,
+        "avg": 3.1734947305389167,
+        "min": 0.3312
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 3.867500000000001,
+        "p(95)": 4.434574999999998,
+        "avg": 3.1734947305389167,
+        "min": 0.3312,
+        "med": 2.5531,
+        "max": 435.1795
+      }
+    },
+    "checks": {
+      "contains": "default",
+      "values": {
+        "rate": 1,
+        "passes": 10180,
+        "fails": 0
+      },
+      "thresholds": {
+        "rate==1.0": {
+          "ok": true
+        }
+      },
+      "type": "rate"
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "max": 3,
+        "value": 3,
+        "min": 3
+      }
+    },
+    "iterations": {
+      "values": {
+        "count": 610,
+        "rate": 10.11817096464149
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 2887322,
+        "rate": 47892.487911427204
+      }
+    },
+    "data_sent": {
+      "contains": "data",
+      "values": {
+        "count": 1303484,
+        "rate": 21621.104855204503
+      },
+      "type": "counter"
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.07339637125748504,
+        "min": 0,
+        "med": 0,
+        "max": 2.5412,
+        "p(90)": 0.51051,
+        "p(95)": 0.5366099999999998
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 322.172795,
+        "avg": 295.7150145901636,
+        "min": 265.5275,
+        "med": 288.18725,
+        "max": 865.0039,
+        "p(90)": 307.40809
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0.3312,
+        "med": 2.3413000000000004,
+        "max": 435.1795,
+        "p(90)": 3.8076,
+        "p(95)": 4.338889999999998,
+        "avg": 3.08281599999999
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "min": 3,
+        "max": 3,
+        "value": 3
       }
     }
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": [
+        {
+          "id": "9c9667c5e5547862f22e35515ec1939b",
+          "passes": 1220,
+          "fails": 0,
+          "name": "Ping 0: status is 201",
+          "path": "::Ping 0: status is 201"
+        },
+        {
+          "name": "Ping 1: status is 201",
+          "path": "::Ping 1: status is 201",
+          "id": "103b810bbaba72a39ef50638a10a6e0c",
+          "passes": 1092,
+          "fails": 0
+        },
+        {
+          "name": "Ping 2: status is 201",
+          "path": "::Ping 2: status is 201",
+          "id": "58ed3d64a1552c87d5247d25d72e9fac",
+          "passes": 967,
+          "fails": 0
+        },
+        {
+          "fails": 0,
+          "name": "Ping 3: status is 201",
+          "path": "::Ping 3: status is 201",
+          "id": "29e845489eebed53a7eff12ac6b1ea47",
+          "passes": 850
+        },
+        {
+          "fails": 0,
+          "name": "Ping 4: status is 201",
+          "path": "::Ping 4: status is 201",
+          "id": "f82d70aa93db7a3b781d03d6618a6edd",
+          "passes": 720
+        },
+        {
+          "name": "Ping 5: status is 201",
+          "path": "::Ping 5: status is 201",
+          "id": "c9f66fbc87d44e90052f48363f07d86b",
+          "passes": 576,
+          "fails": 0
+        },
+        {
+          "fails": 0,
+          "name": "Ping 6: status is 201",
+          "path": "::Ping 6: status is 201",
+          "id": "daf8414850b719fc58ad7c1d2a0cd0d7",
+          "passes": 447
+        },
+        {
+          "name": "Ping 7: status is 201",
+          "path": "::Ping 7: status is 201",
+          "id": "36517a3b9bb89e2ba58efa3790349a4b",
+          "passes": 337,
+          "fails": 0
+        },
+        {
+          "fails": 0,
+          "name": "Ping 8: status is 201",
+          "path": "::Ping 8: status is 201",
+          "id": "c72a8a4956ec55552dc2d6dcf86bc53d",
+          "passes": 210
+        },
+        {
+          "name": "Ping 9: status is 201",
+          "path": "::Ping 9: status is 201",
+          "id": "5c2361c37a341fdde66b38dd53e6e560",
+          "passes": 101,
+          "fails": 0
+        },
+        {
+          "id": "010fe43afffae84c9755e25f285ff1f1",
+          "passes": 610,
+          "fails": 0,
+          "name": "A: status is 200",
+          "path": "::A: status is 200"
+        },
+        {
+          "path": "::A: count is N",
+          "id": "46f81f44dc2bb2e7b83750edd8cd59a5",
+          "passes": 610,
+          "fails": 0,
+          "name": "A: count is N"
+        },
+        {
+          "path": "::B: status is 200",
+          "id": "48c65311b0e53d5ad7abdfc2c3cbe3a0",
+          "passes": 610,
+          "fails": 0,
+          "name": "B: status is 200"
+        },
+        {
+          "fails": 0,
+          "name": "B: count is N2",
+          "path": "::B: count is N2",
+          "id": "c4ec84e13406f0a3214c5a2d1980c9fa",
+          "passes": 610
+        },
+        {
+          "name": "U: status is 200",
+          "path": "::U: status is 200",
+          "id": "da77180970a5b66413c169bd2891e7e5",
+          "passes": 610,
+          "fails": 0
+        },
+        {
+          "name": "U: count is N + N2",
+          "path": "::U: count is N + N2",
+          "id": "afd490766a634853384c0bf7bedd09e6",
+          "passes": 610,
+          "fails": 0
+        }
+      ]
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
   }
 }

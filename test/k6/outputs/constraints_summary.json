@@ -20,32 +20,32 @@
           "fails": 0
         },
         {
+          "name": "ping lat near +90: status is 201",
           "path": "::ping lat near +90: status is 201",
           "id": "1a4863e99ce1a6ac381b3bcc20c4e954",
           "passes": 1,
-          "fails": 0,
-          "name": "ping lat near +90: status is 201"
+          "fails": 0
         },
         {
-          "name": "ping lat near -90: status is 201",
           "path": "::ping lat near -90: status is 201",
           "id": "3fe1dcb072439786328717c5be6a5290",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lat near -90: status is 201"
         },
         {
+          "id": "a061121072c59930f8e6e458afe0160a",
           "passes": 1,
           "fails": 0,
           "name": "ping lng=180: status is 201",
-          "path": "::ping lng=180: status is 201",
-          "id": "a061121072c59930f8e6e458afe0160a"
+          "path": "::ping lng=180: status is 201"
         },
         {
-          "name": "ping lng=-180: status is 201",
           "path": "::ping lng=-180: status is 201",
           "id": "addcfc6840154d71bc5d3def22d51398",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lng=-180: status is 201"
         },
         {
           "name": "ping lng near +180: status is 201",
@@ -62,11 +62,11 @@
           "fails": 0
         },
         {
+          "path": "::ping corner: +90, +180: status is 201",
+          "id": "c2ba87c150d1568d60a23353536084f4",
           "passes": 1,
           "fails": 0,
-          "name": "ping corner: +90, +180: status is 201",
-          "path": "::ping corner: +90, +180: status is 201",
-          "id": "c2ba87c150d1568d60a23353536084f4"
+          "name": "ping corner: +90, +180: status is 201"
         },
         {
           "name": "ping corner: +90, -180: status is 201",
@@ -83,11 +83,11 @@
           "id": "bd879cc1c189012ba5057e9c1e14bdf7"
         },
         {
+          "fails": 0,
           "name": "ping corner: -90, -180: status is 201",
           "path": "::ping corner: -90, -180: status is 201",
           "id": "664bca068c213bf31950b795775c7530",
-          "passes": 1,
-          "fails": 0
+          "passes": 1
         },
         {
           "name": "ping origin: 0, 0: status is 201",
@@ -97,32 +97,32 @@
           "fails": 0
         },
         {
-          "name": "ping lat > 90: status is 400",
           "path": "::ping lat > 90: status is 400",
           "id": "5d6c1dd99343a83846fd07b9740ba238",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lat > 90: status is 400"
         },
         {
+          "name": "ping lat < -90: status is 400",
+          "path": "::ping lat < -90: status is 400",
           "id": "9e3d89080a433e6e35b3d6324e0586e4",
           "passes": 1,
-          "fails": 0,
-          "name": "ping lat < -90: status is 400",
-          "path": "::ping lat < -90: status is 400"
+          "fails": 0
         },
         {
-          "name": "ping lat = 91: status is 400",
-          "path": "::ping lat = 91: status is 400",
           "id": "9a6433325b4b27845eefc7c458597989",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lat = 91: status is 400",
+          "path": "::ping lat = 91: status is 400"
         },
         {
+          "passes": 1,
+          "fails": 0,
           "name": "ping lat = -91: status is 400",
           "path": "::ping lat = -91: status is 400",
-          "id": "6c47a4d61bdc76af67a5bdd750b44460",
-          "passes": 1,
-          "fails": 0
+          "id": "6c47a4d61bdc76af67a5bdd750b44460"
         },
         {
           "name": "ping lat = 1000: status is 400",
@@ -132,46 +132,46 @@
           "fails": 0
         },
         {
-          "name": "ping lat = -1000: status is 400",
-          "path": "::ping lat = -1000: status is 400",
           "id": "accd521e7887573ab494ff965b3d923a",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lat = -1000: status is 400",
+          "path": "::ping lat = -1000: status is 400"
         },
         {
+          "fails": 0,
           "name": "ping lng > 180: status is 400",
           "path": "::ping lng > 180: status is 400",
           "id": "3a04f2faeffe86b868db59b47f33f695",
-          "passes": 1,
-          "fails": 0
-        },
-        {
-          "path": "::ping lng < -180: status is 400",
-          "id": "1931e2861e638c9894db968cebed044e",
-          "passes": 1,
-          "fails": 0,
-          "name": "ping lng < -180: status is 400"
-        },
-        {
-          "fails": 0,
-          "name": "ping lng = 181: status is 400",
-          "path": "::ping lng = 181: status is 400",
-          "id": "edaf512aedece34aa198c6dee523a619",
           "passes": 1
         },
         {
+          "id": "1931e2861e638c9894db968cebed044e",
+          "passes": 1,
+          "fails": 0,
+          "name": "ping lng < -180: status is 400",
+          "path": "::ping lng < -180: status is 400"
+        },
+        {
+          "id": "edaf512aedece34aa198c6dee523a619",
+          "passes": 1,
+          "fails": 0,
+          "name": "ping lng = 181: status is 400",
+          "path": "::ping lng = 181: status is 400"
+        },
+        {
+          "name": "ping lng = -181: status is 400",
           "path": "::ping lng = -181: status is 400",
           "id": "e8eab797370b5a74d6de72dcf7fe1255",
           "passes": 1,
-          "fails": 0,
-          "name": "ping lng = -181: status is 400"
+          "fails": 0
         },
         {
+          "passes": 1,
+          "fails": 0,
           "name": "ping lng = 1000: status is 400",
           "path": "::ping lng = 1000: status is 400",
-          "id": "a9c542c9e77575dcddcc4dac353ca785",
-          "passes": 1,
-          "fails": 0
+          "id": "a9c542c9e77575dcddcc4dac353ca785"
         },
         {
           "name": "ping lng = -1000: status is 400",
@@ -181,11 +181,11 @@
           "fails": 0
         },
         {
-          "name": "ping both lat and lng out of bounds: status is 400",
           "path": "::ping both lat and lng out of bounds: status is 400",
           "id": "f233e941ef5b2faabc622d5c9ece1d42",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping both lat and lng out of bounds: status is 400"
         },
         {
           "path": "::ping lat = Infinity: status is 400",
@@ -195,11 +195,11 @@
           "name": "ping lat = Infinity: status is 400"
         },
         {
-          "passes": 1,
           "fails": 0,
           "name": "ping lat = -Infinity: status is 400",
           "path": "::ping lat = -Infinity: status is 400",
-          "id": "42863e085d39488853592a8cd1a557c9"
+          "id": "42863e085d39488853592a8cd1a557c9",
+          "passes": 1
         },
         {
           "id": "0a4c265c93dc9a233772bf8080e2ac64",
@@ -223,11 +223,11 @@
           "fails": 0
         },
         {
+          "path": "::ping lng = NaN: status is 400",
           "id": "d2b44cb1477827d4d4006eb71d383b5e",
           "passes": 1,
           "fails": 0,
-          "name": "ping lng = NaN: status is 400",
-          "path": "::ping lng = NaN: status is 400"
+          "name": "ping lng = NaN: status is 400"
         },
         {
           "name": "ping both NaN: status is 400",
@@ -237,18 +237,18 @@
           "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "ping lat as string: status is 400",
           "path": "::ping lat as string: status is 400",
-          "id": "5efc23d8021ca41dd011baa98dfb1981"
-        },
-        {
-          "name": "ping lng as string: status is 400",
-          "path": "::ping lng as string: status is 400",
-          "id": "afc7ae7913f86b19b876b641c5dd7e5b",
+          "id": "5efc23d8021ca41dd011baa98dfb1981",
           "passes": 1,
           "fails": 0
+        },
+        {
+          "id": "afc7ae7913f86b19b876b641c5dd7e5b",
+          "passes": 1,
+          "fails": 0,
+          "name": "ping lng as string: status is 400",
+          "path": "::ping lng as string: status is 400"
         },
         {
           "path": "::ping lat as non-numeric string: status is 400",
@@ -258,25 +258,25 @@
           "name": "ping lat as non-numeric string: status is 400"
         },
         {
+          "passes": 1,
           "fails": 0,
           "name": "ping lng as non-numeric string: status is 400",
           "path": "::ping lng as non-numeric string: status is 400",
-          "id": "f9f8592a0f79696c89a49d2713167ed2",
-          "passes": 1
+          "id": "f9f8592a0f79696c89a49d2713167ed2"
         },
         {
+          "id": "3d0717a9c423872339144afee02d26bb",
           "passes": 1,
           "fails": 0,
           "name": "ping lat as empty string: status is 400",
-          "path": "::ping lat as empty string: status is 400",
-          "id": "3d0717a9c423872339144afee02d26bb"
+          "path": "::ping lat as empty string: status is 400"
         },
         {
+          "fails": 0,
           "name": "ping lng as empty string: status is 400",
           "path": "::ping lng as empty string: status is 400",
           "id": "774f4c9200f1945bbd16e5f79bd8a5fc",
-          "passes": 1,
-          "fails": 0
+          "passes": 1
         },
         {
           "name": "ping lat = null: status is 400",
@@ -286,11 +286,11 @@
           "fails": 0
         },
         {
-          "name": "ping lng = null: status is 400",
-          "path": "::ping lng = null: status is 400",
           "id": "744d310bc7a86c529556cce22aa844ad",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping lng = null: status is 400",
+          "path": "::ping lng = null: status is 400"
         },
         {
           "name": "ping both null: status is 400",
@@ -307,25 +307,25 @@
           "fails": 0
         },
         {
+          "passes": 1,
+          "fails": 0,
           "name": "ping lng = false: status is 400",
           "path": "::ping lng = false: status is 400",
-          "id": "dc100b519c9985ac56ce759cb717e6fb",
-          "passes": 1,
-          "fails": 0
+          "id": "dc100b519c9985ac56ce759cb717e6fb"
         },
         {
-          "id": "a99c71982dcc0b6133f4815281422252",
-          "passes": 1,
           "fails": 0,
           "name": "ping lat as array: status is 400",
-          "path": "::ping lat as array: status is 400"
+          "path": "::ping lat as array: status is 400",
+          "id": "a99c71982dcc0b6133f4815281422252",
+          "passes": 1
         },
         {
+          "name": "ping lng as array: status is 400",
+          "path": "::ping lng as array: status is 400",
           "id": "99eca90977dc70779279b3b26c664478",
           "passes": 1,
-          "fails": 0,
-          "name": "ping lng as array: status is 400",
-          "path": "::ping lng as array: status is 400"
+          "fails": 0
         },
         {
           "name": "ping lat as object: status is 400",
@@ -335,18 +335,18 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "ping lng as object: status is 400",
           "path": "::ping lng as object: status is 400",
           "id": "dbef32f1adedea0c607f88381e575808",
-          "passes": 1
+          "passes": 1,
+          "fails": 0
         },
         {
-          "id": "fab89cd9f5389dd8c262664afe9ee43a",
-          "passes": 1,
           "fails": 0,
           "name": "ping missing lat: status is 400",
-          "path": "::ping missing lat: status is 400"
+          "path": "::ping missing lat: status is 400",
+          "id": "fab89cd9f5389dd8c262664afe9ee43a",
+          "passes": 1
         },
         {
           "name": "ping missing lng: status is 400",
@@ -356,102 +356,102 @@
           "fails": 0
         },
         {
+          "path": "::ping empty object: status is 400",
+          "id": "e5b0fe320799a7f571ce0df5749c419e",
           "passes": 1,
           "fails": 0,
-          "name": "ping empty object: status is 400",
-          "path": "::ping empty object: status is 400",
-          "id": "e5b0fe320799a7f571ce0df5749c419e"
+          "name": "ping empty object: status is 400"
         },
         {
-          "fails": 0,
           "name": "ping wrong field names: status is 400",
           "path": "::ping wrong field names: status is 400",
           "id": "18961775bb493382d546ddcce71437e7",
-          "passes": 1
+          "passes": 1,
+          "fails": 0
         },
         {
-          "name": "ping empty body: status is 400",
           "path": "::ping empty body: status is 400",
           "id": "542de7e10af05257cf72da8cd0cd1af8",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "ping empty body: status is 400"
         },
         {
+          "passes": 1,
+          "fails": 0,
           "name": "ping plain text: status is 400",
           "path": "::ping plain text: status is 400",
-          "id": "9cd7b17e0f37f9d4a586715bbd6e0527",
-          "passes": 1,
-          "fails": 0
+          "id": "9cd7b17e0f37f9d4a586715bbd6e0527"
         },
         {
+          "name": "ping unquoted keys: status is 400",
           "path": "::ping unquoted keys: status is 400",
           "id": "09b526ee8848b040d75dbac407765eb0",
           "passes": 1,
-          "fails": 0,
-          "name": "ping unquoted keys: status is 400"
+          "fails": 0
         },
         {
+          "id": "b8b72c9c5818c8425211c1e4b01debdb",
+          "passes": 1,
           "fails": 0,
           "name": "ping truncated JSON: status is 400",
-          "path": "::ping truncated JSON: status is 400",
-          "id": "b8b72c9c5818c8425211c1e4b01debdb",
-          "passes": 1
+          "path": "::ping truncated JSON: status is 400"
         },
         {
-          "fails": 0,
           "name": "ping array instead of object: status is 400",
           "path": "::ping array instead of object: status is 400",
           "id": "26ae57686de9a92b49b29eff621c56e5",
-          "passes": 1
-        },
-        {
-          "name": "pingArea full world bbox: status is 200",
-          "path": "::pingArea full world bbox: status is 200",
-          "id": "aacf60f2f62454daed5b347e31f35e7d",
           "passes": 1,
           "fails": 0
         },
         {
+          "path": "::pingArea full world bbox: status is 200",
+          "id": "aacf60f2f62454daed5b347e31f35e7d",
           "passes": 1,
           "fails": 0,
+          "name": "pingArea full world bbox: status is 200"
+        },
+        {
           "name": "pingArea minLat=-90: status is 200",
           "path": "::pingArea minLat=-90: status is 200",
-          "id": "6b9e0f7ac7d08ea6583e97c374a11888"
+          "id": "6b9e0f7ac7d08ea6583e97c374a11888",
+          "passes": 1,
+          "fails": 0
         },
         {
+          "name": "pingArea maxLat=90: status is 200",
+          "path": "::pingArea maxLat=90: status is 200",
           "id": "0927b43023f6fa83a0f058c73483cce8",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea maxLat=90: status is 200",
-          "path": "::pingArea maxLat=90: status is 200"
+          "fails": 0
         },
         {
+          "name": "pingArea full lat range: status is 200",
+          "path": "::pingArea full lat range: status is 200",
           "id": "671a9ad5982c14fb939f49ee9592e8c9",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea full lat range: status is 200",
-          "path": "::pingArea full lat range: status is 200"
+          "fails": 0
         },
         {
+          "name": "pingArea minLng=-180: status is 200",
           "path": "::pingArea minLng=-180: status is 200",
           "id": "0f44bdebd342392ec9efd8d900d7af4d",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea minLng=-180: status is 200"
+          "fails": 0
         },
         {
+          "fails": 0,
+          "name": "pingArea maxLng=180: status is 200",
           "path": "::pingArea maxLng=180: status is 200",
           "id": "f20ab62a5d73a9c7797aab1268f49c3f",
-          "passes": 1,
-          "fails": 0,
-          "name": "pingArea maxLng=180: status is 200"
+          "passes": 1
         },
         {
+          "name": "pingArea full lng range: status is 200",
+          "path": "::pingArea full lng range: status is 200",
           "id": "5c0efde976906dd0363074201517b877",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea full lng range: status is 200",
-          "path": "::pingArea full lng range: status is 200"
+          "fails": 0
         },
         {
           "name": "pingArea corner: NE: status is 200",
@@ -461,18 +461,18 @@
           "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea corner: NW: status is 200",
           "path": "::pingArea corner: NW: status is 200",
-          "id": "d5a21fd9f1f6e68736f086bacb3459de"
+          "id": "d5a21fd9f1f6e68736f086bacb3459de",
+          "passes": 1,
+          "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea corner: SE: status is 200",
           "path": "::pingArea corner: SE: status is 200",
-          "id": "ba51f01e2d4205b9ca0ac254cb1e1c91"
+          "id": "ba51f01e2d4205b9ca0ac254cb1e1c91",
+          "passes": 1,
+          "fails": 0
         },
         {
           "name": "pingArea corner: SW: status is 200",
@@ -482,18 +482,18 @@
           "fails": 0
         },
         {
+          "name": "pingArea tiny bbox at origin: status is 200",
+          "path": "::pingArea tiny bbox at origin: status is 200",
           "id": "bf19876ded4bafea9e121dca4c6e7539",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea tiny bbox at origin: status is 200",
-          "path": "::pingArea tiny bbox at origin: status is 200"
+          "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea precision=1: status is 200",
           "path": "::pingArea precision=1: status is 200",
-          "id": "854e171de72f78622dffc8eec826fc4f"
+          "id": "854e171de72f78622dffc8eec826fc4f",
+          "passes": 1,
+          "fails": 0
         },
         {
           "name": "pingArea precision=8: status is 200",
@@ -503,32 +503,32 @@
           "fails": 0
         },
         {
+          "name": "pingArea minLat < -90: status is 400",
           "path": "::pingArea minLat < -90: status is 400",
           "id": "c996f9125a02dd3f15b385eeac638da3",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea minLat < -90: status is 400"
+          "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea maxLat > 90: status is 400",
           "path": "::pingArea maxLat > 90: status is 400",
-          "id": "c59b331cf79030ebaec75c2a09084b0b"
+          "id": "c59b331cf79030ebaec75c2a09084b0b",
+          "passes": 1,
+          "fails": 0
         },
         {
-          "id": "0d44ceedb6bf850db188b0a7601d1d6d",
           "passes": 1,
           "fails": 0,
           "name": "pingArea both lat out of bounds: status is 400",
-          "path": "::pingArea both lat out of bounds: status is 400"
+          "path": "::pingArea both lat out of bounds: status is 400",
+          "id": "0d44ceedb6bf850db188b0a7601d1d6d"
         },
         {
+          "fails": 0,
           "name": "pingArea minLng < -180: status is 400",
           "path": "::pingArea minLng < -180: status is 400",
           "id": "1d0844e29b0450b206dee8f003b8444d",
-          "passes": 1,
-          "fails": 0
+          "passes": 1
         },
         {
           "fails": 0,
@@ -538,18 +538,18 @@
           "passes": 1
         },
         {
+          "name": "pingArea both lng out of bounds: status is 400",
+          "path": "::pingArea both lng out of bounds: status is 400",
           "id": "8e76a987b9cd6fa568d9b4ea44ffa52e",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea both lng out of bounds: status is 400",
-          "path": "::pingArea both lng out of bounds: status is 400"
+          "fails": 0
         },
         {
-          "name": "pingArea minLat > maxLat: status is 400",
           "path": "::pingArea minLat > maxLat: status is 400",
           "id": "236fb01b77439b98d9fbd3e3ee5c6add",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "pingArea minLat > maxLat: status is 400"
         },
         {
           "name": "pingArea minLng > maxLng: status is 400",
@@ -559,53 +559,53 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "pingArea both inverted: status is 400",
           "path": "::pingArea both inverted: status is 400",
           "id": "44911f783ff7b710c60a5053191f3bc7",
-          "passes": 1
+          "passes": 1,
+          "fails": 0
         },
         {
+          "fails": 0,
           "name": "pingArea precision=0: status is 400",
           "path": "::pingArea precision=0: status is 400",
           "id": "b72bf8269864675b9a1465552dfca535",
-          "passes": 1,
-          "fails": 0
+          "passes": 1
         },
         {
+          "fails": 0,
           "name": "pingArea precision=-1: status is 400",
           "path": "::pingArea precision=-1: status is 400",
           "id": "b83870fa5b46c42ddbdc2339c25ffbbe",
+          "passes": 1
+        },
+        {
+          "name": "pingArea precision=9 (> max): status is 400",
+          "path": "::pingArea precision=9 (> max): status is 400",
+          "id": "266630901a7345792143553c29c7d428",
           "passes": 1,
           "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
-          "name": "pingArea precision=9 (> max): status is 400",
-          "path": "::pingArea precision=9 (> max): status is 400",
-          "id": "266630901a7345792143553c29c7d428"
-        },
-        {
+          "name": "pingArea precision=100: status is 400",
+          "path": "::pingArea precision=100: status is 400",
           "id": "0c4f56f37807500c629998f4845be13b",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea precision=100: status is 400",
-          "path": "::pingArea precision=100: status is 400"
+          "fails": 0
         },
         {
-          "passes": 1,
           "fails": 0,
           "name": "pingArea missing minLat: status is 400",
           "path": "::pingArea missing minLat: status is 400",
-          "id": "07e67a143c3b273f45762e836397984d"
+          "id": "07e67a143c3b273f45762e836397984d",
+          "passes": 1
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea missing maxLat: status is 400",
           "path": "::pingArea missing maxLat: status is 400",
-          "id": "cfc4b80a196db1ff322d04f0407ff77f"
+          "id": "cfc4b80a196db1ff322d04f0407ff77f",
+          "passes": 1,
+          "fails": 0
         },
         {
           "name": "pingArea missing minLng: status is 400",
@@ -615,53 +615,53 @@
           "fails": 0
         },
         {
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea missing maxLng: status is 400",
           "path": "::pingArea missing maxLng: status is 400",
-          "id": "4730b7f561ef24bc011247096d0afffe"
-        },
-        {
-          "name": "pingArea missing precision: status is 400",
-          "path": "::pingArea missing precision: status is 400",
-          "id": "f0963aa3ea9764160f4c9e95c1bde976",
+          "id": "4730b7f561ef24bc011247096d0afffe",
           "passes": 1,
           "fails": 0
         },
         {
+          "path": "::pingArea missing precision: status is 400",
+          "id": "f0963aa3ea9764160f4c9e95c1bde976",
+          "passes": 1,
           "fails": 0,
+          "name": "pingArea missing precision: status is 400"
+        },
+        {
           "name": "pingArea no parameters: status is 400",
           "path": "::pingArea no parameters: status is 400",
           "id": "ab24b2a008226f250fa828c839d954e4",
-          "passes": 1
+          "passes": 1,
+          "fails": 0
         },
         {
+          "id": "f9694136572f8404288580556bac46e6",
           "passes": 1,
           "fails": 0,
           "name": "pingArea minLat as string: status is 400",
-          "path": "::pingArea minLat as string: status is 400",
-          "id": "f9694136572f8404288580556bac46e6"
+          "path": "::pingArea minLat as string: status is 400"
         },
         {
+          "name": "pingArea maxLat as string: status is 400",
           "path": "::pingArea maxLat as string: status is 400",
           "id": "64d00e945a5e742746180ea999e3e21d",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea maxLat as string: status is 400"
+          "fails": 0
         },
         {
-          "id": "340bd69b2ec999e0ade50aad70ad7032",
           "passes": 1,
           "fails": 0,
           "name": "pingArea minLng as string: status is 400",
-          "path": "::pingArea minLng as string: status is 400"
+          "path": "::pingArea minLng as string: status is 400",
+          "id": "340bd69b2ec999e0ade50aad70ad7032"
         },
         {
+          "name": "pingArea maxLng as string: status is 400",
+          "path": "::pingArea maxLng as string: status is 400",
           "id": "8264933a5ef7f3f19b395deacd29be3f",
           "passes": 1,
-          "fails": 0,
-          "name": "pingArea maxLng as string: status is 400",
-          "path": "::pingArea maxLng as string: status is 400"
+          "fails": 0
         },
         {
           "id": "6e6418298c4270fd5d649f3b61d0f08b",
@@ -671,25 +671,25 @@
           "path": "::pingArea precision as string: status is 400"
         },
         {
-          "id": "c5ea6ea1a9742c15e4a5672e32bedd88",
-          "passes": 1,
-          "fails": 0,
           "name": "pingArea minLat empty: status is 400",
-          "path": "::pingArea minLat empty: status is 400"
-        },
-        {
-          "name": "pingArea maxLat empty: status is 400",
-          "path": "::pingArea maxLat empty: status is 400",
-          "id": "4009d6c4f40d9c121d9668cfeadc9e8f",
+          "path": "::pingArea minLat empty: status is 400",
+          "id": "c5ea6ea1a9742c15e4a5672e32bedd88",
           "passes": 1,
           "fails": 0
         },
         {
-          "id": "2f030455438da774d91c987dc3e0aade",
+          "id": "4009d6c4f40d9c121d9668cfeadc9e8f",
           "passes": 1,
           "fails": 0,
+          "name": "pingArea maxLat empty: status is 400",
+          "path": "::pingArea maxLat empty: status is 400"
+        },
+        {
           "name": "pingArea minLng empty: status is 400",
-          "path": "::pingArea minLng empty: status is 400"
+          "path": "::pingArea minLng empty: status is 400",
+          "id": "2f030455438da774d91c987dc3e0aade",
+          "passes": 1,
+          "fails": 0
         },
         {
           "name": "pingArea maxLng empty: status is 400",
@@ -706,11 +706,11 @@
           "id": "a4b993df85518065bbc2b79ea4dc15a0"
         },
         {
-          "fails": 0,
           "name": "pingArea minLat=NaN: status is 400",
           "path": "::pingArea minLat=NaN: status is 400",
           "id": "a105d447b9c62ef31a66922dc6555a5d",
-          "passes": 1
+          "passes": 1,
+          "fails": 0
         },
         {
           "name": "pingArea maxLat=Infinity: status is 400",
@@ -727,18 +727,18 @@
           "fails": 0
         },
         {
-          "name": "pingArea maxLng=Infinity: status is 400",
-          "path": "::pingArea maxLng=Infinity: status is 400",
           "id": "cabc78e745b919860e1b59781d48265a",
           "passes": 1,
-          "fails": 0
+          "fails": 0,
+          "name": "pingArea maxLng=Infinity: status is 400",
+          "path": "::pingArea maxLng=Infinity: status is 400"
         },
         {
+          "fails": 0,
           "name": "pingArea precision=NaN: status is 400",
           "path": "::pingArea precision=NaN: status is 400",
           "id": "2b1921792396f53ec7ce87f5d7a7630d",
-          "passes": 1,
-          "fails": 0
+          "passes": 1
         },
         {
           "name": "pingArea precision as float: status is 400",
@@ -750,8 +750,6 @@
       ]
   },
   "options": {
-    "summaryTimeUnit": "",
-    "noColor": false,
     "summaryTrendStats": [
       "avg",
       "min",
@@ -759,12 +757,14 @@
       "max",
       "p(90)",
       "p(95)"
-    ]
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
   },
   "state": {
-    "testRunDurationMs": 268.6303,
     "isStdOutTTY": true,
-    "isStdErrTTY": true
+    "isStdErrTTY": true,
+    "testRunDurationMs": 269.0114
   },
   "metrics": {
     "checks": {
@@ -782,51 +782,39 @@
       }
     },
     "iteration_duration": {
-      "values": {
-        "avg": 268.1028,
-        "min": 268.1028,
-        "med": 268.1028,
-        "max": 268.1028,
-        "p(90)": 268.1028,
-        "p(95)": 268.1028
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_connecting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "max": 0.5305,
+        "med": 269.0114,
+        "max": 269.0114,
+        "p(90)": 269.0114,
+        "p(95)": 269.0114,
+        "avg": 269.0114,
+        "min": 269.0114
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
         "p(90)": 0,
         "p(95)": 0,
-        "avg": 0.005004716981132075,
+        "avg": 0,
         "min": 0,
-        "med": 0
+        "med": 0,
+        "max": 0
       }
     },
     "http_req_blocked": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "p(95)": 0,
-        "avg": 0.0597622641509434,
         "min": 0,
         "med": 0,
-        "max": 6.3348,
-        "p(90)": 0
-      }
-    },
-    "http_req_waiting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 2.2532537735849045,
-        "min": 0.9953,
-        "med": 1.59795,
-        "max": 31.9133,
-        "p(90)": 3.8087999999999997,
-        "p(95)": 4.51485
+        "max": 8.1026,
+        "p(90)": 0,
+        "p(95)": 0.00885,
+        "avg": 0.08643584905660377
       }
     },
     "data_received": {
@@ -834,100 +822,112 @@
       "contains": "data",
       "values": {
         "count": 36159,
-        "rate": 134605.06875062123
+        "rate": 134414.37797803365
       }
     },
-    "http_req_receiving": {
+    "http_req_connecting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 0.08141320754716981,
+        "p(95)": 0,
+        "avg": 0.00014622641509433963,
         "min": 0,
         "med": 0,
-        "max": 0.9979,
-        "p(90)": 0.5164,
-        "p(95)": 0.5425
+        "max": 0.0155,
+        "p(90)": 0
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.006214150943396228,
+        "min": 0,
+        "med": 0,
+        "max": 0.5249,
+        "p(90)": 0,
+        "p(95)": 0.01525
       }
     },
     "http_req_failed": {
       "type": "rate",
       "contains": "default",
       "values": {
-        "fails": 27,
         "rate": 0.7452830188679245,
-        "passes": 79
+        "passes": 79,
+        "fails": 27
       }
+    },
+    "http_req_duration{expected_response:true}": {
+      "values": {
+        "avg": 4.395874074074075,
+        "min": 1.0569,
+        "med": 3.2324,
+        "max": 30.8921,
+        "p(90)": 4.13306,
+        "p(95)": 10.270549999999993
+      },
+      "type": "trend",
+      "contains": "time"
     },
     "iterations": {
       "type": "counter",
       "contains": "default",
       "values": {
         "count": 1,
-        "rate": 3.722588256053022
+        "rate": 3.7173145822072966
       }
-    },
-    "http_req_duration": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 2.3396424528301876,
-        "min": 0.9953,
-        "med": 1.6191,
-        "max": 31.9337,
-        "p(90)": 3.969,
-        "p(95)": 4.520525
-      }
-    },
-    "http_req_duration{expected_response:true}": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "min": 1.5194,
-        "med": 3.3083,
-        "max": 31.9337,
-        "p(90)": 5.362920000000001,
-        "p(95)": 13.821669999999992,
-        "avg": 4.822403703703704
-      }
-    },
-    "http_req_sending": {
-      "contains": "time",
-      "values": {
-        "med": 0,
-        "max": 0.507,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.004975471698113207,
-        "min": 0
-      },
-      "type": "trend"
     },
     "http_reqs": {
       "type": "counter",
       "contains": "default",
       "values": {
         "count": 106,
-        "rate": 394.5943551416203
+        "rate": 394.03534571397347
       }
     },
-    "http_req_tls_handshaking": {
+    "http_req_receiving": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "min": 0,
         "med": 0,
-        "max": 0,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0
+        "max": 0.7309,
+        "p(90)": 0.5127999999999999,
+        "p(95)": 0.542225,
+        "avg": 0.0794301886792453,
+        "min": 0
       }
     },
     "data_sent": {
       "type": "counter",
       "contains": "data",
       "values": {
-        "count": 13664,
-        "rate": 50865.44593070849
+        "rate": 50793.3864512805,
+        "count": 13664
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 30.8921,
+        "p(90)": 3.28695,
+        "p(95)": 3.865825,
+        "avg": 2.3394018867924538,
+        "min": 1.0569,
+        "med": 1.6789999999999998
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 1.0569,
+        "med": 1.6354,
+        "max": 30.8921,
+        "p(90)": 3.2337,
+        "p(95)": 3.514625,
+        "avg": 2.253757547169812
       }
     }
   }
