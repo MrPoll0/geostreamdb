@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var NUM_VIRTUAL_NODES = 10 // per physical node; change to 50 or 100 for smoother distribution (but more memory and sort time on add/remove)
+var NUM_VIRTUAL_NODES = 256 // per physical node
 
 var state = &GatewayState{
 	ring:     make(HashRing, 0),
