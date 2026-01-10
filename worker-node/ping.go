@@ -309,11 +309,11 @@ func (s *grpcServer) SendPing(ctx context.Context, req *pb.PingRequest) (*pb.Pin
 
 	slot.Data.TrieRoot.Increment(req.Geohash)
 
-	// track pings stored per geohash prefix (at sharding precision)
+	// track pings stored per geohash prefix (precision 3 for bounded cardinality: 32^3 = 32K max prefixes)
 	// TTL must be taken into account externally
 	ghPrefix := req.Geohash
-	if len(ghPrefix) > SHARDING_PRECISION {
-		ghPrefix = ghPrefix[:SHARDING_PRECISION]
+	if len(ghPrefix) > 3 {
+		ghPrefix = ghPrefix[:3]
 	}
 	Metrics.pingsStoredTotal.WithLabelValues(ghPrefix).Inc()
 

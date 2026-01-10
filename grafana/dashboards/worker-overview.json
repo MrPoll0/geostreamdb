@@ -274,7 +274,7 @@
       }
     },
     {
-      "title": "Pings per Geohash Prefix (Top 15)",
+      "title": "Pings per Region (Top 15)",
       "type": "graph",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
       "targets": [
@@ -376,7 +376,7 @@
       }
     },
     {
-      "title": "Geohash Prefix Distribution (Table)",
+      "title": "Region Distribution (Table)",
       "type": "table",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 36 },
       "targets": [
@@ -434,7 +434,7 @@
       }
     },
     {
-      "title": "Ping Geohash Distribution (Stacked)",
+      "title": "Ping Region Distribution (Stacked)",
       "type": "timeseries",
       "gridPos": { "h": 10, "w": 24, "x": 0, "y": 44 },
       "targets": [
