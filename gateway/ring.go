@@ -14,6 +14,7 @@ import (
 )
 
 var NUM_VIRTUAL_NODES = 256 // per physical node
+// TODO: implement power of two choices of consistent hashing with bounded loads to improve distribution even further (but with added costs)
 
 var state = &GatewayState{
 	ring:     make(HashRing, 0),

@@ -8,7 +8,27 @@ import (
 	"time"
 )
 
-const SHARDING_PRECISION = 6 // TODO: make configurable and shared with gateway
+// TODO: make configurable and shared with gateway
+const SHARDING_PRECISION = 7 // precision at which geohashes are sharded across workers
+const MAX_GH_PRECISION = 8   // maximum geohash precision stored
+
+// maps geohash base32 characters to indices 0-31 for dense array lookup
+var geohashCharToIndex [256]int8
+
+func init() {
+	// initialize lookup table with -1 (invalid)
+	for i := range geohashCharToIndex {
+		geohashCharToIndex[i] = -1
+	}
+	// map each geohash base32 character to its index
+	for i := 0; i < len(geohashBase32); i++ {
+		geohashCharToIndex[geohashBase32[i]] = int8(i)
+		// convert uppercase to lowercase
+		if geohashBase32[i] >= 'a' && geohashBase32[i] <= 'z' {
+			geohashCharToIndex[geohashBase32[i]-('a'-'A')] = int8(i)
+		}
+	}
+}
 
 type ghBbox struct {
 	minLat float64
@@ -81,8 +101,9 @@ type TimeBufferSlot struct {
 }
 
 type TrieNode struct {
-	Children map[byte]*TrieNode // character (byte representation) -> child node
-	Count    int64
+	Children    map[byte]*TrieNode // character (byte representation) -> child node (used for precision 1 to SHARDING_PRECISION-1)
+	DenseLeaves *[32]int64         // flattened array for SHARDING_PRECISION-MAX_GH_PRECISION levels (used for memory efficiency)
+	Count       int64
 }
 
 type TimeBufferElement struct {
@@ -104,7 +125,7 @@ func init() { // runs automatically before main()
 }
 
 func (t *TrieNode) Increment(geohash string) {
-	t.Count++ // increment the whole
+	t.Count++ // increment the root count
 
 	current := t
 	for i := 0; i < len(geohash); i++ {
@@ -118,8 +139,23 @@ func (t *TrieNode) Increment(geohash string) {
 			child = &TrieNode{Count: 0}
 			current.Children[char] = child
 		}
-
 		child.Count++
+
+		// at P7, store P8 in dense array and return early
+		// TODO: this should be generalized for the gap between SHARDING_PRECISION and MAX_GH_PRECISION
+		depth := i + 1
+		if depth == SHARDING_PRECISION && len(geohash) > SHARDING_PRECISION {
+			if child.DenseLeaves == nil {
+				child.DenseLeaves = &[32]int64{}
+			}
+			p8Char := geohash[SHARDING_PRECISION]
+			idx := geohashCharToIndex[p8Char]
+			if idx >= 0 && idx < 32 {
+				child.DenseLeaves[idx]++
+			}
+			return
+		}
+
 		current = child
 	}
 }
@@ -138,6 +174,21 @@ func (t *TrieNode) GetCount(geohash string) int64 {
 		char := geohash[i]
 		child, exists := current.Children[char]
 		if !exists {
+			return 0
+		}
+
+		// at SHARDING_PRECISION depth, check dense array for P8 level
+		// TODO: this should be generalized for the gap between SHARDING_PRECISION and MAX_GH_PRECISION
+		depth := i + 1
+		if depth == SHARDING_PRECISION && len(geohash) > SHARDING_PRECISION {
+			if child.DenseLeaves == nil {
+				return 0
+			}
+			p8Char := geohash[SHARDING_PRECISION]
+			idx := geohashCharToIndex[p8Char]
+			if idx >= 0 && idx < 32 {
+				return child.DenseLeaves[idx]
+			}
 			return 0
 		}
 
@@ -223,6 +274,29 @@ func (t *TrieNode) GetAreaCount(precision int32, aggPrecision int32, minLat floa
 				cell, ok := geohashDecodeBbox(n.prefix)
 				if ok && cell.intersects(queryBbox) {
 					counts[n.prefix] += n.node.Count
+				}
+				continue
+			}
+
+			// at SHARDING_PRECISION depth, use dense array for P8 level
+			// TODO: this should be generalized for the gap between SHARDING_PRECISION and MAX_GH_PRECISION
+			if n.depth == int32(SHARDING_PRECISION) && precision == int32(MAX_GH_PRECISION) {
+				if n.node.DenseLeaves != nil {
+					// iterate through all 32 possible P8 characters
+					for idx := 0; idx < 32; idx++ {
+						count := n.node.DenseLeaves[idx]
+						if count == 0 {
+							continue
+						}
+						// reconstruct P8 geohash from P7 prefix and P8 character
+						nextPrefix := n.prefix + string(geohashBase32[idx])
+						// check if P8 geohash intersects the query bbox, otherwise skip
+						cell, ok := geohashDecodeBbox(nextPrefix)
+						if !ok || !cell.intersects(queryBbox) {
+							continue
+						}
+						counts[nextPrefix] += count
+					}
 				}
 				continue
 			}
