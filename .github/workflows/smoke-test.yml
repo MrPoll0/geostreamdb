@@ -1,0 +1,80 @@
+name: Smoke Test
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # allows manual trigger
+
+env:
+  ENTRYPOINT_URL: http://localhost:8080
+
+jobs:
+  smoke:
+    name: Quick Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start infrastructure (minimal)
+        run: |
+          docker compose up --build --scale worker-node=1 --scale gateway=1 -d
+          
+          echo "Waiting for services..."
+          for i in {1..30}; do
+            if curl -s "${{ env.ENTRYPOINT_URL }}/ping?lat=0&lng=0" > /dev/null 2>&1; then
+              echo "Ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Basic write test
+        run: |
+          # send a ping
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"lat": 42.2317, "lng": -8.7263}' \
+            "${{ env.ENTRYPOINT_URL }}/ping")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          if [ "$HTTP_CODE" != "201" ]; then
+            echo "Expected 201, got $HTTP_CODE"
+            exit 1
+          fi
+          echo "Write test passed!"
+
+      - name: Basic read test
+        run: |
+          # read ping count
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            "${{ env.ENTRYPOINT_URL }}/ping?lat=42.2317&lng=-8.7263")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200, got $HTTP_CODE"
+            exit 1
+          fi
+          echo "Read test passed!"
+
+      - name: Basic area query test
+        run: |
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            "${{ env.ENTRYPOINT_URL }}/pingArea?minLat=42&maxLat=43&minLng=-8&maxLng=-7&precision=4")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200, got $HTTP_CODE"
+            exit 1
+          fi
+          echo "Area query test passed!"
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
