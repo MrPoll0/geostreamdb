@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch: # allows manual trigger
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   WORKERS: 3
   GATEWAYS: 3
