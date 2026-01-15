@@ -161,11 +161,13 @@ if ($uniqueCounts.Count -gt 1) {
 Write-Host ""
 Write-Host "[TEST] Starting k6 split-brain detection test..."
 $k6Dir = Join-Path $PSScriptRoot "k6"
+$entrypoint = $env:ENTRYPOINT_URL
+if (-not $entrypoint) { $entrypoint = "http://localhost:8080" }
 $k6Job = Start-Job -ScriptBlock {
-    param($duration, $gatewayCount, $dir)
+    param($duration, $gatewayCount, $dir, $url)
     Set-Location $dir
-    k6 run --env DURATION="${duration}m" --env GATEWAY_COUNT=$gatewayCount split_brain.js 2>&1
-} -ArgumentList $TestDurationMinutes, $gateways.Count, $k6Dir
+    k6 run --env DURATION="${duration}m" --env GATEWAY_COUNT=$gatewayCount --env ENTRYPOINT_URL=$url split_brain.js 2>&1
+} -ArgumentList $TestDurationMinutes, $gateways.Count, $k6Dir, $entrypoint
 
 # monitor during test
 $endTime = (Get-Date).AddMinutes($TestDurationMinutes)
@@ -214,4 +216,3 @@ Write-Host ("During test:    [" + ($postBlockCounts -join ', ') + "]")
 Write-Host ("After recovery: [" + ($finalCounts -join ', ') + "]")
 Write-Host ""
 Write-Host "Results saved to: test/k6/outputs/split_brain_summary.json"
-

@@ -57,11 +57,13 @@ if ($initialWorkers.Count -lt 2) {
 # start k6 in background
 Write-Host "[TEST] Starting k6 load test..."
 $k6Dir = Join-Path $PSScriptRoot "k6"
+$entrypoint = $env:ENTRYPOINT_URL
+if (-not $entrypoint) { $entrypoint = "http://localhost:8080" }
 $k6Job = Start-Job -ScriptBlock {
-    param($duration, $dir)
+    param($duration, $dir, $url)
     Set-Location $dir
-    k6 run --env DURATION="${duration}m" worker_churn.js 2>&1
-} -ArgumentList $TestDurationMinutes, $k6Dir
+    k6 run --env DURATION="${duration}m" --env ENTRYPOINT_URL=$url worker_churn.js 2>&1
+} -ArgumentList $TestDurationMinutes, $k6Dir, $entrypoint
 
 # wait a bit for k6 to start
 Start-Sleep -Seconds 5
@@ -109,4 +111,3 @@ Write-Host "=========================================="
 Write-Host "Test Complete"
 Write-Host "=========================================="
 Write-Host "Total churn events: $churnCount"
-

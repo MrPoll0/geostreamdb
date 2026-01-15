@@ -136,11 +136,13 @@ Remove-LatencyFromAllWorkers
 # start k6 in background
 Write-Host "[TEST] Starting k6 load test..."
 $k6Dir = Join-Path $PSScriptRoot "k6"
+$entrypoint = $env:ENTRYPOINT_URL
+if (-not $entrypoint) { $entrypoint = "http://localhost:8080" }
 $k6Job = Start-Job -ScriptBlock {
-    param($duration, $dir)
+    param($duration, $dir, $url)
     Set-Location $dir
-    k6 run --env DURATION="${duration}m" gateway_worker_latency.js 2>&1
-} -ArgumentList $TestDurationMinutes, $k6Dir
+    k6 run --env DURATION="${duration}m" --env ENTRYPOINT_URL=$url gateway_worker_latency.js 2>&1
+} -ArgumentList $TestDurationMinutes, $k6Dir, $entrypoint
 
 # wait for k6 to start
 Start-Sleep -Seconds 5
@@ -207,4 +209,3 @@ Write-Host "Workers affected: $($workers.Count)"
 Write-Host "Latency per cycle: ${LatencyMs}ms +/- ${JitterMs}ms"
 Write-Host ""
 Write-Host "Results saved to: test/k6/outputs/gateway_worker_latency_summary.json"
-

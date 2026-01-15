@@ -196,7 +196,7 @@ Write-Host ""
 Write-Host "=== Tests Complete ===" -ForegroundColor Green
 Write-Host ("Total time: {0:hh\:mm\:ss}" -f $elapsed) -ForegroundColor Cyan
 
-if (-not $SkipInfra) {
+if (-not $SkipInfra -and -not $env:CI) {
     $cleanup = Read-Host "Stop containers? (y/N)"
     if ($cleanup -eq "y") {
         docker compose down
