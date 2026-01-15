@@ -218,8 +218,14 @@ func (t *TrieNode) GetAreaCount(precision int32, aggPrecision int32, minLat floa
 		}
 
 		// traverse from root to the aggregated geohash node
+		// note: P8 nodes are stored in DenseLeaves, not Children, so we can only traverse to P7
+		traverseDepth := int(aggPrecision)
+		if traverseDepth > SHARDING_PRECISION {
+			traverseDepth = SHARDING_PRECISION
+		}
+
 		current := t
-		for i := 0; i < int(aggPrecision); i++ {
+		for i := 0; i < traverseDepth; i++ {
 			if current.Children == nil {
 				current = nil
 				break
@@ -232,6 +238,37 @@ func (t *TrieNode) GetAreaCount(precision int32, aggPrecision int32, minLat floa
 			current = child
 		}
 		if current == nil {
+			continue
+		}
+
+		// if aggPrecision > SHARDING_PRECISION, we need to look up in DenseLeaves
+		if aggPrecision > int32(SHARDING_PRECISION) {
+			if current.DenseLeaves == nil {
+				continue
+			}
+			// get the P8 character index
+			p8Char := geohash[SHARDING_PRECISION]
+			idx := geohashCharToIndex[p8Char]
+			if idx < 0 || idx >= 32 {
+				continue
+			}
+			count := current.DenseLeaves[idx]
+			if count == 0 {
+				continue
+			}
+			// for P8 aggPrecision, the geohash is the P8 prefix
+			cell, ok := geohashDecodeBbox(geohash)
+			if !ok || !cell.intersects(queryBbox) {
+				continue
+			}
+			// if requested precision == aggPrecision (P8), just return the count
+			if precision == aggPrecision {
+				counts[geohash] += count
+			} else {
+				// precision < aggPrecision: aggregate into coarser prefix
+				prefix := geohash[:precision]
+				counts[prefix] += count
+			}
 			continue
 		}
 
