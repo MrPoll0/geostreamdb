@@ -170,7 +170,6 @@ export function handleSummary(data) {
     console.log('================================================\n');
     
     return {
-        'stdout': JSON.stringify(summary, null, 2),
         'outputs/split_brain_summary.json': JSON.stringify(data, null, 2),
     }
 }

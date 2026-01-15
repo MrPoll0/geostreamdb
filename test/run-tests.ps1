@@ -158,8 +158,10 @@ switch ($Test) {
             $t = $orchestratedTests[$keys[$i]]
             Run-OrchestratedTest $t.script $t.name
             if ($i -lt $keys.Count - 1) {
-                Write-Host "Waiting for TTL expiration and system recovery..." -ForegroundColor Gray
-                Start-Sleep -Seconds 30
+                Write-Host "Restarting infrastructure for clean state..." -ForegroundColor Yellow
+                docker compose restart
+                Write-Host "Waiting for services to recover..." -ForegroundColor Gray
+                Start-Sleep -Seconds 45
             }
         }
     }
@@ -180,8 +182,10 @@ switch ($Test) {
             $t = $orchestratedTests[$keys[$i]]
             Run-OrchestratedTest $t.script $t.name
             if ($i -lt $keys.Count - 1) {
-                Write-Host "Waiting for TTL expiration and system recovery..." -ForegroundColor Gray
-                Start-Sleep -Seconds 30
+                Write-Host "Restarting infrastructure for clean state..." -ForegroundColor Yellow
+                docker compose restart
+                Write-Host "Waiting for services to recover..." -ForegroundColor Gray
+                Start-Sleep -Seconds 45
             }
         }
     }

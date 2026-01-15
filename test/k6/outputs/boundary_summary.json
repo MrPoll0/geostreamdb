@@ -1,16 +1,196 @@
 {
+  "metrics": {
+    "http_req_duration{expected_response:true}": {
+      "contains": "time",
+      "values": {
+        "avg": 2.496829749999998,
+        "min": 1.518,
+        "med": 2.2616,
+        "max": 7.0916,
+        "p(90)": 3.2531800000000004,
+        "p(95)": 3.6336699999999986
+      },
+      "type": "trend"
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "min": 1,
+        "max": 1,
+        "value": 1
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.0190835,
+        "min": 0,
+        "med": 0,
+        "max": 7.0595,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "http_reqs": {
+      "contains": "default",
+      "values": {
+        "count": 400,
+        "rate": 1.3285576896764135
+      },
+      "type": "counter"
+    },
+    "http_req_duration": {
+      "values": {
+        "med": 2.2616,
+        "max": 7.0916,
+        "p(90)": 3.2531800000000004,
+        "p(95)": 3.6336699999999986,
+        "avg": 2.496829749999998,
+        "min": 1.518
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "data_sent": {
+      "contains": "data",
+      "values": {
+        "count": 60437,
+        "rate": 200.7351027274335
+      },
+      "type": "counter"
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 0,
+        "max": 0.5297,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.00132425,
+        "min": 0
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 0.0005549999999994952,
+        "avg": 0.01844875,
+        "min": 0,
+        "med": 0,
+        "max": 2.0009,
+        "p(90)": 0
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "max": 12071.3933,
+        "p(90)": 12048.25266,
+        "p(95)": 12050.3081,
+        "avg": 12043.133800000001,
+        "min": 12036.3228,
+        "med": 12041.6128
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 1,
+        "min": 1,
+        "max": 1
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 138576,
+        "rate": 460.2655260114967
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 0.53711,
+        "avg": 0.085012,
+        "min": 0,
+        "med": 0,
+        "max": 1.1448,
+        "p(90)": 0.5189
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0,
+        "min": 0,
+        "med": 0,
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0
+      }
+    },
+    "iterations": {
+      "contains": "default",
+      "values": {
+        "rate": 0.08303485560477585,
+        "count": 25
+      },
+      "type": "counter"
+    },
+    "checks": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 1,
+        "passes": 600,
+        "fails": 0
+      },
+      "thresholds": {
+        "rate==1.0": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 2.3933689999999985,
+        "min": 1.0432,
+        "med": 2.19855,
+        "max": 5.9989,
+        "p(90)": 3.01276,
+        "p(95)": 3.3628499999999995
+      }
+    },
+    "http_req_failed": {
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 400
+      },
+      "type": "rate",
+      "contains": "default"
+    }
+  },
   "root_group": {
-    "name": "",
-    "path": "",
-    "id": "d41d8cd98f00b204e9800998ecf8427e",
     "groups": [],
     "checks": [
         {
-          "passes": 25,
-          "fails": 0,
           "name": "Bottom edge: Ping status is 201",
           "path": "::Bottom edge: Ping status is 201",
-          "id": "0189fe1163bd45cb91a4ab3489848928"
+          "id": "0189fe1163bd45cb91a4ab3489848928",
+          "passes": 25,
+          "fails": 0
         },
         {
           "name": "Bottom edge: PingArea status is 200",
@@ -20,18 +200,18 @@
           "fails": 0
         },
         {
-          "fails": 0,
-          "name": "Bottom edge: PingArea count is expected",
           "path": "::Bottom edge: PingArea count is expected",
           "id": "9f164e17a53e580e3c073b6f49582ba3",
-          "passes": 25
-        },
-        {
           "passes": 25,
           "fails": 0,
+          "name": "Bottom edge: PingArea count is expected"
+        },
+        {
           "name": "Left edge: Ping status is 201",
           "path": "::Left edge: Ping status is 201",
-          "id": "b6302c89bf91a5dc1111ccf52ec2dc92"
+          "id": "b6302c89bf91a5dc1111ccf52ec2dc92",
+          "passes": 25,
+          "fails": 0
         },
         {
           "name": "Left edge: PingArea status is 200",
@@ -41,39 +221,39 @@
           "fails": 0
         },
         {
-          "id": "fe6d861e9f2403aeb26b746e9b494732",
           "passes": 25,
           "fails": 0,
           "name": "Left edge: PingArea count is expected",
-          "path": "::Left edge: PingArea count is expected"
+          "path": "::Left edge: PingArea count is expected",
+          "id": "fe6d861e9f2403aeb26b746e9b494732"
         },
         {
+          "fails": 0,
           "name": "Right edge: Ping status is 201",
           "path": "::Right edge: Ping status is 201",
           "id": "f8ef0c4ab25e736631fe63834e1f60af",
-          "passes": 25,
-          "fails": 0
+          "passes": 25
         },
         {
-          "name": "Right edge: PingArea status is 200",
-          "path": "::Right edge: PingArea status is 200",
           "id": "9f1d3d7896ad0e91740bb148a23b2f53",
           "passes": 25,
+          "fails": 0,
+          "name": "Right edge: PingArea status is 200",
+          "path": "::Right edge: PingArea status is 200"
+        },
+        {
+          "name": "Right edge: PingArea count is expected",
+          "path": "::Right edge: PingArea count is expected",
+          "id": "c506adfa7dc147c7393714790891c9bb",
+          "passes": 25,
           "fails": 0
         },
         {
-          "passes": 25,
-          "fails": 0,
-          "name": "Right edge: PingArea count is expected",
-          "path": "::Right edge: PingArea count is expected",
-          "id": "c506adfa7dc147c7393714790891c9bb"
-        },
-        {
-          "name": "Top edge: Ping status is 201",
           "path": "::Top edge: Ping status is 201",
           "id": "fdc2314808acc7c344e3dc04f8fdb8d6",
           "passes": 25,
-          "fails": 0
+          "fails": 0,
+          "name": "Top edge: Ping status is 201"
         },
         {
           "id": "faac4004973b64378b7cb3847bd55cb4",
@@ -83,11 +263,11 @@
           "path": "::Top edge: PingArea status is 200"
         },
         {
+          "name": "Top edge: PingArea count is expected",
+          "path": "::Top edge: PingArea count is expected",
           "id": "91d5c2211a25be47892dc1d9dfd7609d",
           "passes": 25,
-          "fails": 0,
-          "name": "Top edge: PingArea count is expected",
-          "path": "::Top edge: PingArea count is expected"
+          "fails": 0
         },
         {
           "name": "Top-left corner: Ping status is 201",
@@ -97,25 +277,25 @@
           "fails": 0
         },
         {
-          "path": "::Top-left corner: PingArea status is 200",
           "id": "c9a3325a66132480fd67df43f59838c5",
           "passes": 25,
           "fails": 0,
-          "name": "Top-left corner: PingArea status is 200"
+          "name": "Top-left corner: PingArea status is 200",
+          "path": "::Top-left corner: PingArea status is 200"
         },
         {
+          "fails": 0,
           "name": "Top-left corner: PingArea count is expected",
           "path": "::Top-left corner: PingArea count is expected",
           "id": "7bb09ddd9da15f48c05ceaf8d753b8c0",
-          "passes": 25,
-          "fails": 0
+          "passes": 25
         },
         {
-          "name": "Top-right corner: Ping status is 201",
           "path": "::Top-right corner: Ping status is 201",
           "id": "d9411b99d8ab8221c83fa5a9af41a878",
           "passes": 25,
-          "fails": 0
+          "fails": 0,
+          "name": "Top-right corner: Ping status is 201"
         },
         {
           "name": "Top-right corner: PingArea status is 200",
@@ -125,32 +305,32 @@
           "fails": 0
         },
         {
+          "fails": 0,
           "name": "Top-right corner: PingArea count is expected",
           "path": "::Top-right corner: PingArea count is expected",
           "id": "42790d778191fc936b497c71c4f8ecfa",
+          "passes": 25
+        },
+        {
+          "passes": 25,
+          "fails": 0,
+          "name": "Bottom-left corner: Ping status is 201",
+          "path": "::Bottom-left corner: Ping status is 201",
+          "id": "5ea36da6f53bca77000e7d9484916779"
+        },
+        {
+          "name": "Bottom-left corner: PingArea status is 200",
+          "path": "::Bottom-left corner: PingArea status is 200",
+          "id": "67c8840ea46fe4a82f1bed542d479981",
           "passes": 25,
           "fails": 0
         },
         {
-          "id": "5ea36da6f53bca77000e7d9484916779",
-          "passes": 25,
-          "fails": 0,
-          "name": "Bottom-left corner: Ping status is 201",
-          "path": "::Bottom-left corner: Ping status is 201"
-        },
-        {
-          "fails": 0,
-          "name": "Bottom-left corner: PingArea status is 200",
-          "path": "::Bottom-left corner: PingArea status is 200",
-          "id": "67c8840ea46fe4a82f1bed542d479981",
-          "passes": 25
-        },
-        {
+          "name": "Bottom-left corner: PingArea count is expected",
+          "path": "::Bottom-left corner: PingArea count is expected",
           "id": "c9d4bc33c72539c6ed649c31c732a492",
           "passes": 25,
-          "fails": 0,
-          "name": "Bottom-left corner: PingArea count is expected",
-          "path": "::Bottom-left corner: PingArea count is expected"
+          "fails": 0
         },
         {
           "name": "Bottom-right corner: Ping status is 201",
@@ -167,13 +347,16 @@
           "fails": 0
         },
         {
-          "id": "4efec1fe418b937a04727ff78cdfeb00",
-          "passes": 25,
           "fails": 0,
           "name": "Bottom-right corner: PingArea count is expected",
-          "path": "::Bottom-right corner: PingArea count is expected"
+          "path": "::Bottom-right corner: PingArea count is expected",
+          "id": "4efec1fe418b937a04727ff78cdfeb00",
+          "passes": 25
         }
-      ]
+      ],
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "options": {
     "summaryTrendStats": [
@@ -188,191 +371,8 @@
     "noColor": false
   },
   "state": {
+    "testRunDurationMs": 301078.3823,
     "isStdOutTTY": true,
-    "isStdErrTTY": true,
-    "testRunDurationMs": 301350.4252
-  },
-  "metrics": {
-    "vus_max": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 1,
-        "min": 1,
-        "max": 1
-      }
-    },
-    "http_req_failed": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "fails": 400,
-        "rate": 0,
-        "passes": 0
-      }
-    },
-    "http_req_receiving": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 0.083946,
-        "min": 0,
-        "med": 0,
-        "max": 1.0062,
-        "p(90)": 0.51374,
-        "p(95)": 0.54099
-      }
-    },
-    "iteration_duration": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(95)": 12064.800299999999,
-        "avg": 12054.012476000004,
-        "min": 12041.5165,
-        "med": 12053.4375,
-        "max": 12070.3513,
-        "p(90)": 12060.76582
-      }
-    },
-    "http_req_duration": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 4.36021,
-        "p(95)": 4.765069999999999,
-        "avg": 3.1741115000000026,
-        "min": 1.5225,
-        "med": 3.1877,
-        "max": 6.9442
-      }
-    },
-    "http_req_waiting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "max": 6.9442,
-        "p(90)": 4.225120000000001,
-        "p(95)": 4.5491649999999995,
-        "avg": 3.0653135000000034,
-        "min": 1.0124,
-        "med": 3.0023
-      }
-    },
-    "data_received": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "count": 138464,
-        "rate": 459.4783628000668
-      }
-    },
-    "iterations": {
-      "type": "counter",
-      "contains": "default",
-      "values": {
-        "count": 25,
-        "rate": 0.08295989621852373
-      }
-    },
-    "http_reqs": {
-      "contains": "default",
-      "values": {
-        "count": 400,
-        "rate": 1.3273583394963797
-      },
-      "type": "counter"
-    },
-    "http_req_blocked": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.01738625,
-        "min": 0,
-        "med": 0,
-        "max": 4.7742
-      }
-    },
-    "http_req_sending": {
-      "values": {
-        "p(95)": 0.02096499999999985,
-        "avg": 0.024852,
-        "min": 0,
-        "med": 0,
-        "max": 0.9996,
-        "p(90)": 0
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_tls_handshaking": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "min": 0,
-        "med": 0,
-        "max": 0,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0
-      }
-    },
-    "http_req_connecting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "med": 0,
-        "max": 0.5209,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.00130225,
-        "min": 0
-      }
-    },
-    "vus": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 1,
-        "min": 1,
-        "max": 1
-      }
-    },
-    "checks": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "rate": 1,
-        "passes": 600,
-        "fails": 0
-      },
-      "thresholds": {
-        "rate==1.0": {
-          "ok": true
-        }
-      }
-    },
-    "http_req_duration{expected_response:true}": {
-      "values": {
-        "avg": 3.1741115000000026,
-        "min": 1.5225,
-        "med": 3.1877,
-        "max": 6.9442,
-        "p(90)": 4.36021,
-        "p(95)": 4.765069999999999
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "data_sent": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "count": 59355,
-        "rate": 196.96338560201903
-      }
-    }
+    "isStdErrTTY": true
   }
 }
