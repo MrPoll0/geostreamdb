@@ -1,0 +1,110 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # allows manual trigger
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  WORKERS: 3
+  GATEWAYS: 3
+  ENTRYPOINT_URL: http://localhost:8080
+
+jobs:
+  direct-tests:
+    name: Direct k6 Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run all direct tests
+        shell: pwsh
+        working-directory: test
+        run: |
+          ./run-tests.ps1 -Test all-direct -Workers ${{ env.WORKERS }} -Gateways ${{ env.GATEWAYS }} -EntrypointUrl ${{ env.ENTRYPOINT_URL }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-direct-results
+          path: test/k6/outputs/*.json
+          retention-days: 7
+
+      - name: Show container logs on failure
+        if: failure()
+        run: |
+          echo "=== Gateway logs ==="
+          docker compose logs gateway
+          echo "=== Worker logs ==="
+          docker compose logs worker-node
+          echo "=== Registry logs ==="
+          docker compose logs registry
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
+
+  # orchestrated tests run separately (they perform chaos engineering)
+  orchestrated-tests:
+    name: Orchestrated Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: direct-tests # run after direct tests pass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run all orchestrated tests
+        shell: pwsh
+        working-directory: test
+        run: |
+          ./run-tests.ps1 -Test all-orchestrated -Workers ${{ env.WORKERS }} -Gateways ${{ env.GATEWAYS }} -EntrypointUrl ${{ env.ENTRYPOINT_URL }}
+
+      - name: Upload orchestrated test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-orchestrated-results
+          path: test/k6/outputs/*.json
+          retention-days: 7
+
+      - name: Show container logs on failure
+        if: failure()
+        run: |
+          echo "=== Gateway logs ==="
+          docker compose logs gateway
+          echo "=== Worker logs ==="
+          docker compose logs worker-node
+          echo "=== Registry logs ==="
+          docker compose logs registry
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
