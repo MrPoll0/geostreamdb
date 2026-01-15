@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -292,7 +293,9 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 		Server string
 	}
 
-	results := make([]*ExtendedGetPingAreaResponse, 0)
+	var results []*ExtendedGetPingAreaResponse
+	var resultsMu sync.Mutex
+
 	if precUsed >= SHARDING_PRECISION {
 		// we can find shards responsible for these geohashes. find and group them
 
@@ -309,69 +312,100 @@ func getPingArea(w http.ResponseWriter, r *http.Request) {
 			Metrics.geohashRequestsTotal.WithLabelValues(targetAddr, "routed").Inc()
 		}
 
-		// for every key (node address), get the ping area for its assigned geohashes
+		// parallel gRPC calls to workers
+		var wg sync.WaitGroup
 		for targetAddr, geohashes := range grouped {
-			conn, err := state.GetConn(targetAddr)
-			if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte("Failed to connect to worker"))
-				return
-			}
+			wg.Add(1)
+			go func(addr string, ghs []string) {
+				defer wg.Done()
 
-			client := pb.NewWorkerClient(conn)
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-			defer cancel()
+				conn, err := state.GetConn(addr)
+				if err != nil {
+					return
+				}
 
-			start := time.Now()
-			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: geohashes})
-			observeGRPC("GetPingArea", targetAddr, err, start)
-			/*if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte("Failed to get ping area from worker"))
-				return
-			}*/
-			if err != nil {
-				continue // skip failed worker, return partial response
-			}
-			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: targetAddr})
+				client := pb.NewWorkerClient(conn)
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+
+				start := time.Now()
+				v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{
+					Precision:    int32(precision),
+					AggPrecision: int32(precUsed),
+					MinLat:       minLat,
+					MaxLat:       maxLat,
+					MinLng:       minLng,
+					MaxLng:       maxLng,
+					Geohashes:    ghs,
+				})
+				observeGRPC("GetPingArea", addr, err, start)
+
+				if err != nil {
+					return // skip failed worker, return partial response
+				}
+
+				resultsMu.Lock()
+				results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: addr})
+				resultsMu.Unlock()
+			}(targetAddr, geohashes)
 		}
+		wg.Wait()
 	} else {
 		// geohashes will be spread across multiple shards. broadcast query to all nodes
 
+		// first: collect unique servers (avoid repetition because of virtual nodes)
+		state.ringMutex.RLock()
 		seenServers := make(map[string]struct{})
+		servers := make([]string, 0, len(state.ring)/NUM_VIRTUAL_NODES+1)
 		for _, node := range state.ring {
-			if _, seen := seenServers[node.Server]; seen { // avoid repetition because of virtual nodes
+			if _, seen := seenServers[node.Server]; seen {
 				continue
 			}
 			seenServers[node.Server] = struct{}{}
-
-			Metrics.geohashRequestsTotal.WithLabelValues(node.Server, "broadcast").Inc()
-
-			conn, err := state.GetConn(node.Server)
-			if err != nil {
-				continue
-			}
-			client := pb.NewWorkerClient(conn)
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-			defer cancel()
-
-			start := time.Now()
-			v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{Precision: int32(precision), AggPrecision: int32(precUsed), MinLat: minLat, MaxLat: maxLat, MinLng: minLng, MaxLng: maxLng, Geohashes: cover})
-			observeGRPC("GetPingArea", node.Server, err, start)
-			/*if err != nil {
-
-				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte("Failed to get ping area from worker"))
-				return
-
-			}*/
-			// if a worker fails, simply skip it and work with the data from the other workers
-			// this avoids returning error for a single worker failure in a broadcast query and results in a partial response
-			if err != nil {
-				continue
-			}
-			results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: node.Server})
+			servers = append(servers, node.Server)
 		}
+		state.ringMutex.RUnlock()
+
+		// then: parallel broadcast to all workers
+		var wg sync.WaitGroup
+		for _, server := range servers {
+			Metrics.geohashRequestsTotal.WithLabelValues(server, "broadcast").Inc()
+
+			wg.Add(1)
+			go func(addr string) {
+				defer wg.Done()
+
+				conn, err := state.GetConn(addr)
+				if err != nil {
+					return
+				}
+
+				client := pb.NewWorkerClient(conn)
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+
+				start := time.Now()
+				v, err := client.GetPingArea(ctx, &pb.GetPingAreaRequest{
+					Precision:    int32(precision),
+					AggPrecision: int32(precUsed),
+					MinLat:       minLat,
+					MaxLat:       maxLat,
+					MinLng:       minLng,
+					MaxLng:       maxLng,
+					Geohashes:    cover,
+				})
+				observeGRPC("GetPingArea", addr, err, start)
+
+				if err != nil {
+					return // skip failed worker, return partial response
+				}
+
+				resultsMu.Lock()
+				results = append(results, &ExtendedGetPingAreaResponse{GetPingAreaResponse: v, Server: addr})
+				resultsMu.Unlock()
+			}(server)
+		}
+		wg.Wait()
 	}
 
 	type ExtendedPingAreaCount struct {

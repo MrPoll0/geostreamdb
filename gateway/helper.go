@@ -23,17 +23,21 @@ func (a ghBbox) intersects(b ghBbox) bool {
 
 var geohashBase32 = "0123456789bcdefghjkmnpqrstuvwxyz"
 
+// pre-computed lookup table for geohash base32 decoding (avoids allocation per call)
+var geohashCharmap [256]byte
+
+func init() {
+	for i := range geohashCharmap {
+		geohashCharmap[i] = 0xFF
+	}
+	for i := 0; i < len(geohashBase32); i++ {
+		geohashCharmap[geohashBase32[i]] = byte(i)
+	}
+}
+
 func geohashDecodeBbox(gh string) (ghBbox, bool) {
 	if gh == "" {
 		return ghBbox{}, false
-	}
-
-	var charmap [256]byte
-	for i := range charmap {
-		charmap[i] = 0xFF
-	}
-	for i := 0; i < len(geohashBase32); i++ {
-		charmap[geohashBase32[i]] = byte(i)
 	}
 
 	minLat, maxLat := -90.0, 90.0
@@ -46,7 +50,7 @@ func geohashDecodeBbox(gh string) (ghBbox, bool) {
 		if c >= 'A' && c <= 'Z' {
 			c = c + ('a' - 'A')
 		}
-		v := charmap[c] // base32 char -> [0, 31]
+		v := geohashCharmap[c] // base32 char -> [0, 31]
 		if v == 0xFF {
 			return ghBbox{}, false
 		}
@@ -78,14 +82,10 @@ func geohashDecodeBbox(gh string) (ghBbox, bool) {
 }
 
 func geohashEncodeWithPrecision(lat, lng float64, precision int) string {
-	gh := geohash.Encode(lat, lng)
 	if precision <= 0 {
 		return ""
 	}
-	if len(gh) >= precision {
-		return gh[:precision]
-	}
-	return gh
+	return geohash.EncodeWithPrecision(lat, lng, uint(precision))
 }
 
 func deg2rad(deg float64) float64 { return deg * math.Pi / 180 }
@@ -238,13 +238,23 @@ func geohashCoverSet(minLat, maxLat, minLng, maxLng float64, precision int) []st
 	}
 
 	// BFS to find all geohashes that intersect with the query bbox
-	visited := make(map[string]struct{})
-	inSet := make(map[string]struct{})
-	queue := []string{seed}
+	// pre-size maps with estimated capacity to reduce rehashing costs
+	estCount, _, _ := estimateGeohashCoverCount(minLat, maxLat, minLng, maxLng, precision)
+	initCap := int(estCount) + 16 // + buffer
+	if initCap > 4096 {
+		initCap = 4096 // cap to avoid over-allocation for huge queries
+	}
+	// pre-allocate with estimated capacity
+	visited := make(map[string]struct{}, initCap)
+	inSet := make(map[string]struct{}, initCap)
+	queue := make([]string, 1, initCap)
 
-	for len(queue) > 0 {
-		gh := queue[0]
-		queue = queue[1:]
+	queue[0] = seed
+	qHead := 0 // index-based dequeue avoids slice[1:] garbage, tracks the front of the queue
+
+	for qHead < len(queue) {
+		gh := queue[qHead]
+		qHead++
 
 		if _, ok := visited[gh]; ok {
 			continue

@@ -61,16 +61,27 @@ func (g *GatewayState) addNode(workerId string, address string) {
 		return
 	}
 
-	// New node added - increment metric
+	// new node added: increment metric
 	Metrics.workerNodesTotal.Inc()
 
-	for i := 0; i < NUM_VIRTUAL_NODES; i++ {
-		id := workerId + "#" + strconv.Itoa(i)
-		hash := xxh3.HashString(id)
-		node := RingNode{Hash: hash, Server: address}
+	// pre-allocate capacity to avoid reallocs during append
+	if cap(g.ring)-len(g.ring) < NUM_VIRTUAL_NODES {
+		// current capacity is not enough, allocate a new one
+		newRing := make(HashRing, len(g.ring), len(g.ring)+NUM_VIRTUAL_NODES)
+		copy(newRing, g.ring)
+		g.ring = newRing
+	}
 
-		g.ring = append(g.ring, node)
-		log.Printf("Added worker %s at %s to the ring", id, address)
+	// reuse buffer for string building (avoids alloc per iteration)
+	var buf []byte
+	for i := 0; i < NUM_VIRTUAL_NODES; i++ {
+		buf = buf[:0]                  // reset buffer
+		buf = append(buf, workerId...) // unpack workerId string into bytes and append
+		buf = append(buf, '#')
+		buf = strconv.AppendInt(buf, int64(i), 10)
+
+		hash := xxh3.HashString(string(buf))
+		g.ring = append(g.ring, RingNode{Hash: hash, Server: address})
 	}
 
 	sort.Sort(g.ring)
@@ -87,25 +98,30 @@ func (g *GatewayState) removeNode(workerId string) {
 func (g *GatewayState) removeNodeLocked(workerId string) string {
 	// removes a physical node along all its virtual nodes
 	// no remapping of keys (geohashes) needed because of their short TTL
-	server := ""
+
+	// collect all hashes to remove first (avoid modifying slice while iterating)
+	hashesToRemove := make(map[uint64]struct{}, NUM_VIRTUAL_NODES)
+	var buf []byte // reuse buffer for string building
 	for i := 0; i < NUM_VIRTUAL_NODES; i++ {
-		id := workerId + "#" + strconv.Itoa(i)
-		hash := xxh3.HashString(id)
-
-		// binary search
-		index := sort.Search(len(g.ring), func(j int) bool {
-			return g.ring[j].Hash >= hash
-		})
-
-		if index >= len(g.ring) || g.ring[index].Hash != hash {
-			continue
-		}
-
-		server = g.ring[index].Server
-		g.ring = append(g.ring[:index], g.ring[index+1:]...)
-
-		log.Printf("Removed worker %s from ring", server)
+		buf = buf[:0]
+		buf = append(buf, workerId...)
+		buf = append(buf, '#')
+		buf = strconv.AppendInt(buf, int64(i), 10)
+		hash := xxh3.HashString(string(buf))
+		hashesToRemove[hash] = struct{}{}
 	}
+
+	// single pass: filter out nodes with matching hashes
+	server := ""
+	newRing := g.ring[:0] // reuse underlying array
+	for _, node := range g.ring {
+		if _, remove := hashesToRemove[node.Hash]; remove {
+			server = node.Server
+			continue // skip this node
+		}
+		newRing = append(newRing, node)
+	}
+	g.ring = newRing
 
 	delete(g.lastSeen, workerId)
 
