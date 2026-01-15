@@ -22,14 +22,24 @@ jobs:
         run: |
           docker compose up --build --scale worker-node=1 --scale gateway=1 -d
           
-          echo "Waiting for services..."
-          for i in {1..30}; do
-            if curl -s "${{ env.ENTRYPOINT_URL }}/ping?lat=0&lng=0" > /dev/null 2>&1; then
-              echo "Ready!"
+          echo "Waiting for services to be ready..."
+          for i in {1..60}; do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.ENTRYPOINT_URL }}/ping?lat=0&lng=0" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "Services ready! (attempt $i)"
               break
             fi
+            echo "Attempt $i/60: got HTTP $HTTP_CODE, waiting..."
             sleep 2
           done
+          
+          # final check
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.ENTRYPOINT_URL }}/ping?lat=0&lng=0")
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Services not ready after 120s (got HTTP $HTTP_CODE)"
+            docker compose logs
+            exit 1
+          fi
 
       - name: Basic write test
         run: |
