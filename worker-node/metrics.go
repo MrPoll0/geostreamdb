@@ -6,7 +6,7 @@ import (
 )
 
 type metrics struct {
-	pingsStoredTotal  *prometheus.CounterVec   // per geohash prefix (precision 3) (TTL must be taken into account externally)
+	pingsStoredTotal  *prometheus.CounterVec   // per geohash prefix (precision 2, max 1024 labels) (TTL must be taken into account externally)
 	gRPCRequestsTotal *prometheus.CounterVec   // per method and result (success/failure)
 	gRPCLatency       *prometheus.HistogramVec // per method
 }
@@ -14,7 +14,7 @@ type metrics struct {
 var Metrics = metrics{
 	pingsStoredTotal: promauto.NewCounterVec(prometheus.CounterOpts{
 		Name: "worker_pings_stored_total",
-		Help: "Total count of pings stored by geohash prefix (precision 3)",
+		Help: "Total count of pings stored by geohash prefix (precision 2)",
 	}, []string{"gh_prefix"}),
 	gRPCRequestsTotal: promauto.NewCounterVec(prometheus.CounterOpts{
 		Name: "worker_grpc_requests_total",

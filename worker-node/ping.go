@@ -44,17 +44,21 @@ func (a ghBbox) intersects(b ghBbox) bool {
 
 var geohashBase32 = "0123456789bcdefghjkmnpqrstuvwxyz"
 
+// pre-computed lookup table for geohash base32 decoding (avoids allocation per call)
+var geohashCharmap [256]byte
+
+func init() {
+	for i := range geohashCharmap {
+		geohashCharmap[i] = 0xFF
+	}
+	for i := 0; i < len(geohashBase32); i++ {
+		geohashCharmap[geohashBase32[i]] = byte(i)
+	}
+}
+
 func geohashDecodeBbox(gh string) (ghBbox, bool) {
 	if gh == "" {
 		return ghBbox{}, false
-	}
-
-	var charmap [256]byte
-	for i := range charmap {
-		charmap[i] = 0xFF
-	}
-	for i := 0; i < len(geohashBase32); i++ {
-		charmap[geohashBase32[i]] = byte(i)
 	}
 
 	minLat, maxLat := -90.0, 90.0
@@ -67,7 +71,7 @@ func geohashDecodeBbox(gh string) (ghBbox, bool) {
 		if c >= 'A' && c <= 'Z' {
 			c = c + ('a' - 'A')
 		}
-		v := charmap[c] // base32 char -> [0, 31]
+		v := geohashCharmap[c] // base32 char -> [0, 31]
 		if v == 0xFF {
 			return ghBbox{}, false
 		}
@@ -420,11 +424,12 @@ func (s *grpcServer) SendPing(ctx context.Context, req *pb.PingRequest) (*pb.Pin
 
 	slot.Data.TrieRoot.Increment(req.Geohash)
 
-	// track pings stored per geohash prefix (precision 3 for bounded cardinality: 32^3 = 32K max prefixes)
-	// TTL must be taken into account externally
+	// track pings stored per geohash prefix (precision 2 for bounded cardinality: 32^2 = 1024 max prefixes)
+	// reduced from precision 3 (32K labels) to avoid memory growth from Prometheus label accumulation
+	// TTL must be taken into acount externally
 	ghPrefix := req.Geohash
-	if len(ghPrefix) > 3 {
-		ghPrefix = ghPrefix[:3]
+	if len(ghPrefix) > 2 {
+		ghPrefix = ghPrefix[:2]
 	}
 	Metrics.pingsStoredTotal.WithLabelValues(ghPrefix).Inc()
 
