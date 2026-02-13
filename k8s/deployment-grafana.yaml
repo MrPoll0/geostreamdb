@@ -21,6 +21,20 @@ spec:
         ports:
         - containerPort: 3000
           name: http
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          failureThreshold: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 6
         volumeMounts:
         - name: grafana-data
           mountPath: /var/lib/grafana
