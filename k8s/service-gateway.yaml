@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: geostreamdb
+spec:
+  selector:
+    app: gateway
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+  - name: metrics
+    port: 2112
+    targetPort: 2112

@@ -22,12 +22,17 @@ func new_grpc_client(registryAddress string) (*grpc.ClientConn, pb.RegistryClien
 
 func send_heartbeat(client pb.RegistryClient, registryAddress string) {
 	gatewayId := uuid.New().String()
-	hostname, _ := os.Hostname() // hostname used as address with docker compose
-	port := os.Getenv("PORT")
+	// use pod IP if available (Kubernetes), otherwise use hostname (Docker Compose)
+	address := os.Getenv("GATEWAY_ADDRESS")
+	if address == "" {
+		hostname, _ := os.Hostname()
+		address = hostname
+	}
+	port := os.Getenv("GATEWAY_PORT")
 	if port == "" {
 		port = "50051"
 	}
-	fullAddress := hostname + ":" + port
+	fullAddress := address + ":" + port
 
 	ticker := time.NewTicker(3 * time.Second)
 	defer ticker.Stop()

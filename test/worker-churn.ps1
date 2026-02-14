@@ -3,14 +3,24 @@
 param(
     [int]$ChurnIntervalSeconds = 20,    # how often to churn a worker
     [int]$TestDurationMinutes = 3,      # total test duration
-    [string]$WorkerPrefix = "geostreamdb-worker"  # docker container name prefix
+    [string]$WorkerPrefix = "geostreamdb-worker",  # docker container name prefix
+    [string]$Namespace = "geostreamdb",
+    [switch]$UseKubernetes = $false # toggle between Docker Compose (default) and Kubernetes
 )
 
 $ErrorActionPreference = "Stop"
 
-# get all worker containers
+# get all worker containers/pods
 function Get-Workers {
-    docker ps --filter "name=$WorkerPrefix" --format "{{.Names}}" | Where-Object { $_ }
+    if ($UseKubernetes) {
+        $pods = kubectl get pods -n $Namespace -l app=worker-node --field-selector=status.phase=Running -o jsonpath='{.items[*].metadata.name}' 2>$null
+        if ($pods) {
+            return @($pods -split ' ' | Where-Object { $_ })
+        }
+        return @()
+    } else {
+        docker ps --filter "name=$WorkerPrefix" --format "{{.Names}}" | Where-Object { $_ }
+    }
 }
 
 # kill a random worker
@@ -23,18 +33,25 @@ function Kill-RandomWorker {
     
     $victim = $workers | Get-Random
     Write-Host "[CHURN] Killing worker: $victim"
-    docker stop $victim --time 1 | Out-Null
-    return $victim
+    if ($UseKubernetes) {
+        kubectl delete pod $victim -n $Namespace --grace-period=1
+        # Kubernetes will auto-restart, so return null (no need to track for restart)
+        return $null
+    } else {
+        docker stop $victim --time 1 | Out-Null
+        return $victim
+    }
 }
 
-# restart a stopped worker
+# restart a stopped worker (only needed for Docker Compose)
 function Restart-Worker {
     param([string]$WorkerName)
     
-    if ($WorkerName) {
+    if ($WorkerName -and -not $UseKubernetes) {
         Write-Host "[CHURN] Restarting worker: $WorkerName"
         docker start $WorkerName | Out-Null
     }
+    # Kubernetes auto-restarts pods, so no action needed
 }
 
 # main orchestration

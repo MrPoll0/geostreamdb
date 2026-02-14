@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-node
+  namespace: geostreamdb
+  labels:
+    app: worker-node
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  selector:
+    matchLabels:
+      app: worker-node
+  template:
+    metadata:
+      labels:
+        app: worker-node
+    spec:
+      containers:
+      - name: worker-node
+        image: geostreamdb-worker-node:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50051
+          name: grpc
+        - containerPort: 2112
+          name: metrics
+        env:
+        - name: PORT
+          value: "50051"
+        - name: METRICS_PORT
+          value: "2112"
+        - name: REGISTRY_ADDRESS
+          value: "registry-service.geostreamdb.svc.cluster.local:50051"
+        - name: WORKER_ADDRESS
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "2000m"

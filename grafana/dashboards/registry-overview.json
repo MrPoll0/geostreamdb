@@ -171,15 +171,15 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[30s])))",
           "legendFormat": "p50"
         },
         {
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[30s])))",
           "legendFormat": "p95"
         },
         {
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket[30s])))",
           "legendFormat": "p99"
         }
       ],
@@ -205,7 +205,7 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (le, method) (rate(registry_grpc_request_duration_seconds_bucket[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, method) (rate(registry_grpc_request_duration_seconds_bucket[30s])))",
           "legendFormat": "{{method}}"
         }
       ],
@@ -283,11 +283,11 @@
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Gateway.Heartbeat\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Gateway.Heartbeat\"}[30s])))",
           "legendFormat": "p95"
         },
         {
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Gateway.Heartbeat\"}[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Gateway.Heartbeat\"}[30s])))",
           "legendFormat": "p99"
         }
       ],
@@ -313,11 +313,11 @@
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Registry.Heartbeat\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Registry.Heartbeat\"}[30s])))",
           "legendFormat": "p95"
         },
         {
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Registry.Heartbeat\"}[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(registry_grpc_request_duration_seconds_bucket{method=\"Registry.Heartbeat\"}[30s])))",
           "legendFormat": "p99"
         }
       ],
@@ -403,4 +403,5 @@
     }
   ]
 }
+
 

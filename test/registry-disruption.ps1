@@ -4,31 +4,60 @@ param(
     [int]$DisruptionIntervalSeconds = 30,   # how often to disrupt registry
     [int]$DowntimeSeconds = 15,             # how long registry stays down
     [int]$TestDurationMinutes = 3,          # total test duration
-    [string]$RegistryContainer = "registry"  # registry container name
+    [string]$RegistryContainer = "registry",  # registry container name
+    [string]$Namespace = "geostreamdb",
+    [switch]$UseKubernetes = $false # toggle between Docker Compose (default) and Kubernetes
 )
 
 $ErrorActionPreference = "Stop"
 
 # check if registry is running
 function Test-Registry {
-    try {
-        $running = docker ps --filter "name=$RegistryContainer" --format "{{.Names}}" 2>$null
-        return ($running -ne $null -and $running -ne "")
-    } catch {
-        return $false
+    if ($UseKubernetes) {
+        try {
+            $pod = kubectl get pod -n $Namespace -l app=registry -o jsonpath='{.items[0].metadata.name}' 2>$null
+            if ($pod) {
+                $status = kubectl get pod $pod -n $Namespace -o jsonpath='{.status.phase}' 2>$null
+                return ($status -eq "Running")
+            }
+            return $false
+        } catch {
+            return $false
+        }
+    } else {
+        try {
+            $running = docker ps --filter "name=$RegistryContainer" --format "{{.Names}}" 2>$null
+            return ($running -ne $null -and $running -ne "")
+        } catch {
+            return $false
+        }
     }
 }
 
 # stop registry
 function Stop-Registry {
     Write-Host "[DISRUPTION] Stopping registry: $RegistryContainer"
-    docker stop $RegistryContainer --time 1 | Out-Null
+    if ($UseKubernetes) {
+        # force outage in Kubernetes by scaling deployment to zero
+        kubectl scale deployment/registry --replicas=0 -n $Namespace | Out-Null
+        Start-Sleep -Seconds 1
+        $null = kubectl wait --for=delete pod -l app=registry -n $Namespace --timeout=30s 2>$null
+    } else {
+        docker stop $RegistryContainer --time 1 | Out-Null
+    }
 }
 
 # start registry
 function Start-Registry {
     Write-Host "[DISRUPTION] Starting registry: $RegistryContainer"
-    docker start $RegistryContainer | Out-Null
+    if ($UseKubernetes) {
+        # scale deployment back to one replica
+        kubectl scale deployment/registry --replicas=1 -n $Namespace | Out-Null
+        Start-Sleep -Seconds 2
+        kubectl wait --for=condition=ready pod -l app=registry -n $Namespace --timeout=60s | Out-Null
+    } else {
+        docker start $RegistryContainer | Out-Null
+    }
 }
 
 # main orchestration
@@ -42,8 +71,12 @@ Write-Host ""
 
 # check registry exists and is running
 if (-not (Test-Registry)) {
-    Write-Host "[ERROR] Registry container '$RegistryContainer' not running."
-    Write-Host "[ERROR] Make sure the system is up: docker-compose up -d"
+    Write-Host "[ERROR] Registry '$RegistryContainer' not running."
+    if ($UseKubernetes) {
+        Write-Host "[ERROR] Make sure the system is up (from project root): kubectl apply -k ."
+    } else {
+        Write-Host "[ERROR] Make sure the system is up: docker-compose up -d"
+    }
     exit 1
 }
 
