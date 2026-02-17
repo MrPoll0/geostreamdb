@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: geostreamdb
+
+resources:
+  - namespace.yaml
+  - rbac-prometheus.yaml
+  - deployment-registry.yaml
+  - deployment-gateway.yaml
+  - pdb-gateway.yaml
+  - deployment-worker.yaml
+  - deployment-loadbalancer.yaml
+  - deployment-prometheus.yaml
+  - deployment-grafana.yaml
+  - deployment-node-exporter.yaml
+  - service-registry.yaml
+  - service-gateway.yaml
+  - service-worker.yaml
+  - service-loadbalancer.yaml
+  - service-prometheus.yaml
+  - service-grafana.yaml
+  - service-node-exporter.yaml
+  - pvc-grafana.yaml
+  - pvc-prometheus.yaml
+
+configMapGenerator:
+  - name: nginx-config
+    files:
+      - nginx.conf=../loadbalancer/nginx.conf
+  - name: prometheus-config
+    files:
+      - prometheus.yml=../prometheus/prometheus.yml
+  - name: grafana-provisioning
+    files:
+      - dashboards.yml=../grafana/provisioning/dashboards/dashboards.yml
+      - datasource.yml=../grafana/provisioning/datasources/datasource.yml
+  - name: grafana-dashboards
+    files:
+      - gateway-overview.json=../grafana/dashboards/gateway-overview.json
+      - registry-overview.json=../grafana/dashboards/registry-overview.json
+      - system-overview.json=../grafana/dashboards/system-overview.json
+      - worker-overview.json=../grafana/dashboards/worker-overview.json

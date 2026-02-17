@@ -136,7 +136,7 @@ if (-not $SkipInfra) {
         }
         
         # apply Kubernetes manifests (kustomization.yaml)
-        kubectl apply -k . -n $Namespace
+        kubectl kustomize overlays/minikube --load-restrictor=LoadRestrictionsNone | kubectl apply -n $Namespace -f -
         
         # scale deployments
         kubectl scale deployment worker-node --replicas=$Workers -n $Namespace

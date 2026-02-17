@@ -76,6 +76,12 @@ scrape_configs:
     static_configs:
       - targets:
         - node-exporter-service:9100
+
+  - job_name: docker-exporter
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - docker-exporter-service:8080
   
   - job_name: gateway
     scrape_interval: 10s

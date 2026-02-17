@@ -1,44 +1,9 @@
+# base wrapper
+# default:  kubectl apply -k .
+# minikube: kubectl apply -k overlays/minikube
+# prod:     kubectl apply -k overlays/prod
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: geostreamdb
-
 resources:
-  - k8s/namespace.yaml
-  - k8s/rbac-prometheus.yaml
-  - k8s/deployment-registry.yaml
-  - k8s/deployment-gateway.yaml
-  - k8s/deployment-worker.yaml
-  - k8s/deployment-loadbalancer.yaml
-  - k8s/deployment-prometheus.yaml
-  - k8s/deployment-grafana.yaml
-  - k8s/deployment-node-exporter.yaml
-  - k8s/deployment-docker-exporter.yaml # used for minikube with Docker as container runtime for container metrics in system dashboard. TODO: change for production
-  - k8s/service-registry.yaml
-  - k8s/service-gateway.yaml
-  - k8s/service-worker.yaml
-  - k8s/service-loadbalancer.yaml
-  - k8s/service-prometheus.yaml
-  - k8s/service-grafana.yaml
-  - k8s/service-node-exporter.yaml
-  - k8s/service-docker-exporter.yaml
-  - k8s/pvc-grafana.yaml
-  - k8s/pvc-prometheus.yaml
-
-configMapGenerator:
-  - name: nginx-config
-    files:
-      - nginx.conf=loadbalancer/nginx.conf
-  - name: prometheus-config
-    files:
-      - prometheus.yml=prometheus/prometheus.yml
-  - name: grafana-provisioning
-    files:
-      - dashboards.yml=grafana/provisioning/dashboards/dashboards.yml
-      - datasource.yml=grafana/provisioning/datasources/datasource.yml
-  - name: grafana-dashboards
-    files:
-      - gateway-overview.json=grafana/dashboards/gateway-overview.json
-      - registry-overview.json=grafana/dashboards/registry-overview.json
-      - system-overview.json=grafana/dashboards/system-overview.json
-      - worker-overview.json=grafana/dashboards/worker-overview.json
+  - k8s
