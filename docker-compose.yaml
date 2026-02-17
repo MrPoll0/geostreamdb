@@ -51,7 +51,8 @@ services:
     container_name: grafana
     hostname: grafana
     env_file:
-      - ./grafana-admin.env
+      - path: ./grafana-admin.env
+        required: false
     ports:
       - 3000:3000
     networks:
