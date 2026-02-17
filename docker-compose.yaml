@@ -61,7 +61,10 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/provisioning/datasources-dc:/etc/grafana/provisioning/datasources:ro
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/dashboards/gateway-overview.json:/var/lib/grafana/dashboards/gateway-overview.json:ro
+      - ./grafana/dashboards/registry-overview.json:/var/lib/grafana/dashboards/registry-overview.json:ro
+      - ./grafana/dashboards/system-overview.json:/var/lib/grafana/dashboards/system-overview.json:ro
+      - ./grafana/dashboards/worker-overview.json:/var/lib/grafana/dashboards/worker-overview.json:ro
 
   prometheus:
     image: prom/prometheus:v3.9.1
