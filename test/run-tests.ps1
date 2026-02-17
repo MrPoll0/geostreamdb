@@ -25,6 +25,16 @@ param(
 $ErrorActionPreference = "Stop"
 $env:ENTRYPOINT_URL = $EntrypointUrl # load balancer is the entrypoint
 $PortForwardJobs = @()
+$orchestratedTests = @(
+    'gateway-worker-latency',
+    'registry-disruption',
+    'registry-latency',
+    'split-brain',
+    'worker-churn',
+    'all',
+    'all-orchestrated'
+)
+$NeedsChaosMesh = $orchestratedTests -contains $Test
 
 # resolve output directory path
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
@@ -75,15 +85,19 @@ if (-not $SkipInfra) {
             Write-Host "minikube start failed. If using Hyper-V, run it with administrator privileges." -ForegroundColor Red
             exit 1
         }
-        
-        # install Chaos Mesh for orchestrated tests
-        $chaosNs = kubectl get ns chaos-mesh -o name --ignore-not-found 2>$null
-        if (-not $chaosNs) {
-            Write-Host "Installing Chaos Mesh..." -ForegroundColor Yellow
-            helm repo add chaos-mesh https://charts.chaos-mesh.org 2>$null
-            helm repo update 2>$null
-            kubectl create namespace chaos-mesh
-            helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --version 2.8.1
+
+        # install Chaos Mesh only when running orchestrated tests
+        if ($NeedsChaosMesh) {
+            $chaosNs = kubectl get ns chaos-mesh -o name --ignore-not-found 2>$null
+            if (-not $chaosNs) {
+                Write-Host "Installing Chaos Mesh..." -ForegroundColor Yellow
+                helm repo add chaos-mesh https://charts.chaos-mesh.org 2>$null
+                helm repo update 2>$null
+                kubectl create namespace chaos-mesh
+                helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --version 2.8.1
+            }
+        } else {
+            Write-Host "Skipping Chaos Mesh (not needed for this test)." -ForegroundColor DarkGray
         }
         
         # change to project root for Docker builds and kubectl
