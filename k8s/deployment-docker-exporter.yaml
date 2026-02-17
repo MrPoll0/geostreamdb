@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: docker-exporter
-        image: ghcr.io/davidborzek/docker-exporter:latest
+        image: ghcr.io/davidborzek/docker-exporter:v0.3.0
         ports:
         - containerPort: 8080
           name: http

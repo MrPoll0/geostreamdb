@@ -20,15 +20,43 @@ spec:
       labels:
         app: worker-node
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: worker-node
         image: geostreamdb-worker-node:latest
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+              - ALL
         ports:
         - containerPort: 50051
           name: grpc
         - containerPort: 2112
           name: metrics
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 2112
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 6
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: 2112
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+          failureThreshold: 6
         env:
         - name: PORT
           value: "50051"
@@ -43,7 +71,7 @@ spec:
         resources:
           requests:
             memory: "256Mi"
-            cpu: "200m"
+            cpu: "100m"
           limits:
-            memory: "1Gi"
-            cpu: "2000m"
+            memory: "3Gi"
+            cpu: "3000m"

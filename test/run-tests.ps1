@@ -25,6 +25,16 @@ param(
 $ErrorActionPreference = "Stop"
 $env:ENTRYPOINT_URL = $EntrypointUrl # load balancer is the entrypoint
 $PortForwardJobs = @()
+$orchestratedTests = @(
+    'gateway-worker-latency',
+    'registry-disruption',
+    'registry-latency',
+    'split-brain',
+    'worker-churn',
+    'all',
+    'all-orchestrated'
+)
+$NeedsChaosMesh = $orchestratedTests -contains $Test
 
 # resolve output directory path
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
@@ -75,19 +85,33 @@ if (-not $SkipInfra) {
             Write-Host "minikube start failed. If using Hyper-V, run it with administrator privileges." -ForegroundColor Red
             exit 1
         }
-        
-        # install Chaos Mesh for orchestrated tests
-        $chaosNs = kubectl get ns chaos-mesh -o name --ignore-not-found 2>$null
-        if (-not $chaosNs) {
-            Write-Host "Installing Chaos Mesh..." -ForegroundColor Yellow
-            helm repo add chaos-mesh https://charts.chaos-mesh.org 2>$null
-            helm repo update 2>$null
-            kubectl create namespace chaos-mesh
-            helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --version 2.8.1
+
+        # install Chaos Mesh only when running orchestrated tests
+        if ($NeedsChaosMesh) {
+            $chaosNs = kubectl get ns chaos-mesh -o name --ignore-not-found 2>$null
+            if (-not $chaosNs) {
+                Write-Host "Installing Chaos Mesh..." -ForegroundColor Yellow
+                helm repo add chaos-mesh https://charts.chaos-mesh.org 2>$null
+                helm repo update 2>$null
+                kubectl create namespace chaos-mesh
+                helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --version 2.8.1
+            }
+        } else {
+            Write-Host "Skipping Chaos Mesh (not needed for this test)." -ForegroundColor DarkGray
         }
         
         # change to project root for Docker builds and kubectl
         Push-Location $ProjectRoot
+
+        # ensure namespace exists before creating namespaced resources
+        $nsExists = kubectl get namespace $Namespace -o name --ignore-not-found 2>$null
+        if (-not $nsExists) {
+            kubectl create namespace $Namespace | Out-Null
+        }
+
+        # create/update grafana admin secret
+        kubectl create secret generic grafana-admin --from-env-file=grafana-admin.env -n $Namespace --dry-run=client -o yaml | kubectl apply -f -
+        
         try {
             # build images
             Write-Host "Building images..." -ForegroundColor Yellow
@@ -102,17 +126,17 @@ if (-not $SkipInfra) {
             minikube image load geostreamdb-registry:latest 2>&1 | Out-Null
 
             # load public images
-            minikube image load prom/prometheus:latest 2>&1 | Out-Null
-            minikube image load grafana/grafana:latest 2>&1 | Out-Null
+            minikube image load prom/prometheus:v3.9.1 2>&1 | Out-Null
+            minikube image load grafana/grafana:12.3.3 2>&1 | Out-Null
             minikube image load nginx:alpine 2>&1 | Out-Null
-            minikube image load prom/node-exporter:latest 2>&1 | Out-Null
-            minikube image load ghcr.io/davidborzek/docker-exporter:latest 2>&1 | Out-Null
+            minikube image load prom/node-exporter:v1.10.2 2>&1 | Out-Null
+            minikube image load ghcr.io/davidborzek/docker-exporter:v0.3.0 2>&1 | Out-Null
         } catch {
             Write-Host "Warning: Could not load images. Make sure minikube or kind is running." -ForegroundColor Yellow
         }
         
         # apply Kubernetes manifests (kustomization.yaml)
-        kubectl apply -k . -n $Namespace
+        kubectl kustomize overlays/minikube --load-restrictor=LoadRestrictionsNone | kubectl apply -n $Namespace -f -
         
         # scale deployments
         kubectl scale deployment worker-node --replicas=$Workers -n $Namespace
