@@ -50,6 +50,8 @@ services:
     image: grafana/grafana
     container_name: grafana
     hostname: grafana
+    env_file:
+      - ./grafana-admin.env
     ports:
       - 3000:3000
     networks:

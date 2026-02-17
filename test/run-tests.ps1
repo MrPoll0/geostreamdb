@@ -88,6 +88,10 @@ if (-not $SkipInfra) {
         
         # change to project root for Docker builds and kubectl
         Push-Location $ProjectRoot
+
+        # create grafana admin secret
+        kubectl create secret generic grafana-admin --from-env-file=grafana-admin.env -n $Namespace
+        
         try {
             # build images
             Write-Host "Building images..." -ForegroundColor Yellow
