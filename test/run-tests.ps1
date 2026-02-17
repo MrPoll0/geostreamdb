@@ -89,8 +89,14 @@ if (-not $SkipInfra) {
         # change to project root for Docker builds and kubectl
         Push-Location $ProjectRoot
 
-        # create grafana admin secret
-        kubectl create secret generic grafana-admin --from-env-file=grafana-admin.env -n $Namespace
+        # ensure namespace exists before creating namespaced resources
+        $nsExists = kubectl get namespace $Namespace -o name --ignore-not-found 2>$null
+        if (-not $nsExists) {
+            kubectl create namespace $Namespace | Out-Null
+        }
+
+        # create/update grafana admin secret
+        kubectl create secret generic grafana-admin --from-env-file=grafana-admin.env -n $Namespace --dry-run=client -o yaml | kubectl apply -f -
         
         try {
             # build images
