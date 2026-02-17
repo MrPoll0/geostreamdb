@@ -47,7 +47,7 @@ services:
       - mynet
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:12.3.3
     container_name: grafana
     hostname: grafana
     env_file:
@@ -63,7 +63,7 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
 
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v3.9.1
     container_name: prometheus
     hostname: prometheus
     ports:
@@ -75,7 +75,7 @@ services:
       - prometheus-data:/prometheus
   
   node-exporter:
-    image: prom/node-exporter
+    image: prom/node-exporter:v1.10.2
     container_name: node-exporter
     hostname: node-exporter
     ports:
@@ -84,7 +84,7 @@ services:
       - mynet
 
   docker-exporter:
-    image: ghcr.io/davidborzek/docker-exporter:latest
+    image: ghcr.io/davidborzek/docker-exporter:v0.3.0
     container_name: docker-exporter
     hostname: docker-exporter
     user: root

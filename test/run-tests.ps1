@@ -106,11 +106,11 @@ if (-not $SkipInfra) {
             minikube image load geostreamdb-registry:latest 2>&1 | Out-Null
 
             # load public images
-            minikube image load prom/prometheus:latest 2>&1 | Out-Null
-            minikube image load grafana/grafana:latest 2>&1 | Out-Null
+            minikube image load prom/prometheus:v3.9.1 2>&1 | Out-Null
+            minikube image load grafana/grafana:12.3.3 2>&1 | Out-Null
             minikube image load nginx:alpine 2>&1 | Out-Null
-            minikube image load prom/node-exporter:latest 2>&1 | Out-Null
-            minikube image load ghcr.io/davidborzek/docker-exporter:latest 2>&1 | Out-Null
+            minikube image load prom/node-exporter:v1.10.2 2>&1 | Out-Null
+            minikube image load ghcr.io/davidborzek/docker-exporter:v0.3.0 2>&1 | Out-Null
         } catch {
             Write-Host "Warning: Could not load images. Make sure minikube or kind is running." -ForegroundColor Yellow
         }
