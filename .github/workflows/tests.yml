@@ -34,11 +34,49 @@ jobs:
           sudo apt-get update
           sudo apt-get install k6
 
+      - name: Clear previous k6 summaries
+        run: rm -f test/k6/outputs/*_summary.json
+
       - name: Run all direct tests
         shell: pwsh
         working-directory: test
         run: |
           ./run-tests.ps1 -Test all-direct -Workers ${{ env.WORKERS }} -Gateways ${{ env.GATEWAYS }} -EntrypointUrl ${{ env.ENTRYPOINT_URL }}
+
+      - name: Validate k6 thresholds (direct)
+        run: |
+          python - <<'PY'
+          import glob
+          import json
+          import os
+          import sys
+
+          files = sorted(glob.glob("test/k6/outputs/*_summary.json"))
+          if not files:
+              print("No k6 summary files found in test/k6/outputs.")
+              sys.exit(1)
+
+          failures = []
+          checked = 0
+          for path in files:
+              with open(path, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              metrics = data.get("metrics", {})
+              for metric_name, metric in metrics.items():
+                  thresholds = metric.get("thresholds") or {}
+                  for threshold_name, result in thresholds.items():
+                      checked += 1
+                      if isinstance(result, dict) and result.get("ok") is False:
+                          failures.append((os.path.basename(path), metric_name, threshold_name))
+
+          if failures:
+              print("k6 threshold failures detected:")
+              for file_name, metric_name, threshold_name in failures:
+                  print(f"- {file_name}: {metric_name} -> {threshold_name}")
+              sys.exit(1)
+
+          print(f"All k6 thresholds passed ({checked} checks across {len(files)} summaries).")
+          PY
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -81,11 +119,64 @@ jobs:
           sudo apt-get update
           sudo apt-get install k6
 
+      - name: Clear previous k6 summaries
+        run: rm -f test/k6/outputs/*_summary.json
+
       - name: Run all orchestrated tests
         shell: pwsh
         working-directory: test
         run: |
           ./run-tests.ps1 -Test all-orchestrated -Workers ${{ env.WORKERS }} -Gateways ${{ env.GATEWAYS }} -EntrypointUrl ${{ env.ENTRYPOINT_URL }}
+
+      - name: Validate k6 thresholds (orchestrated)
+        run: |
+          python - <<'PY'
+          import glob
+          import json
+          import os
+          import sys
+
+          expected_failure_files = {
+              "registry_disruption_summary.json",
+              "split_brain_summary.json",
+          }
+
+          files = sorted(glob.glob("test/k6/outputs/*_summary.json"))
+          if not files:
+              print("No k6 summary files found in test/k6/outputs.")
+              sys.exit(1)
+
+          failures = []
+          ignored_failures = []
+          checked = 0
+          for path in files:
+              file_name = os.path.basename(path)
+              with open(path, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              metrics = data.get("metrics", {})
+              for metric_name, metric in metrics.items():
+                  thresholds = metric.get("thresholds") or {}
+                  for threshold_name, result in thresholds.items():
+                      checked += 1
+                      if isinstance(result, dict) and result.get("ok") is False:
+                          if file_name in expected_failure_files:
+                              ignored_failures.append((file_name, metric_name, threshold_name))
+                          else:
+                              failures.append((file_name, metric_name, threshold_name))
+
+          if ignored_failures:
+              print("Ignoring expected k6 threshold failures:")
+              for file_name, metric_name, threshold_name in ignored_failures:
+                  print(f"- {file_name}: {metric_name} -> {threshold_name}")
+
+          if failures:
+              print("k6 threshold failures detected:")
+              for file_name, metric_name, threshold_name in failures:
+                  print(f"- {file_name}: {metric_name} -> {threshold_name}")
+              sys.exit(1)
+
+          print(f"All k6 thresholds passed ({checked} checks across {len(files)} summaries).")
+          PY
 
       - name: Upload orchestrated test results
         uses: actions/upload-artifact@v4
