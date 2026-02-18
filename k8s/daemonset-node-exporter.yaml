@@ -1,12 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: node-exporter
   namespace: geostreamdb
   labels:
     app: node-exporter
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: node-exporter

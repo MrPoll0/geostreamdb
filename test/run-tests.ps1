@@ -85,6 +85,12 @@ if (-not $SkipInfra) {
             Write-Host "minikube start failed. If using Hyper-V, run it with administrator privileges." -ForegroundColor Red
             exit 1
         }
+        Write-Host "Ensuring ingress addon is enabled..." -ForegroundColor Yellow
+        minikube addons enable ingress | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Failed to enable minikube ingress addon." -ForegroundColor Red
+            exit 1
+        }
 
         # install Chaos Mesh only when running orchestrated tests
         if ($NeedsChaosMesh) {
@@ -128,7 +134,6 @@ if (-not $SkipInfra) {
             # load public images
             minikube image load prom/prometheus:v3.9.1 2>&1 | Out-Null
             minikube image load grafana/grafana:12.3.3 2>&1 | Out-Null
-            minikube image load nginx:alpine 2>&1 | Out-Null
             minikube image load prom/node-exporter:v1.10.2 2>&1 | Out-Null
             minikube image load ghcr.io/davidborzek/docker-exporter:v0.3.0 2>&1 | Out-Null
         } catch {
@@ -146,9 +151,9 @@ if (-not $SkipInfra) {
         kubectl wait --for=condition=ready pod -l app=gateway -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=worker-node -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=registry -n $Namespace --timeout=120s
-        kubectl wait --for=condition=ready pod -l app=loadbalancer -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=prometheus -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=grafana -n $Namespace --timeout=120s
+        kubectl wait --for=condition=available deployment/ingress-nginx-controller -n ingress-nginx --timeout=180s
         
         # port-forward services for local access during tests (localhost:8080/9090/3000)
         Write-Host "Starting Kubernetes port-forwards..." -ForegroundColor Yellow
@@ -166,10 +171,9 @@ if (-not $SkipInfra) {
             exit 1
         }
 
-        $PortForwardJobs += Start-Job -Name "pf-loadbalancer-8080" -ScriptBlock {
-            param($ns)
-            kubectl port-forward -n $ns svc/loadbalancer-service 8080:8080 2>&1
-        } -ArgumentList $Namespace
+        $PortForwardJobs += Start-Job -Name "pf-ingress-controller-8080" -ScriptBlock {
+            kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 2>&1
+        }
         $PortForwardJobs += Start-Job -Name "pf-prometheus-9090" -ScriptBlock {
             param($ns)
             kubectl port-forward -n $ns svc/prometheus-service 9090:9090 2>&1

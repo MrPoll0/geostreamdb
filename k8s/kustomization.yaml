@@ -10,24 +10,20 @@ resources:
   - deployment-gateway.yaml
   - pdb-gateway.yaml
   - deployment-worker.yaml
-  - deployment-loadbalancer.yaml
   - deployment-prometheus.yaml
   - deployment-grafana.yaml
-  - deployment-node-exporter.yaml
+  - daemonset-node-exporter.yaml
   - service-registry.yaml
   - service-gateway.yaml
   - service-worker.yaml
-  - service-loadbalancer.yaml
   - service-prometheus.yaml
   - service-grafana.yaml
   - service-node-exporter.yaml
+  - ingress-gateway.yaml
   - pvc-grafana.yaml
   - pvc-prometheus.yaml
 
 configMapGenerator:
-  - name: nginx-config
-    files:
-      - nginx.conf=../loadbalancer/nginx.conf
   - name: prometheus-config
     files:
       - prometheus.yml=../prometheus/prometheus.yml
@@ -39,5 +35,5 @@ configMapGenerator:
     files:
       - gateway-overview.json=../grafana/dashboards/gateway-overview.json
       - registry-overview.json=../grafana/dashboards/registry-overview.json
-      - system-overview.json=../grafana/dashboards/system-overview.json
+      - system-overview.json=../grafana/dashboards/system-overview.cAdvisor.json
       - worker-overview.json=../grafana/dashboards/worker-overview.json

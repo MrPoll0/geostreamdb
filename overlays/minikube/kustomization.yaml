@@ -5,12 +5,12 @@ namespace: geostreamdb
 
 resources:
   - ../../k8s
-  - ../../k8s/deployment-docker-exporter.yaml
-  - ../../k8s/service-docker-exporter.yaml
+  #- ../../k8s/deployment-docker-exporter.yaml
+  #- ../../k8s/service-docker-exporter.yaml
 
 # replace prometheus-config with version that includes docker-exporter scrape job (minikube/Docker runtime only)
-configMapGenerator:
-  - name: prometheus-config
-    behavior: replace
-    files:
-      - prometheus.yml=../../prometheus/prometheus.minikube.yml
+#configMapGenerator:
+#  - name: prometheus-config
+#    behavior: replace
+#    files:
+#      - prometheus.yml=../../prometheus/prometheus.minikube.yml

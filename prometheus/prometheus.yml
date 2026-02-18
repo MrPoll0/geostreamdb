@@ -73,9 +73,36 @@ scrape_configs:
   
   - job_name: node-exporter
     scrape_interval: 10s
-    static_configs:
-      - targets:
-        - node-exporter-service:9100
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - geostreamdb
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        regex: node-exporter
+        action: keep
+      - source_labels: [__meta_kubernetes_pod_ip]
+        target_label: __address__
+        replacement: $1:9100
+
+  # scrape kubelet-embedded cAdvisor via API server proxy for containerd clusters
+  - job_name: kubelet-cadvisor
+    scrape_interval: 15s
+    scheme: https
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
   
   - job_name: gateway
     scrape_interval: 10s

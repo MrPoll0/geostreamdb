@@ -5,3 +5,12 @@ namespace: geostreamdb
 
 resources:
   - ../../k8s
+
+#configMapGenerator:
+#  - name: grafana-dashboards
+#    behavior: replace
+#    files:
+#      - gateway-overview.json=../../grafana/dashboards/gateway-overview.json
+#      - registry-overview.json=../../grafana/dashboards/registry-overview.json
+#      - system-overview.json=../../grafana/dashboards/system-overview.cAdvisor.json
+#      - worker-overview.json=../../grafana/dashboards/worker-overview.json
