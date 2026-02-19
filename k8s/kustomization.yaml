@@ -8,8 +8,10 @@ resources:
   - rbac-prometheus.yaml
   - deployment-registry.yaml
   - deployment-gateway.yaml
+  - hpa-gateway.yaml
   - pdb-gateway.yaml
   - deployment-worker.yaml
+  - hpa-worker.yaml
   - deployment-prometheus.yaml
   - deployment-grafana.yaml
   - daemonset-node-exporter.yaml
