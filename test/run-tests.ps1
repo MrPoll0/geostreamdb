@@ -19,7 +19,9 @@ param(
     [string]$Namespace = 'geostreamdb',
     [switch]$SkipInfra = $false,
     [switch]$UseKubernetes = $false, # toggle between Docker Compose (default) and Kubernetes
-    [int]$WarmupSeconds = 5 # delay after readiness before running tests
+    [int]$WarmupSeconds = 5, # delay after readiness before running tests
+    [int]$MinikubeCpus = 0,
+    [int]$MinikubeMemoryMb = 0
 )
 
 $ErrorActionPreference = "Stop"
@@ -87,7 +89,14 @@ if (-not $SkipInfra) {
         
         # ensure minikube is running
         Write-Host "Ensuring minikube is running..." -ForegroundColor Yellow
-        minikube start
+        $minikubeArgs = @("start")
+        if ($MinikubeCpus -gt 0) {
+            $minikubeArgs += "--cpus=$MinikubeCpus"
+        }
+        if ($MinikubeMemoryMb -gt 0) {
+            $minikubeArgs += "--memory=$MinikubeMemoryMb"
+        }
+        minikube @minikubeArgs
         if ($LASTEXITCODE -ne 0) {
             Write-Host "minikube start failed. If using Hyper-V, run it with administrator privileges." -ForegroundColor Red
             exit 1
