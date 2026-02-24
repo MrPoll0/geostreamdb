@@ -6,11 +6,11 @@
     "groups": [],
     "checks": [
         {
-          "fails": 0,
           "name": "Precision 4, square, N=4995: status is 413",
           "path": "::Precision 4, square, N=4995: status is 413",
           "id": "2050b5ef863b4222a78b032b4716044b",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
           "name": "Precision 4, square, N=4996: status is 413",
@@ -20,11 +20,11 @@
           "fails": 0
         },
         {
-          "name": "Precision 4, square, N=4997: status is 413",
-          "path": "::Precision 4, square, N=4997: status is 413",
           "id": "fe4da6dfa56da3170c6410717d2b1402",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 4, square, N=4997: status is 413",
+          "path": "::Precision 4, square, N=4997: status is 413"
         },
         {
           "name": "Precision 4, square, N=4998: status is 413",
@@ -34,18 +34,18 @@
           "fails": 0
         },
         {
+          "fails": 0,
           "name": "Precision 4, square, N=4999: status is 413",
           "path": "::Precision 4, square, N=4999: status is 413",
           "id": "f6ff6d4da575ef5950d423a80fac14a2",
-          "passes": 10,
-          "fails": 0
+          "passes": 10
         },
         {
+          "name": "Precision 4, square, N=5000: status is 413",
           "path": "::Precision 4, square, N=5000: status is 413",
           "id": "8924ead4f4e5cb3884135714fd8cb6aa",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 4, square, N=5000: status is 413"
+          "fails": 0
         },
         {
           "name": "Precision 4, square, N=5001: status is 413",
@@ -62,11 +62,11 @@
           "fails": 0
         },
         {
-          "passes": 10,
-          "fails": 0,
           "name": "Precision 4, square, N=5003: status is 413",
           "path": "::Precision 4, square, N=5003: status is 413",
-          "id": "aade2687334755b188c1b51fe172b7a0"
+          "id": "aade2687334755b188c1b51fe172b7a0",
+          "passes": 10,
+          "fails": 0
         },
         {
           "fails": 0,
@@ -76,11 +76,11 @@
           "passes": 10
         },
         {
-          "name": "Precision 4, square, N=5005: status is 413",
-          "path": "::Precision 4, square, N=5005: status is 413",
           "id": "62d8858e846e19586c460a3f66dfaf0e",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 4, square, N=5005: status is 413",
+          "path": "::Precision 4, square, N=5005: status is 413"
         },
         {
           "id": "f6446b3255e867ba3cd60f9d9a603eb9",
@@ -90,11 +90,11 @@
           "path": "::Precision 5, square, N=4995: status is 413"
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 5, square, N=4996: status is 413",
           "path": "::Precision 5, square, N=4996: status is 413",
-          "id": "4c1b3160f78f1a9afd205097c5d5321f",
-          "passes": 10,
-          "fails": 0
+          "id": "4c1b3160f78f1a9afd205097c5d5321f"
         },
         {
           "name": "Precision 5, square, N=4997: status is 413",
@@ -104,18 +104,18 @@
           "fails": 0
         },
         {
+          "name": "Precision 5, square, N=4998: status is 413",
           "path": "::Precision 5, square, N=4998: status is 413",
           "id": "e2e2f37955f3d3df1bc37c36b63e0406",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 5, square, N=4998: status is 413"
+          "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 5, square, N=4999: status is 413",
           "path": "::Precision 5, square, N=4999: status is 413",
           "id": "e130c46d8a48b9cf8600d280964646ad",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
           "name": "Precision 5, square, N=5000: status is 413",
@@ -125,11 +125,11 @@
           "fails": 0
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 5, square, N=5001: status is 413",
           "path": "::Precision 5, square, N=5001: status is 413",
-          "id": "d9764979d7688ae738f97869afd7b214",
-          "passes": 10,
-          "fails": 0
+          "id": "d9764979d7688ae738f97869afd7b214"
         },
         {
           "name": "Precision 5, square, N=5002: status is 413",
@@ -146,11 +146,11 @@
           "fails": 0
         },
         {
+          "name": "Precision 5, square, N=5004: status is 413",
           "path": "::Precision 5, square, N=5004: status is 413",
           "id": "76230d17b835a656bd9fdebb063414d8",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 5, square, N=5004: status is 413"
+          "fails": 0
         },
         {
           "name": "Precision 5, square, N=5005: status is 413",
@@ -167,25 +167,25 @@
           "fails": 0
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 6, wide and tall, N=4995: status is 200",
           "path": "::Precision 6, wide and tall, N=4995: status is 200",
-          "id": "e9daa9f8b3e6d84b10d92c0bc447a891",
-          "passes": 10,
-          "fails": 0
+          "id": "e9daa9f8b3e6d84b10d92c0bc447a891"
         },
         {
-          "name": "Precision 6, tall and wide, N=4995: status is 200",
           "path": "::Precision 6, tall and wide, N=4995: status is 200",
           "id": "d0cf756a1348e617186beca6fb32483a",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 6, tall and wide, N=4995: status is 200"
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 6, square, N=4996: status is 413",
           "path": "::Precision 6, square, N=4996: status is 413",
-          "id": "566df53e3dceaec6a97b527ebf72b8a2",
-          "passes": 10,
-          "fails": 0
+          "id": "566df53e3dceaec6a97b527ebf72b8a2"
         },
         {
           "name": "Precision 6, wide and tall, N=4996: status is 200",
@@ -195,11 +195,11 @@
           "fails": 0
         },
         {
-          "name": "Precision 6, tall and wide, N=4996: status is 200",
           "path": "::Precision 6, tall and wide, N=4996: status is 200",
           "id": "f9934af31769c95923c7d08ba8a5d684",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 6, tall and wide, N=4996: status is 200"
         },
         {
           "name": "Precision 6, square, N=4997: status is 413",
@@ -209,39 +209,39 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 6, wide and tall, N=4997: status is 200",
           "path": "::Precision 6, wide and tall, N=4997: status is 200",
           "id": "2e0b5296987f24722b470df18ef76617",
-          "passes": 10
-        },
-        {
-          "name": "Precision 6, tall and wide, N=4997: status is 200",
-          "path": "::Precision 6, tall and wide, N=4997: status is 200",
-          "id": "8a8192114b2af51d68f75fa5893f6aab",
           "passes": 10,
           "fails": 0
         },
         {
+          "id": "8a8192114b2af51d68f75fa5893f6aab",
+          "passes": 10,
           "fails": 0,
+          "name": "Precision 6, tall and wide, N=4997: status is 200",
+          "path": "::Precision 6, tall and wide, N=4997: status is 200"
+        },
+        {
           "name": "Precision 6, square, N=4998: status is 413",
           "path": "::Precision 6, square, N=4998: status is 413",
           "id": "a2253852b3f0aeef784946978fc8aa79",
-          "passes": 10
-        },
-        {
-          "name": "Precision 6, wide and tall, N=4998: status is 200",
-          "path": "::Precision 6, wide and tall, N=4998: status is 200",
-          "id": "1589f65492888df0718bbbcf068bbc07",
           "passes": 10,
           "fails": 0
         },
         {
+          "fails": 0,
+          "name": "Precision 6, wide and tall, N=4998: status is 200",
+          "path": "::Precision 6, wide and tall, N=4998: status is 200",
+          "id": "1589f65492888df0718bbbcf068bbc07",
+          "passes": 10
+        },
+        {
+          "path": "::Precision 6, tall and wide, N=4998: status is 200",
           "id": "8633b34329c888b09d47f36d4cd89ef2",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 6, tall and wide, N=4998: status is 200",
-          "path": "::Precision 6, tall and wide, N=4998: status is 200"
+          "name": "Precision 6, tall and wide, N=4998: status is 200"
         },
         {
           "name": "Precision 6, square, N=4999: status is 413",
@@ -258,32 +258,32 @@
           "fails": 0
         },
         {
-          "name": "Precision 6, tall and wide, N=4999: status is 200",
           "path": "::Precision 6, tall and wide, N=4999: status is 200",
           "id": "83e16d90cdabf9659e9887355c585aa8",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 6, tall and wide, N=4999: status is 200"
         },
         {
+          "name": "Precision 6, square, N=5000: status is 413",
           "path": "::Precision 6, square, N=5000: status is 413",
           "id": "b17cb4f81bf047acde8387ab507f4007",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 6, square, N=5000: status is 413"
-        },
-        {
-          "name": "Precision 6, wide and tall, N=5000: status is 200",
-          "path": "::Precision 6, wide and tall, N=5000: status is 200",
-          "id": "505c213ba69a3771e27e37883a7c013e",
-          "passes": 10,
           "fails": 0
         },
         {
           "fails": 0,
-          "name": "Precision 6, tall and wide, N=5000: status is 200",
+          "name": "Precision 6, wide and tall, N=5000: status is 200",
+          "path": "::Precision 6, wide and tall, N=5000: status is 200",
+          "id": "505c213ba69a3771e27e37883a7c013e",
+          "passes": 10
+        },
+        {
           "path": "::Precision 6, tall and wide, N=5000: status is 200",
           "id": "a5b540b623861fa61217ac0bf1d50af5",
-          "passes": 10
+          "passes": 10,
+          "fails": 0,
+          "name": "Precision 6, tall and wide, N=5000: status is 200"
         },
         {
           "name": "Precision 6, square, N=5001: status is 413",
@@ -300,11 +300,11 @@
           "fails": 0
         },
         {
+          "name": "Precision 6, tall and wide, N=5001: status is 413",
+          "path": "::Precision 6, tall and wide, N=5001: status is 413",
           "id": "e2138e9ed005960b88127ff838e2bb59",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 6, tall and wide, N=5001: status is 413",
-          "path": "::Precision 6, tall and wide, N=5001: status is 413"
+          "fails": 0
         },
         {
           "name": "Precision 6, square, N=5002: status is 413",
@@ -321,11 +321,11 @@
           "fails": 0
         },
         {
-          "name": "Precision 6, tall and wide, N=5002: status is 413",
-          "path": "::Precision 6, tall and wide, N=5002: status is 413",
           "id": "46524d7e6057e266406613355821170e",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 6, tall and wide, N=5002: status is 413",
+          "path": "::Precision 6, tall and wide, N=5002: status is 413"
         },
         {
           "name": "Precision 6, square, N=5003: status is 413",
@@ -335,11 +335,11 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 6, wide and tall, N=5003: status is 413",
           "path": "::Precision 6, wide and tall, N=5003: status is 413",
           "id": "84297059e99f39550cf73ce6d4b9ab13",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
           "id": "bf95868727e1d04a7c8e5e6fe63c5ed2",
@@ -356,11 +356,11 @@
           "fails": 0
         },
         {
-          "id": "cb329c31a6a4302e78d820f5f1dbd842",
-          "passes": 10,
           "fails": 0,
           "name": "Precision 6, wide and tall, N=5004: status is 413",
-          "path": "::Precision 6, wide and tall, N=5004: status is 413"
+          "path": "::Precision 6, wide and tall, N=5004: status is 413",
+          "id": "cb329c31a6a4302e78d820f5f1dbd842",
+          "passes": 10
         },
         {
           "name": "Precision 6, tall and wide, N=5004: status is 413",
@@ -370,25 +370,25 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 6, square, N=5005: status is 413",
           "path": "::Precision 6, square, N=5005: status is 413",
           "id": "47a02b0292f1169e123987a58eb9de54",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
-          "passes": 10,
-          "fails": 0,
           "name": "Precision 6, wide and tall, N=5005: status is 413",
           "path": "::Precision 6, wide and tall, N=5005: status is 413",
-          "id": "01ce41bf147baa855276f6e265af17c8"
+          "id": "01ce41bf147baa855276f6e265af17c8",
+          "passes": 10,
+          "fails": 0
         },
         {
+          "fails": 0,
           "name": "Precision 6, tall and wide, N=5005: status is 413",
           "path": "::Precision 6, tall and wide, N=5005: status is 413",
           "id": "08a2409e0e48798513b827cedd2390bf",
-          "passes": 10,
-          "fails": 0
+          "passes": 10
         },
         {
           "name": "Precision 7, square, N=4995: status is 413",
@@ -398,39 +398,39 @@
           "fails": 0
         },
         {
-          "passes": 10,
-          "fails": 0,
           "name": "Precision 7, wide and tall, N=4995: status is 200",
           "path": "::Precision 7, wide and tall, N=4995: status is 200",
-          "id": "e4a5e15e784985b0ebb5b1cc3a65cdcb"
+          "id": "e4a5e15e784985b0ebb5b1cc3a65cdcb",
+          "passes": 10,
+          "fails": 0
         },
         {
+          "name": "Precision 7, tall and wide, N=4995: status is 200",
           "path": "::Precision 7, tall and wide, N=4995: status is 200",
           "id": "202467d16ec21cf5c024baa2fcdf3a3e",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, tall and wide, N=4995: status is 200"
+          "fails": 0
         },
         {
-          "passes": 10,
-          "fails": 0,
           "name": "Precision 7, square, N=4996: status is 413",
           "path": "::Precision 7, square, N=4996: status is 413",
-          "id": "b1580a4f00080b195bbe590077b603ff"
+          "id": "b1580a4f00080b195bbe590077b603ff",
+          "passes": 10,
+          "fails": 0
         },
         {
-          "name": "Precision 7, wide and tall, N=4996: status is 200",
           "path": "::Precision 7, wide and tall, N=4996: status is 200",
           "id": "c86490593e70c0b00925a715e2af2e5c",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 7, wide and tall, N=4996: status is 200"
         },
         {
-          "name": "Precision 7, tall and wide, N=4996: status is 200",
           "path": "::Precision 7, tall and wide, N=4996: status is 200",
           "id": "7650b11cef3cda489038c8f59b25f980",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 7, tall and wide, N=4996: status is 200"
         },
         {
           "name": "Precision 7, square, N=4997: status is 413",
@@ -440,25 +440,25 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 7, wide and tall, N=4997: status is 200",
           "path": "::Precision 7, wide and tall, N=4997: status is 200",
           "id": "a8817fd8e2be9f0afe87c2baafe84a64",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
+          "fails": 0,
           "name": "Precision 7, tall and wide, N=4997: status is 200",
           "path": "::Precision 7, tall and wide, N=4997: status is 200",
           "id": "0807cde19df95c34861bfb186f4c1dcd",
-          "passes": 10,
-          "fails": 0
+          "passes": 10
         },
         {
-          "name": "Precision 7, square, N=4998: status is 413",
           "path": "::Precision 7, square, N=4998: status is 413",
           "id": "dd7c5a924410372e53af4df781b46c75",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 7, square, N=4998: status is 413"
         },
         {
           "name": "Precision 7, wide and tall, N=4998: status is 200",
@@ -482,11 +482,11 @@
           "id": "0d18ea8ea8f0ef2f47e480f4e2483cf4"
         },
         {
+          "name": "Precision 7, wide and tall, N=4999: status is 200",
+          "path": "::Precision 7, wide and tall, N=4999: status is 200",
           "id": "21733cfc4a13e42149e155d2d7784fc8",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, wide and tall, N=4999: status is 200",
-          "path": "::Precision 7, wide and tall, N=4999: status is 200"
+          "fails": 0
         },
         {
           "name": "Precision 7, tall and wide, N=4999: status is 200",
@@ -496,18 +496,18 @@
           "fails": 0
         },
         {
+          "fails": 0,
           "name": "Precision 7, square, N=5000: status is 413",
           "path": "::Precision 7, square, N=5000: status is 413",
           "id": "e73bc9b01118d3fede2434486ac1e838",
-          "passes": 10,
-          "fails": 0
+          "passes": 10
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 7, wide and tall, N=5000: status is 200",
           "path": "::Precision 7, wide and tall, N=5000: status is 200",
-          "id": "35f758480dc09a37854ebcb9da7cd167",
-          "passes": 10,
-          "fails": 0
+          "id": "35f758480dc09a37854ebcb9da7cd167"
         },
         {
           "fails": 0,
@@ -524,18 +524,18 @@
           "name": "Precision 7, square, N=5001: status is 413"
         },
         {
+          "path": "::Precision 7, wide and tall, N=5001: status is 413",
           "id": "c2f8bfaf9912e2d79f8a819bfbe2e0f6",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 7, wide and tall, N=5001: status is 413",
-          "path": "::Precision 7, wide and tall, N=5001: status is 413"
+          "name": "Precision 7, wide and tall, N=5001: status is 413"
         },
         {
+          "name": "Precision 7, tall and wide, N=5001: status is 413",
+          "path": "::Precision 7, tall and wide, N=5001: status is 413",
           "id": "192c75c78197f36fb1886e208cd3a0be",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, tall and wide, N=5001: status is 413",
-          "path": "::Precision 7, tall and wide, N=5001: status is 413"
+          "fails": 0
         },
         {
           "name": "Precision 7, square, N=5002: status is 413",
@@ -545,25 +545,25 @@
           "fails": 0
         },
         {
-          "path": "::Precision 7, wide and tall, N=5002: status is 413",
-          "id": "91d9c12b1fedd43bdd2e3652f91a0f21",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 7, wide and tall, N=5002: status is 413"
+          "name": "Precision 7, wide and tall, N=5002: status is 413",
+          "path": "::Precision 7, wide and tall, N=5002: status is 413",
+          "id": "91d9c12b1fedd43bdd2e3652f91a0f21"
         },
         {
+          "name": "Precision 7, tall and wide, N=5002: status is 413",
+          "path": "::Precision 7, tall and wide, N=5002: status is 413",
           "id": "7372e860bbbdae41a37b2e62725d9381",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, tall and wide, N=5002: status is 413",
-          "path": "::Precision 7, tall and wide, N=5002: status is 413"
+          "fails": 0
         },
         {
-          "path": "::Precision 7, square, N=5003: status is 413",
-          "id": "3a91001ebda2e11dec74ff495f0ddf2c",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 7, square, N=5003: status is 413"
+          "name": "Precision 7, square, N=5003: status is 413",
+          "path": "::Precision 7, square, N=5003: status is 413",
+          "id": "3a91001ebda2e11dec74ff495f0ddf2c"
         },
         {
           "name": "Precision 7, wide and tall, N=5003: status is 413",
@@ -573,11 +573,11 @@
           "fails": 0
         },
         {
-          "name": "Precision 7, tall and wide, N=5003: status is 413",
           "path": "::Precision 7, tall and wide, N=5003: status is 413",
           "id": "1feee37d3ced6ea1579a74d7f16a0b71",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 7, tall and wide, N=5003: status is 413"
         },
         {
           "name": "Precision 7, square, N=5004: status is 413",
@@ -594,67 +594,67 @@
           "fails": 0
         },
         {
+          "name": "Precision 7, tall and wide, N=5004: status is 413",
+          "path": "::Precision 7, tall and wide, N=5004: status is 413",
           "id": "e76bad7e6319b56cfe1f383cd1f26a1b",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, tall and wide, N=5004: status is 413",
-          "path": "::Precision 7, tall and wide, N=5004: status is 413"
+          "fails": 0
         },
         {
+          "name": "Precision 7, square, N=5005: status is 413",
           "path": "::Precision 7, square, N=5005: status is 413",
           "id": "24da6e4ae4e9d016817430e9f888f228",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 7, square, N=5005: status is 413"
+          "fails": 0
         },
         {
+          "id": "81f703ba049901669f0c20ef1c527bcf",
           "passes": 10,
           "fails": 0,
           "name": "Precision 7, wide and tall, N=5005: status is 413",
-          "path": "::Precision 7, wide and tall, N=5005: status is 413",
-          "id": "81f703ba049901669f0c20ef1c527bcf"
+          "path": "::Precision 7, wide and tall, N=5005: status is 413"
         },
         {
+          "fails": 0,
           "name": "Precision 7, tall and wide, N=5005: status is 413",
           "path": "::Precision 7, tall and wide, N=5005: status is 413",
           "id": "db0ccb922f7c140be2f79b30dbf42b96",
-          "passes": 10,
-          "fails": 0
+          "passes": 10
         },
         {
-          "passes": 10,
-          "fails": 0,
           "name": "Precision 8, square, N=4995: status is 413",
           "path": "::Precision 8, square, N=4995: status is 413",
-          "id": "aec6a50df84d65c17d204a676dab275a"
-        },
-        {
-          "name": "Precision 8, wide and tall, N=4995: status is 200",
-          "path": "::Precision 8, wide and tall, N=4995: status is 200",
-          "id": "4ff51be212407718012f5c7e65087adc",
+          "id": "aec6a50df84d65c17d204a676dab275a",
           "passes": 10,
           "fails": 0
         },
         {
-          "path": "::Precision 8, tall and wide, N=4995: status is 200",
-          "id": "5438bbb530956084667aefad55e24ed3",
+          "id": "4ff51be212407718012f5c7e65087adc",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, tall and wide, N=4995: status is 200"
+          "name": "Precision 8, wide and tall, N=4995: status is 200",
+          "path": "::Precision 8, wide and tall, N=4995: status is 200"
         },
         {
+          "passes": 10,
+          "fails": 0,
+          "name": "Precision 8, tall and wide, N=4995: status is 200",
+          "path": "::Precision 8, tall and wide, N=4995: status is 200",
+          "id": "5438bbb530956084667aefad55e24ed3"
+        },
+        {
+          "path": "::Precision 8, square, N=4996: status is 413",
           "id": "39d0dd3a983d754fbe6053bef164ff58",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, square, N=4996: status is 413",
-          "path": "::Precision 8, square, N=4996: status is 413"
+          "name": "Precision 8, square, N=4996: status is 413"
         },
         {
-          "path": "::Precision 8, wide and tall, N=4996: status is 200",
           "id": "cfab0668c53aa30fe7e4e6f49401ea62",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, wide and tall, N=4996: status is 200"
+          "name": "Precision 8, wide and tall, N=4996: status is 200",
+          "path": "::Precision 8, wide and tall, N=4996: status is 200"
         },
         {
           "name": "Precision 8, tall and wide, N=4996: status is 200",
@@ -671,11 +671,11 @@
           "fails": 0
         },
         {
-          "fails": 0,
           "name": "Precision 8, wide and tall, N=4997: status is 200",
           "path": "::Precision 8, wide and tall, N=4997: status is 200",
           "id": "610a0fb8b5d4e1a2f82b2279ff4b995b",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
           "fails": 0,
@@ -685,11 +685,11 @@
           "passes": 10
         },
         {
-          "name": "Precision 8, square, N=4998: status is 413",
-          "path": "::Precision 8, square, N=4998: status is 413",
           "id": "b84fb5ee2b95473c431d5f07d48d79b4",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 8, square, N=4998: status is 413",
+          "path": "::Precision 8, square, N=4998: status is 413"
         },
         {
           "name": "Precision 8, wide and tall, N=4998: status is 200",
@@ -699,46 +699,46 @@
           "fails": 0
         },
         {
+          "passes": 10,
+          "fails": 0,
           "name": "Precision 8, tall and wide, N=4998: status is 200",
           "path": "::Precision 8, tall and wide, N=4998: status is 200",
-          "id": "22f555894b5509c34641a98eae8970cf",
-          "passes": 10,
-          "fails": 0
+          "id": "22f555894b5509c34641a98eae8970cf"
         },
         {
-          "name": "Precision 8, square, N=4999: status is 413",
           "path": "::Precision 8, square, N=4999: status is 413",
           "id": "c3febd8c294b05bd8515fac258e23ae8",
           "passes": 10,
+          "fails": 0,
+          "name": "Precision 8, square, N=4999: status is 413"
+        },
+        {
+          "name": "Precision 8, wide and tall, N=4999: status is 200",
+          "path": "::Precision 8, wide and tall, N=4999: status is 200",
+          "id": "99701709964332ad821995780f88d7b7",
+          "passes": 10,
           "fails": 0
         },
         {
-          "passes": 10,
-          "fails": 0,
-          "name": "Precision 8, wide and tall, N=4999: status is 200",
-          "path": "::Precision 8, wide and tall, N=4999: status is 200",
-          "id": "99701709964332ad821995780f88d7b7"
-        },
-        {
-          "name": "Precision 8, tall and wide, N=4999: status is 200",
           "path": "::Precision 8, tall and wide, N=4999: status is 200",
           "id": "983059bb33861d3be3a522e50cd61243",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 8, tall and wide, N=4999: status is 200"
         },
         {
+          "fails": 0,
+          "name": "Precision 8, square, N=5000: status is 413",
           "path": "::Precision 8, square, N=5000: status is 413",
           "id": "5605511f9dc14f88e123a6635b98455b",
-          "passes": 10,
-          "fails": 0,
-          "name": "Precision 8, square, N=5000: status is 413"
+          "passes": 10
         },
         {
+          "path": "::Precision 8, wide and tall, N=5000: status is 200",
           "id": "9d13b7898b8d2f0e6e037fee1eb0e0ae",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, wide and tall, N=5000: status is 200",
-          "path": "::Precision 8, wide and tall, N=5000: status is 200"
+          "name": "Precision 8, wide and tall, N=5000: status is 200"
         },
         {
           "name": "Precision 8, tall and wide, N=5000: status is 200",
@@ -748,32 +748,32 @@
           "fails": 0
         },
         {
+          "name": "Precision 8, square, N=5001: status is 413",
+          "path": "::Precision 8, square, N=5001: status is 413",
           "id": "79501c9c2df1a4df7c354ff01d8eeb29",
           "passes": 10,
-          "fails": 0,
-          "name": "Precision 8, square, N=5001: status is 413",
-          "path": "::Precision 8, square, N=5001: status is 413"
+          "fails": 0
         },
         {
-          "id": "487a1de982cee5b84da3a98f688d69eb",
           "passes": 10,
           "fails": 0,
           "name": "Precision 8, wide and tall, N=5001: status is 413",
-          "path": "::Precision 8, wide and tall, N=5001: status is 413"
+          "path": "::Precision 8, wide and tall, N=5001: status is 413",
+          "id": "487a1de982cee5b84da3a98f688d69eb"
         },
         {
+          "fails": 0,
+          "name": "Precision 8, tall and wide, N=5001: status is 413",
           "path": "::Precision 8, tall and wide, N=5001: status is 413",
           "id": "dfb8597add7f1cbffb8b63f22e3aa0ac",
-          "passes": 10,
-          "fails": 0,
-          "name": "Precision 8, tall and wide, N=5001: status is 413"
+          "passes": 10
         },
         {
-          "id": "3b4ec4c5605e61d326c1baf2992a0390",
           "passes": 10,
           "fails": 0,
           "name": "Precision 8, square, N=5002: status is 413",
-          "path": "::Precision 8, square, N=5002: status is 413"
+          "path": "::Precision 8, square, N=5002: status is 413",
+          "id": "3b4ec4c5605e61d326c1baf2992a0390"
         },
         {
           "name": "Precision 8, wide and tall, N=5002: status is 413",
@@ -797,25 +797,25 @@
           "fails": 0
         },
         {
-          "name": "Precision 8, wide and tall, N=5003: status is 413",
-          "path": "::Precision 8, wide and tall, N=5003: status is 413",
-          "id": "41ec9107d4b256c30c463c57b5e83cd7",
-          "passes": 10,
-          "fails": 0
-        },
-        {
-          "name": "Precision 8, tall and wide, N=5003: status is 413",
-          "path": "::Precision 8, tall and wide, N=5003: status is 413",
-          "id": "67c4df8745456460294dec8fa2bfa99c",
-          "passes": 10,
-          "fails": 0
-        },
-        {
-          "path": "::Precision 8, square, N=5004: status is 413",
-          "id": "45f3b9a420bf634e73d5af50db5b8555",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, square, N=5004: status is 413"
+          "name": "Precision 8, wide and tall, N=5003: status is 413",
+          "path": "::Precision 8, wide and tall, N=5003: status is 413",
+          "id": "41ec9107d4b256c30c463c57b5e83cd7"
+        },
+        {
+          "passes": 10,
+          "fails": 0,
+          "name": "Precision 8, tall and wide, N=5003: status is 413",
+          "path": "::Precision 8, tall and wide, N=5003: status is 413",
+          "id": "67c4df8745456460294dec8fa2bfa99c"
+        },
+        {
+          "fails": 0,
+          "name": "Precision 8, square, N=5004: status is 413",
+          "path": "::Precision 8, square, N=5004: status is 413",
+          "id": "45f3b9a420bf634e73d5af50db5b8555",
+          "passes": 10
         },
         {
           "name": "Precision 8, wide and tall, N=5004: status is 413",
@@ -825,11 +825,11 @@
           "fails": 0
         },
         {
-          "name": "Precision 8, tall and wide, N=5004: status is 413",
           "path": "::Precision 8, tall and wide, N=5004: status is 413",
           "id": "1d69cd05cfae9fc4ecdfed2842c977c3",
           "passes": 10,
-          "fails": 0
+          "fails": 0,
+          "name": "Precision 8, tall and wide, N=5004: status is 413"
         },
         {
           "name": "Precision 8, square, N=5005: status is 413",
@@ -839,248 +839,248 @@
           "fails": 0
         },
         {
-          "path": "::Precision 8, wide and tall, N=5005: status is 413",
-          "id": "3c04d075de8cafd41703c461b18a5e70",
           "passes": 10,
           "fails": 0,
-          "name": "Precision 8, wide and tall, N=5005: status is 413"
+          "name": "Precision 8, wide and tall, N=5005: status is 413",
+          "path": "::Precision 8, wide and tall, N=5005: status is 413",
+          "id": "3c04d075de8cafd41703c461b18a5e70"
         },
         {
-          "fails": 0,
           "name": "Precision 8, tall and wide, N=5005: status is 413",
           "path": "::Precision 8, tall and wide, N=5005: status is 413",
           "id": "72c2b2e2d81832759d8528a05ebb826e",
-          "passes": 10
+          "passes": 10,
+          "fails": 0
         },
         {
-          "name": "Precision 5, wide and tall, N=4995: status is 200",
           "path": "::Precision 5, wide and tall, N=4995: status is 200",
           "id": "1f6add30d0ec6dce22c21a69b62cf8c9",
-          "passes": 8,
-          "fails": 0
+          "passes": 7,
+          "fails": 0,
+          "name": "Precision 5, wide and tall, N=4995: status is 200"
         },
         {
           "name": "Precision 5, wide and tall, N=4996: status is 200",
           "path": "::Precision 5, wide and tall, N=4996: status is 200",
           "id": "2f4cec9e14c4a6dc6076f912bedc6ed8",
-          "passes": 8,
+          "passes": 7,
           "fails": 0
         },
         {
+          "fails": 0,
           "name": "Precision 5, wide and tall, N=4997: status is 200",
           "path": "::Precision 5, wide and tall, N=4997: status is 200",
           "id": "8300a85dadf6b13ce24816a224ddf729",
-          "passes": 8,
-          "fails": 0
+          "passes": 7
         },
         {
+          "passes": 7,
+          "fails": 0,
           "name": "Precision 5, wide and tall, N=4998: status is 200",
           "path": "::Precision 5, wide and tall, N=4998: status is 200",
-          "id": "ccdad4c2097f6c0945544fbe8055a4ff",
-          "passes": 8,
-          "fails": 0
+          "id": "ccdad4c2097f6c0945544fbe8055a4ff"
         },
         {
+          "fails": 0,
           "name": "Precision 5, wide and tall, N=4999: status is 200",
           "path": "::Precision 5, wide and tall, N=4999: status is 200",
           "id": "d6b8f76323c564428080d1bc00e46c4f",
-          "passes": 8,
-          "fails": 0
+          "passes": 7
         },
         {
+          "name": "Precision 5, wide and tall, N=5000: status is 200",
           "path": "::Precision 5, wide and tall, N=5000: status is 200",
           "id": "b5bb757912241e1b1024aac02209b8bc",
-          "passes": 8,
-          "fails": 0,
-          "name": "Precision 5, wide and tall, N=5000: status is 200"
+          "passes": 7,
+          "fails": 0
         },
         {
+          "passes": 7,
+          "fails": 0,
           "name": "Precision 5, wide and tall, N=5001: status is 413",
           "path": "::Precision 5, wide and tall, N=5001: status is 413",
-          "id": "e24fca5edf4a7188417e0cf1e960fc7a",
-          "passes": 8,
-          "fails": 0
+          "id": "e24fca5edf4a7188417e0cf1e960fc7a"
         },
         {
-          "id": "24cc43fc2114d3db4a64a599a99a09d0",
-          "passes": 8,
-          "fails": 0,
           "name": "Precision 5, wide and tall, N=5002: status is 413",
-          "path": "::Precision 5, wide and tall, N=5002: status is 413"
+          "path": "::Precision 5, wide and tall, N=5002: status is 413",
+          "id": "24cc43fc2114d3db4a64a599a99a09d0",
+          "passes": 7,
+          "fails": 0
         },
         {
-          "name": "Precision 5, wide and tall, N=5003: status is 413",
-          "path": "::Precision 5, wide and tall, N=5003: status is 413",
           "id": "54b979a7e1c01718fab3959187997df9",
-          "passes": 8,
-          "fails": 0
+          "passes": 7,
+          "fails": 0,
+          "name": "Precision 5, wide and tall, N=5003: status is 413",
+          "path": "::Precision 5, wide and tall, N=5003: status is 413"
         },
         {
           "name": "Precision 5, wide and tall, N=5004: status is 413",
           "path": "::Precision 5, wide and tall, N=5004: status is 413",
           "id": "f4273926126e0504fe772061266259e0",
-          "passes": 8,
+          "passes": 7,
           "fails": 0
         },
         {
           "name": "Precision 5, wide and tall, N=5005: status is 413",
           "path": "::Precision 5, wide and tall, N=5005: status is 413",
           "id": "832266fce87149f19e88914583613cb7",
-          "passes": 8,
+          "passes": 7,
           "fails": 0
         },
         {
+          "passes": 2,
+          "fails": 0,
           "name": "Precision 3, square, N=4995: status is 413",
           "path": "::Precision 3, square, N=4995: status is 413",
-          "id": "8ca5796d7095f742284f1ca4ffb284a4",
-          "passes": 4,
-          "fails": 0
+          "id": "8ca5796d7095f742284f1ca4ffb284a4"
         },
         {
-          "passes": 4,
-          "fails": 0,
-          "name": "Precision 3, square, N=4996: status is 413",
           "path": "::Precision 3, square, N=4996: status is 413",
-          "id": "0e132dd5e1c52ab8d6148ca198eb5685"
+          "id": "0e132dd5e1c52ab8d6148ca198eb5685",
+          "passes": 2,
+          "fails": 0,
+          "name": "Precision 3, square, N=4996: status is 413"
         },
         {
-          "id": "690d8f09bdd4831edc02e29a614320ae",
-          "passes": 4,
-          "fails": 0,
           "name": "Precision 3, square, N=4997: status is 413",
-          "path": "::Precision 3, square, N=4997: status is 413"
+          "path": "::Precision 3, square, N=4997: status is 413",
+          "id": "690d8f09bdd4831edc02e29a614320ae",
+          "passes": 2,
+          "fails": 0
         },
         {
           "fails": 0,
           "name": "Precision 3, square, N=4998: status is 413",
           "path": "::Precision 3, square, N=4998: status is 413",
           "id": "2131a1d4410ab8e55555c902579964e9",
-          "passes": 4
+          "passes": 2
         },
         {
+          "path": "::Precision 3, square, N=4999: status is 413",
           "id": "5c7dd6a920ddb3f366eef0ec59de98fd",
-          "passes": 4,
+          "passes": 2,
           "fails": 0,
-          "name": "Precision 3, square, N=4999: status is 413",
-          "path": "::Precision 3, square, N=4999: status is 413"
+          "name": "Precision 3, square, N=4999: status is 413"
         },
         {
+          "name": "Precision 3, square, N=5000: status is 413",
           "path": "::Precision 3, square, N=5000: status is 413",
           "id": "40004c430a60d3c486edc13fa68b2ef2",
-          "passes": 4,
-          "fails": 0,
-          "name": "Precision 3, square, N=5000: status is 413"
+          "passes": 2,
+          "fails": 0
         },
         {
-          "passes": 4,
+          "passes": 2,
           "fails": 0,
           "name": "Precision 3, square, N=5001: status is 413",
           "path": "::Precision 3, square, N=5001: status is 413",
           "id": "3a67718af805e31f081ba309ca9b67b7"
         },
         {
+          "passes": 2,
+          "fails": 0,
           "name": "Precision 3, square, N=5002: status is 413",
           "path": "::Precision 3, square, N=5002: status is 413",
-          "id": "9bbc29e2ca8182ed01b20ce8872d6c7a",
-          "passes": 4,
-          "fails": 0
+          "id": "9bbc29e2ca8182ed01b20ce8872d6c7a"
         },
         {
           "name": "Precision 3, square, N=5003: status is 413",
           "path": "::Precision 3, square, N=5003: status is 413",
           "id": "b83a4caeb8aeb38dd9f60fa89d13ee29",
-          "passes": 4,
+          "passes": 2,
           "fails": 0
         },
         {
           "name": "Precision 3, square, N=5004: status is 413",
           "path": "::Precision 3, square, N=5004: status is 413",
           "id": "43d788f9951d9d7cb82604863726e30c",
-          "passes": 4,
+          "passes": 2,
           "fails": 0
         },
         {
-          "id": "1ac29c4b66890054123a70f8bccd0fa2",
-          "passes": 4,
-          "fails": 0,
           "name": "Precision 3, square, N=5005: status is 413",
-          "path": "::Precision 3, square, N=5005: status is 413"
+          "path": "::Precision 3, square, N=5005: status is 413",
+          "id": "1ac29c4b66890054123a70f8bccd0fa2",
+          "passes": 2,
+          "fails": 0
         },
         {
           "fails": 0,
           "name": "Precision 5, tall and wide, N=4995: status is 200",
           "path": "::Precision 5, tall and wide, N=4995: status is 200",
           "id": "3175deb40b0eb8519df0d90de921f4ba",
-          "passes": 5
+          "passes": 3
         },
         {
           "path": "::Precision 5, tall and wide, N=4996: status is 200",
           "id": "14df7f5127b324e3f2b6ec86411c3424",
-          "passes": 5,
+          "passes": 3,
           "fails": 0,
           "name": "Precision 5, tall and wide, N=4996: status is 200"
         },
         {
-          "name": "Precision 5, tall and wide, N=4997: status is 200",
-          "path": "::Precision 5, tall and wide, N=4997: status is 200",
           "id": "64c9752c718f9f299da1706c729d7db2",
-          "passes": 5,
-          "fails": 0
+          "passes": 3,
+          "fails": 0,
+          "name": "Precision 5, tall and wide, N=4997: status is 200",
+          "path": "::Precision 5, tall and wide, N=4997: status is 200"
         },
         {
           "name": "Precision 5, tall and wide, N=4998: status is 200",
           "path": "::Precision 5, tall and wide, N=4998: status is 200",
           "id": "73034beb8b03649f7bfaae36b43cdabb",
-          "passes": 5,
+          "passes": 3,
           "fails": 0
         },
         {
+          "passes": 3,
+          "fails": 0,
           "name": "Precision 5, tall and wide, N=4999: status is 200",
           "path": "::Precision 5, tall and wide, N=4999: status is 200",
-          "id": "8522a1e797ff6cd34e52ab0d17c35985",
-          "passes": 5,
-          "fails": 0
+          "id": "8522a1e797ff6cd34e52ab0d17c35985"
         },
         {
+          "fails": 0,
           "name": "Precision 5, tall and wide, N=5000: status is 200",
           "path": "::Precision 5, tall and wide, N=5000: status is 200",
           "id": "a4326243b6a99fe8590efbe128c6dbc4",
-          "passes": 5,
-          "fails": 0
+          "passes": 3
         },
         {
           "name": "Precision 5, tall and wide, N=5001: status is 413",
           "path": "::Precision 5, tall and wide, N=5001: status is 413",
           "id": "f0a80ab928330e8ad5cab216d71a4ac8",
-          "passes": 5,
+          "passes": 3,
           "fails": 0
         },
         {
-          "id": "235af820b3ad57cab8c12b14ed78880e",
-          "passes": 5,
-          "fails": 0,
           "name": "Precision 5, tall and wide, N=5002: status is 413",
-          "path": "::Precision 5, tall and wide, N=5002: status is 413"
+          "path": "::Precision 5, tall and wide, N=5002: status is 413",
+          "id": "235af820b3ad57cab8c12b14ed78880e",
+          "passes": 3,
+          "fails": 0
         },
         {
-          "id": "ff22521fc2423c8dc8c9231190d058da",
-          "passes": 5,
-          "fails": 0,
           "name": "Precision 5, tall and wide, N=5003: status is 413",
-          "path": "::Precision 5, tall and wide, N=5003: status is 413"
+          "path": "::Precision 5, tall and wide, N=5003: status is 413",
+          "id": "ff22521fc2423c8dc8c9231190d058da",
+          "passes": 3,
+          "fails": 0
         },
         {
-          "passes": 5,
-          "fails": 0,
-          "name": "Precision 5, tall and wide, N=5004: status is 413",
           "path": "::Precision 5, tall and wide, N=5004: status is 413",
-          "id": "1e1065760180a91176d9af66e2373dac"
+          "id": "1e1065760180a91176d9af66e2373dac",
+          "passes": 3,
+          "fails": 0,
+          "name": "Precision 5, tall and wide, N=5004: status is 413"
         },
         {
           "name": "Precision 5, tall and wide, N=5005: status is 413",
           "path": "::Precision 5, tall and wide, N=5005: status is 413",
           "id": "500d48e6eb5e9489aa1f2f6a80d150b3",
-          "passes": 5,
+          "passes": 3,
           "fails": 0
         }
       ]
@@ -1098,82 +1098,21 @@
     "noColor": false
   },
   "state": {
+    "isStdOutTTY": true,
     "isStdErrTTY": true,
-    "testRunDurationMs": 13703.3199,
-    "isStdOutTTY": true
+    "testRunDurationMs": 10995.1509
   },
   "metrics": {
-    "http_req_sending": {
+    "http_req_tls_handshaking": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "max": 2.3894,
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.008871152469577669,
-        "min": 0,
-        "med": 0
-      }
-    },
-    "vus_max": {
-      "type": "gauge",
-      "contains": "default",
-      "values": {
-        "value": 1,
-        "min": 1,
-        "max": 1
-      }
-    },
-    "http_req_waiting": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "avg": 9.653314745884026,
-        "min": 0.5199,
-        "med": 2.323,
-        "max": 80.1066,
-        "p(90)": 26.388200000000005,
-        "p(95)": 29.668200000000002
-      }
-    },
-    "data_received": {
-      "type": "counter",
-      "contains": "data",
-      "values": {
-        "rate": 35254.15764394437,
-        "count": 483099
-      }
-    },
-    "iterations": {
-      "values": {
-        "count": 10,
-        "rate": 0.7297501680596393
-      },
-      "type": "counter",
-      "contains": "default"
-    },
-    "http_req_duration{expected_response:true}": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "max": 80.2572,
-        "p(90)": 31.771720000000002,
-        "p(95)": 36.262855,
-        "avg": 26.224603881278508,
-        "min": 12.5667,
-        "med": 24.9466
-      }
-    },
-    "http_req_blocked": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "p(90)": 0,
-        "p(95)": 0,
-        "avg": 0.008881317108088763,
+        "avg": 0,
         "min": 0,
         "med": 0,
-        "max": 6.8156
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0
       }
     },
     "vus": {
@@ -1185,103 +1124,164 @@
         "max": 1
       }
     },
-    "checks": {
+    "vus_max": {
+      "values": {
+        "value": 1,
+        "min": 1,
+        "max": 1
+      },
+      "type": "gauge",
+      "contains": "default"
+    },
+    "http_req_duration{expected_response:true}": {
+      "contains": "time",
+      "values": {
+        "avg": 22.69747000000001,
+        "min": 13.1352,
+        "med": 22.0167,
+        "max": 39.952,
+        "p(90)": 25.760430000000003,
+        "p(95)": 28.11935499999999
+      },
+      "type": "trend"
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1099.5150899999999,
+        "min": 962.4455,
+        "med": 1102.5693,
+        "max": 1232.0076,
+        "p(90)": 1195.75515,
+        "p(95)": 1213.881375
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 23.26948,
+        "p(95)": 24.76211,
+        "avg": 8.084078837555893,
+        "min": 0.517,
+        "med": 1.6290499999999999,
+        "max": 39.952
+      }
+    },
+    "http_req_failed": {
       "type": "rate",
       "contains": "default",
       "values": {
+        "rate": 0.6870342771982116,
+        "passes": 922,
+        "fails": 420
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 454729,
+        "rate": 41357.23139552364
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 10,
+        "rate": 0.9094918378973771
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 259806,
+        "rate": 23629.143643676594
+      }
+    },
+    "http_req_sending": {
+      "contains": "time",
+      "values": {
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.005654396423248882,
+        "min": 0,
+        "med": 0,
+        "max": 1.0051
+      },
+      "type": "trend"
+    },
+    "checks": {
+      "contains": "default",
+      "values": {
+        "fails": 0,
         "rate": 1,
-        "passes": 1397,
-        "fails": 0
+        "passes": 1342
       },
       "thresholds": {
         "rate==1.0": {
           "ok": true
         }
+      },
+      "type": "rate"
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.006496348733233979,
+        "min": 0,
+        "med": 0,
+        "max": 7.1897,
+        "p(90)": 0,
+        "p(95)": 0
       }
     },
     "http_reqs": {
       "type": "counter",
       "contains": "default",
       "values": {
-        "count": 1397,
-        "rate": 101.94609847793161
+        "count": 1342,
+        "rate": 122.053804645828
       }
     },
     "http_req_duration": {
-      "values": {
-        "p(95)": 29.668200000000002,
-        "avg": 9.701799570508221,
-        "min": 0.5199,
-        "med": 2.3666,
-        "max": 80.2572,
-        "p(90)": 26.421200000000002
-      },
       "type": "trend",
-      "contains": "time"
-    },
-    "iteration_duration": {
       "contains": "time",
       "values": {
-        "max": 1639.9291,
-        "p(90)": 1573.4102799999998,
-        "p(95)": 1606.66969,
-        "avg": 1370.2761699999999,
-        "min": 1059.2198,
-        "med": 1382.2122
-      },
-      "type": "trend"
+        "p(90)": 23.307380000000002,
+        "p(95)": 24.817085000000002,
+        "avg": 8.119058345752615,
+        "min": 0.517,
+        "med": 1.6391,
+        "max": 39.952
+      }
     },
-    "data_sent": {
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
       "values": {
-        "count": 269253,
-        "rate": 19648.742200056207
-      },
-      "type": "counter",
-      "contains": "data"
+        "min": 0,
+        "med": 0,
+        "max": 1.5206,
+        "p(90)": 0,
+        "p(95)": 0.06485000000000059,
+        "avg": 0.02932511177347244
+      }
     },
     "http_req_connecting": {
       "type": "trend",
       "contains": "time",
       "values": {
-        "avg": 0.0010347172512526843,
-        "min": 0,
         "med": 0,
-        "max": 0.9149,
-        "p(90)": 0,
-        "p(95)": 0
-      }
-    },
-    "http_req_receiving": {
-      "values": {
-        "avg": 0.039613672154617044,
-        "min": 0,
-        "med": 0,
-        "max": 4.5091,
-        "p(90)": 0,
-        "p(95)": 0.1516
-      },
-      "type": "trend",
-      "contains": "time"
-    },
-    "http_req_failed": {
-      "type": "rate",
-      "contains": "default",
-      "values": {
-        "fails": 438,
-        "rate": 0.686471009305655,
-        "passes": 959
-      }
-    },
-    "http_req_tls_handshaking": {
-      "type": "trend",
-      "contains": "time",
-      "values": {
-        "min": 0,
-        "med": 0,
-        "max": 0,
+        "max": 0.641,
         "p(90)": 0,
         "p(95)": 0,
-        "avg": 0
+        "avg": 0.000477645305514158,
+        "min": 0
       }
     }
   }
