@@ -6,10 +6,13 @@ namespace: geostreamdb
 resources:
   - namespace.yaml
   - rbac-prometheus.yaml
+  - deployment-alertmanager.yaml
   - deployment-registry.yaml
   - deployment-gateway.yaml
+  - hpa-gateway.yaml
   - pdb-gateway.yaml
   - deployment-worker.yaml
+  - hpa-worker.yaml
   - deployment-prometheus.yaml
   - deployment-grafana.yaml
   - daemonset-node-exporter.yaml
@@ -17,9 +20,11 @@ resources:
   - service-gateway.yaml
   - service-worker.yaml
   - service-prometheus.yaml
+  - service-alertmanager.yaml
   - service-grafana.yaml
   - service-node-exporter.yaml
-  - ingress-gateway.yaml
+  - gateway-api.yaml
+  - httproute-gateway.yaml
   - pvc-grafana.yaml
   - pvc-prometheus.yaml
 
@@ -27,6 +32,12 @@ configMapGenerator:
   - name: prometheus-config
     files:
       - prometheus.yml=../prometheus/prometheus.yml
+  - name: prometheus-rules
+    files:
+      - alerts.yml=../prometheus/alerts.yml
+  - name: alertmanager-config
+    files:
+      - alertmanager.yml=../prometheus/alertmanager.yml
   - name: grafana-provisioning
     files:
       - dashboards.yml=../grafana/provisioning/dashboards/dashboards.yml

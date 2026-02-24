@@ -19,12 +19,21 @@ param(
     [string]$Namespace = 'geostreamdb',
     [switch]$SkipInfra = $false,
     [switch]$UseKubernetes = $false, # toggle between Docker Compose (default) and Kubernetes
-    [int]$WarmupSeconds = 5 # delay after readiness before running tests
+    [int]$WarmupSeconds = 5, # delay after readiness before running tests
+    [int]$MinikubeCpus = 0,
+    [int]$MinikubeMemoryMb = 0
 )
 
 $ErrorActionPreference = "Stop"
 $env:ENTRYPOINT_URL = $EntrypointUrl # load balancer is the entrypoint
 $PortForwardJobs = @()
+
+$GatewayClassName = "nginx"
+$NgfVersion = "v2.4.2"
+$NgfGatewayApiCrdUrl = "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=$NgfVersion"
+$NgfNamespace = "nginx-gateway"
+$NgfRelease = "ngf"
+
 $orchestratedTests = @(
     'gateway-worker-latency',
     'registry-disruption',
@@ -80,15 +89,42 @@ if (-not $SkipInfra) {
         
         # ensure minikube is running
         Write-Host "Ensuring minikube is running..." -ForegroundColor Yellow
-        minikube start
+        $minikubeArgs = @("start")
+        if ($MinikubeCpus -gt 0) {
+            $minikubeArgs += "--cpus=$MinikubeCpus"
+        }
+        if ($MinikubeMemoryMb -gt 0) {
+            $minikubeArgs += "--memory=$MinikubeMemoryMb"
+        }
+        minikube @minikubeArgs
         if ($LASTEXITCODE -ne 0) {
             Write-Host "minikube start failed. If using Hyper-V, run it with administrator privileges." -ForegroundColor Red
             exit 1
         }
-        Write-Host "Ensuring ingress addon is enabled..." -ForegroundColor Yellow
-        minikube addons enable ingress | Out-Null
+
+        # ensure Gateway API CRDs and NGINX Gateway Fabric are installed
+        Write-Host "Ensuring Gateway API CRDs are installed (NGF recommended bundle)..." -ForegroundColor Yellow
+        kubectl kustomize $NgfGatewayApiCrdUrl | kubectl apply -f -
         if ($LASTEXITCODE -ne 0) {
-            Write-Host "Failed to enable minikube ingress addon." -ForegroundColor Red
+            Write-Host "Failed to install Gateway API CRDs." -ForegroundColor Red
+            exit 1
+        }
+
+        Write-Host "Ensuring NGINX Gateway Fabric is installed..." -ForegroundColor Yellow
+        helm upgrade --install $NgfRelease oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n $NgfNamespace
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Failed to install/upgrade NGINX Gateway Fabric." -ForegroundColor Red
+            exit 1
+        }
+        kubectl wait --for=condition=available deployment -n $NgfNamespace -l app.kubernetes.io/name=nginx-gateway-fabric --timeout=180s
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "NGINX Gateway Fabric controller did not become available" -ForegroundColor Red
+            exit 1
+        }
+        $gatewayClass = kubectl get gatewayclass $GatewayClassName -o name --ignore-not-found 2>$null
+        if (-not $gatewayClass) {
+            Write-Host ("GatewayClass '" + $GatewayClassName + "' not found. Available classes:") -ForegroundColor Red
+            kubectl get gatewayclass
             exit 1
         }
 
@@ -103,7 +139,7 @@ if (-not $SkipInfra) {
                 helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-mesh --version 2.8.1
             }
         } else {
-            Write-Host "Skipping Chaos Mesh (not needed for this test)." -ForegroundColor DarkGray
+            Write-Host "Skipping Chaos Mesh (not needed for this test)" -ForegroundColor DarkGray
         }
         
         # change to project root for Docker builds and kubectl
@@ -153,11 +189,27 @@ if (-not $SkipInfra) {
         kubectl wait --for=condition=ready pod -l app=registry -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=prometheus -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=grafana -n $Namespace --timeout=120s
-        kubectl wait --for=condition=available deployment/ingress-nginx-controller -n ingress-nginx --timeout=180s
+        kubectl wait --for=condition=Programmed gateway/geostreamdb-gateway -n $Namespace --timeout=180s
+
+        # wait for NGF data-plane pod created and ready before port-forwarding 8080
+        $gatewayPodSelector = "gateway.networking.k8s.io/gateway-name=geostreamdb-gateway"
+        kubectl wait --for=create pod -n $Namespace -l $gatewayPodSelector --timeout=120s
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Gateway data-plane pod was not created in time" -ForegroundColor Red
+            kubectl get svc -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            kubectl get pod -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            exit 1
+        }
+        kubectl wait --for=condition=ready pod -n $Namespace -l $gatewayPodSelector --timeout=180s
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Gateway data-plane pod did not become ready in time" -ForegroundColor Red
+            kubectl get pod -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            exit 1
+        }
         
-        # port-forward services for local access during tests (localhost:8080/9090/3000)
+        # port-forward services for local access during tests (localhost:8080/9090/3000/9093)
         Write-Host "Starting Kubernetes port-forwards..." -ForegroundColor Yellow
-        $requiredPorts = @(8080, 9090, 3000)
+        $requiredPorts = @(8080, 9090, 3000, 9093)
         $busyPorts = @()
         foreach ($p in $requiredPorts) {
             $listener = Get-NetTCPConnection -LocalPort $p -State Listen -ErrorAction SilentlyContinue
@@ -171,9 +223,10 @@ if (-not $SkipInfra) {
             exit 1
         }
 
-        $PortForwardJobs += Start-Job -Name "pf-ingress-controller-8080" -ScriptBlock {
-            kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 2>&1
-        }
+        $PortForwardJobs += Start-Job -Name "pf-ngf-8080" -ScriptBlock {
+            param($ns)
+            kubectl port-forward -n $ns svc/geostreamdb-gateway-nginx 8080:80 2>&1
+        } -ArgumentList $Namespace
         $PortForwardJobs += Start-Job -Name "pf-prometheus-9090" -ScriptBlock {
             param($ns)
             kubectl port-forward -n $ns svc/prometheus-service 9090:9090 2>&1
@@ -181,6 +234,10 @@ if (-not $SkipInfra) {
         $PortForwardJobs += Start-Job -Name "pf-grafana-3000" -ScriptBlock {
             param($ns)
             kubectl port-forward -n $ns svc/grafana-service 3000:3000 2>&1
+        } -ArgumentList $Namespace
+        $PortForwardJobs += Start-Job -Name "pf-alertmanager-9093" -ScriptBlock {
+            param($ns)
+            kubectl port-forward -n $ns svc/alertmanager-service 9093:9093 2>&1
         } -ArgumentList $Namespace
 
         # verify local ports are bound. retry for startup lag before failing
@@ -217,11 +274,13 @@ if (-not $SkipInfra) {
         }
 
         Write-Host "Waiting for services..." -ForegroundColor Yellow
+        $isReady = $false
         for ($i = 0; $i -lt 60; $i++) {
             try {
                 $response = Invoke-WebRequest -Uri "$EntrypointUrl/ping?lat=0&lng=0" -Method GET -TimeoutSec 2 -ErrorAction SilentlyContinue
                 if ($response.StatusCode -eq 200) {
                     Write-Host "Ready!" -ForegroundColor Green
+                    $isReady = $true
                     break
                 }
             } catch {}
@@ -229,6 +288,16 @@ if (-not $SkipInfra) {
             Write-Host "." -NoNewline
         }
         Write-Host ""
+        if (-not $isReady) {
+            Write-Host ("Service readiness check failed for " + $EntrypointUrl + " after timeout") -ForegroundColor Red
+            foreach ($job in $PortForwardJobs) {
+                $jobOut = Receive-Job -Job $job -Keep -ErrorAction SilentlyContinue
+                if ($jobOut) {
+                    Write-Host ("Port-forward job output (" + $job.Name + "): " + ($jobOut -join " ")) -ForegroundColor DarkYellow
+                }
+            }
+            exit 1
+        }
         } finally {
             Pop-Location # back to original location
         }

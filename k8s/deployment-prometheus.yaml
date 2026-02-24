@@ -71,6 +71,10 @@ spec:
           mountPath: /etc/prometheus/prometheus.yml
           subPath: prometheus.yml
           readOnly: true
+        - name: prometheus-rules
+          mountPath: /etc/prometheus/alerts.yml
+          subPath: alerts.yml
+          readOnly: true
         - name: prometheus-data
           mountPath: /prometheus
         args:
@@ -83,6 +87,9 @@ spec:
       - name: prometheus-config
         configMap:
           name: prometheus-config
+      - name: prometheus-rules
+        configMap:
+          name: prometheus-rules
       - name: prometheus-data
         persistentVolumeClaim:
           claimName: prometheus-data

@@ -19,9 +19,8 @@ global:
 #runtime:
 #  gogc: 42
 
-#rule_files:
-#  - "first.rules"
-#  - "my/*.rules"
+rule_files:
+  - /etc/prometheus/alerts.yml
 
 #remote_write:
 #  - url: http://remote1/push
@@ -70,6 +69,12 @@ scrape_configs:
     static_configs:
       - targets:
         - prometheus-service:9090
+
+  - job_name: alertmanager
+    scrape_interval: 30s
+    static_configs:
+      - targets:
+        - alertmanager-service:9093
   
   - job_name: node-exporter
     scrape_interval: 10s
@@ -499,14 +504,11 @@ scrape_configs:
   #    - authorization:
   #        credentials: abcdef
 
-#alerting:
-#  alertmanagers:
-#    - scheme: https
-#      static_configs:
-#        - targets:
-#            - "1.2.3.4:9093"
-#            - "1.2.3.5:9093"
-#            - "1.2.3.6:9093"
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager-service:9093
 
 #storage:
 #  tsdb:
