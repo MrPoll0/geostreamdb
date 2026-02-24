@@ -181,6 +181,22 @@ if (-not $SkipInfra) {
         kubectl wait --for=condition=ready pod -l app=prometheus -n $Namespace --timeout=120s
         kubectl wait --for=condition=ready pod -l app=grafana -n $Namespace --timeout=120s
         kubectl wait --for=condition=Programmed gateway/geostreamdb-gateway -n $Namespace --timeout=180s
+
+        # wait for NGF data-plane pod created and ready before port-forwarding 8080
+        $gatewayPodSelector = "gateway.networking.k8s.io/gateway-name=geostreamdb-gateway"
+        kubectl wait --for=create pod -n $Namespace -l $gatewayPodSelector --timeout=120s
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Gateway data-plane pod was not created in time" -ForegroundColor Red
+            kubectl get svc -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            kubectl get pod -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            exit 1
+        }
+        kubectl wait --for=condition=ready pod -n $Namespace -l $gatewayPodSelector --timeout=180s
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Gateway data-plane pod did not become ready in time" -ForegroundColor Red
+            kubectl get pod -n $Namespace -l $gatewayPodSelector -o wide 2>$null
+            exit 1
+        }
         
         # port-forward services for local access during tests (localhost:8080/9090/3000)
         Write-Host "Starting Kubernetes port-forwards..." -ForegroundColor Yellow
