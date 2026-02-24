@@ -30,13 +30,13 @@ The repo also includes observability and test tooling:
 5. Worker node stores the ping in a 10s TTL time-buffer, where each time slot contains a Trie keyed by geohash prefixes (with a dense leaf optimization at `SHARDING_PRECISION` → `MAX_GH_PRECISION`) with the ping count as value.
 
 ### Area query flow (GET /pingArea)
-0. Client sends a HTTP request to the Load Balancer entrypoint.
-1. Load Balancer routes the request to a `gateway` replica.
-2. Gateway computes a geohash cover set for the bounding box and chooses an aggregated precision to bound fanout.
-3. Gateway either:
+1. Client sends a HTTP request to the Load Balancer entrypoint.
+2. Load Balancer routes the request to a `gateway` replica.
+3. Gateway computes a geohash cover set for the bounding box and chooses an aggregated precision to bound fanout.
+4. Gateway either:
    - routes each covered geohash to its responsible worker(s) via gRPC (`GetPingArea`) when the aggregated precision is at/above the sharding precision, or
    - broadcasts the request to all workers (when the aggregated precision is below the sharding precision).
-4. Worker nodes traverse their TTL time-buffer and aggregate counts from the Trie for the requested area (with bbox intersection filtering), then return results.
+5. Worker nodes traverse their TTL time-buffer and aggregate counts from the Trie for the requested area (with bbox intersection filtering), then return results.
 
 ### Extras
 - Prometheus scrapes metrics from all components.
