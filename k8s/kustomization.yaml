@@ -21,7 +21,8 @@ resources:
   - service-prometheus.yaml
   - service-grafana.yaml
   - service-node-exporter.yaml
-  - ingress-gateway.yaml
+  - gateway-api.yaml
+  - httproute-gateway.yaml
   - pvc-grafana.yaml
   - pvc-prometheus.yaml
 
