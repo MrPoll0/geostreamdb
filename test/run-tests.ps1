@@ -198,9 +198,9 @@ if (-not $SkipInfra) {
             exit 1
         }
         
-        # port-forward services for local access during tests (localhost:8080/9090/3000)
+        # port-forward services for local access during tests (localhost:8080/9090/3000/9093)
         Write-Host "Starting Kubernetes port-forwards..." -ForegroundColor Yellow
-        $requiredPorts = @(8080, 9090, 3000)
+        $requiredPorts = @(8080, 9090, 3000, 9093)
         $busyPorts = @()
         foreach ($p in $requiredPorts) {
             $listener = Get-NetTCPConnection -LocalPort $p -State Listen -ErrorAction SilentlyContinue
@@ -225,6 +225,10 @@ if (-not $SkipInfra) {
         $PortForwardJobs += Start-Job -Name "pf-grafana-3000" -ScriptBlock {
             param($ns)
             kubectl port-forward -n $ns svc/grafana-service 3000:3000 2>&1
+        } -ArgumentList $Namespace
+        $PortForwardJobs += Start-Job -Name "pf-alertmanager-9093" -ScriptBlock {
+            param($ns)
+            kubectl port-forward -n $ns svc/alertmanager-service 9093:9093 2>&1
         } -ArgumentList $Namespace
 
         # verify local ports are bound. retry for startup lag before failing
