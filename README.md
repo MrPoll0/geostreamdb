@@ -62,6 +62,13 @@ There are 2 versions for local development and testing:
 - Docker + Docker Compose (default)
 - Kubernetes + Minikube
 
+Required tooling:
+- [Docker Engine](https://docs.docker.com/engine/) and [Docker Compose](https://docs.docker.com/compose/) for local containers ([Docker Desktop](https://docs.docker.com/compose/install#docker-desktop-recommended) is recommended).
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) to interact with the cluster.
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/) for local Kubernetes.
+- [Helm](https://helm.sh/docs/intro/install/) to install NGINX Gateway Fabric and Chaos Mesh.
+- [k6](https://k6.io/docs/get-started/installation/) to run load and chaos-style tests.
+
 ## Quickstart (Docker Compose)
 
 Start the stack:
