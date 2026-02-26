@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/MrPoll0/geostreamdb/actions/workflows/tests.yml/badge.svg)](https://github.com/MrPoll0/geostreamdb/actions/workflows/tests.yml)
 
-Distributed geospatial ping storage and query engine via a sharded architecture built with Go and Kubernetes (with a Docker Compose version).
+Distributed geospatial ping storage and query engine with area queries, a sharded architecture and full observability. Built with Go and Kubernetes (with a Docker Compose version).
 
 A ping is a single point in space and time that lives for a fixed duration (TTL; currently 10 seconds). Pings can be stored by sending a HTTP request to the API with the location coordinates (lat/lng). They can also be queried by area, by sending a HTTP request to the API with a bounding box and a precision. The precision is the number of characters in the geohash prefix, which defines the granularity of the query.
 
