@@ -3,6 +3,10 @@ name: Smoke Test
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.github/**'
   workflow_dispatch: # allows manual trigger
 
 concurrency:
